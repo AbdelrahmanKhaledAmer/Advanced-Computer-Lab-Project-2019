@@ -376,6 +376,149 @@ MACRO: 'macro';
 METHOD: 'method';
 
 
+/*
+    keyword:  mixin 
+    function: a symbol can be forced to be open by a mixin declaration
+    usage:    (mixin X)
+*/
+MIXIN: 'mixin';
+
+
+/*
+    keyword:  mod
+    type:     operator
+    function: modulo operation
+    usage:    (x = 5 mod 2)
+*/
+MOD: 'mod';
+
+
+/*
+    keyword:  nil
+    function: nothing
+    usage:    (nil)
+*/
+NIL: 'nil';
+
+
+/*
+    keyword:  not
+    function: returns the negated condition
+    usage:    (while not finished(c))
+*/
+NOT: 'not';
+
+
+/*
+    keyword:  notin
+    function: reverse 'in' operator
+    usage:    (x notin "string")
+*/
+NOTIN: 'notin';
+
+
+/*
+    keyword:  object
+    function: a heterogeneous storage container
+    usage:    (type
+                   Person = tuple
+                   name: string
+                   age: natural
+                   )
+*/
+OBJECT: 'object';
+
+
+/*
+    keyword:  of
+    function: used with case statements
+    usage:    (of "go-for-a-walk":)
+*/
+OF: 'of';
+
+
+/*
+    keyword:  or
+    function: used with case statements
+    usage:    (COND or COND)
+*/
+OR: 'or';
+
+
+/*
+    keyword:  out
+    function: used with case statements
+    usage:    (COND or COND)
+*/
+OUT: 'out';
+
+
+/*
+    keyword:  proc
+    function: internally a pointer to a procedure
+    usage:    (proc c(y: int) = echo y)
+*/
+PROC: 'proc';
+
+
+/*
+    keyword:  ptr
+    function: pointer-like types
+    usage:    (ptr x = ...)
+*/
+PTR: 'ptr';
+
+
+/*
+    keyword:  raise
+    function: the only way to raise an exception
+    usage:    (raise newEXCEPTION())
+*/
+RAISE: 'raise';
+
+
+/*
+    keyword:  ref
+    function: traced references are declared with the ref keyword
+    usage:    (Node = ref NodeObj)
+*/
+REF: 'ref';
+
+
+/*
+    keyword:  return
+    function: ends the execution of the current procedure
+    usage:    (return x)
+*/
+RETURN: 'return';
+
+
+/*
+    keyword:  shl
+    function: logic shift left
+    usage:    (x shl y)
+*/
+SHL: 'shl';
+
+
+/*
+    keyword:  shr
+    function: logic shift right
+    usage:    (x shr y)
+*/
+SHR: 'shr';
+
+
+// • STATIC
+// • TEMPLATE
+// • TRY
+// • TUPLE
+// • TYPE
+// • USING
+// • WHEN
+// • WHILE
+// • XOR
+
 line: AND;
 
 start: line*;
