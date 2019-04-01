@@ -1,7 +1,8 @@
 grammar milestone_1;
 
-NEWLINE: '\n';
+AND: 'and';
+VARIABLE: 'var';
 
-line: NEWLINE;
+line: AND;
 
-start: line;
+start: line*;
