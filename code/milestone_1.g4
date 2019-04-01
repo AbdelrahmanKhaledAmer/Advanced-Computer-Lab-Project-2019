@@ -1,5 +1,6 @@
 grammar milestone_1;
 
+
 /*
     keyword:  and
     function: boolean and
@@ -183,6 +184,124 @@ DO: 'do';
 ELIF: 'elif';
 
 
+/*
+    keyword:  else
+    function: gets evaluated if previous 'if'\'elif' condition failed
+    usage:    (if name == "Andreas":
+                     echo "What a nice name!"
+                   else:
+                     echo "Don't you have a name?"
+                   )
+*/
+ELSE: 'else';
+
+
+
+// TODO: What is this????
+/*
+    keyword:  end
+    function: ?
+    usage:    ()
+*/
+END: 'end';
+
+
+/*
+    keyword:  enum 
+    function: types define a new type whose values consist of the
+                   ones specified.
+    usage:    (type
+                   Direction = enum
+                     north, east, south, west
+                   )
+*/
+ENUM: 'enum';
+
+
+/*
+    keyword:  except 
+    function: part of try...except blocks
+    usage:    (try:
+                   ...
+                   except IOError:
+                     echo "IO error!"
+                   )
+*/
+EXCEPT: 'except';
+
+
+// TODO: add usage
+/*
+    keyword:  export 
+    function: used for symbol forwarding so that client modules
+                   don't need to import a module's dependencies
+    usage:    (export B.MyObject)
+*/
+EXPORT: 'export';
+
+
+/*
+    keyword:  finally 
+    function: always executed after the exception handlers.
+    usage:    (try:
+                     ...
+                   finally:
+                     ...
+                   )
+*/
+FINALLY: 'finally';
+
+
+/*
+    keyword:  for 
+    function: abstract mechanism to iterate over the elements of a container.
+    usage:    (for ch in items("hello world"):
+                   echo ch
+                   )
+*/
+FOR: 'for';
+
+
+/*
+    keyword:  from 
+    function: list the symbols one likes to use without explicit full qualification
+    usage:    (from module import `%`)
+*/
+FROM: 'from';
+
+
+/*
+    keyword:  func 
+    function: syntactic sugar for a proc with no side effects
+    usage:    (func `+` (x, y: int): int)
+*/
+FUNC: 'func';
+
+
+/*
+    keyword:  if 
+    function: a simple way to make a branch in the control flow
+    usage:    (if name == "Andreas": ...)
+*/
+IF: 'if';
+
+
+/*
+    keyword:  import
+    function: imports a list of module names
+    usage:    (import [Module1, Module2, ... ModuleN])
+*/
+IMPORT: 'import';
+
+
+/*
+    keyword:  in
+    function: catches elements in an array
+    usage:    (for i in 0..4)
+*/
+IN: 'in';
+
+
 // TODO: change to statements in the language eventually.
 /*
     keyword:  include
@@ -196,7 +315,7 @@ INCLUDE: 'include';
 /*
     keyword:  interface
     function: ?
-    usage:    ?
+    usage:    (?)
 */
 INTERFACE: 'interface';
 
