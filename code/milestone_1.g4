@@ -61,7 +61,7 @@ BLOCK: 'block';
 
 /*
     keyword:  break
-    function: break statement is used to leave a block immediately. 
+    function: break statement is used to leave a block immediately
     usage:    (if finished(x): break)
 */
 BREAK: 'break';
@@ -70,7 +70,7 @@ BREAK: 'break';
 /*
     keyword:  case
     function: imilar to the if statement, but it represents a multi-branch
-              selection. 
+              selection
     usage:    (case x
                    of COND: ACTION
                    ...
@@ -98,7 +98,7 @@ CONST: 'const';
 
 /*
     keyword:  concept
-    function: also known as "user-defined type classes".
+    function: also known as "user-defined type classes"
     usage:    (type
                    Comparable = concept x, y
                    (x < y) is bool
@@ -209,7 +209,7 @@ END: 'end';
 /*
     keyword:  enum 
     function: types define a new type whose values consist of the
-                   ones specified.
+                   ones specified
     usage:    (type
                    Direction = enum
                      north, east, south, west
@@ -242,7 +242,7 @@ EXPORT: 'export';
 
 /*
     keyword:  finally 
-    function: always executed after the exception handlers.
+    function: always executed after the exception handlers
     usage:    (try:
                      ...
                    finally:
@@ -254,7 +254,7 @@ FINALLY: 'finally';
 
 /*
     keyword:  for 
-    function: abstract mechanism to iterate over the elements of a container.
+    function: abstract mechanism to iterate over the elements of a container
     usage:    (for ch in items("hello world"):
                    echo ch
                    )
@@ -302,10 +302,10 @@ IMPORT: 'import';
 IN: 'in';
 
 
-// TODO: change to statements in the language eventually.
+// TODO: change to statements in the language eventually
 /*
     keyword:  include
-    function: The include merely includes the contents of a file.
+    function: The include merely includes the contents of a file
     usage:    (include [file1, file2, ... fileN])
 */
 INCLUDE: 'include';
@@ -324,7 +324,7 @@ INTERFACE: 'interface';
 /*
     keyword:  is
     type:     operator
-    function: asserts type instance of a variable.
+    function: asserts type instance of a variable
     usage:    (if X is int)
 */
 IS: 'is';
@@ -334,7 +334,7 @@ IS: 'is';
 /*
     keyword:  isnot
     type:     operator
-    function: asserts not type instance of a variable.
+    function: asserts not type instance of a variable
     usage:    (if X isnot int)
 */
 ISNOT: 'isnot';
@@ -509,16 +509,86 @@ SHL: 'shl';
 SHR: 'shr';
 
 
-// • STATIC
-// • TEMPLATE
-// • TRY
-// • TUPLE
-// • TYPE
-// • USING
-// • WHEN
-// • WHILE
-// • XOR
+/*
+    keyword:  static
+    function: enforce compile time evaluation explicitly
+    usage:    (static: echo "echo at compile time")
+*/
+STATIC: 'static';
 
+ 
+/*
+    keyword:  template
+    function: a simple form of a macro:
+    usage:    (template declareInt(x: untyped) = var x: int)
+*/
+TEMPLATE: 'template';
+
+ 
+/*
+    keyword:  try
+    function: statements after the try are executed in sequential order unless
+                   an exception e is raised
+    usage:    (try: parseInt("133a"))
+*/
+TRY: 'try';
+
+ 
+/*
+    keyword:  tuple
+    function: any tuple type
+    usage:    ((DATA1, DATA2, ..., DATAN))
+*/
+TUPLE: 'tuple';
+
+ 
+/*
+    keyword:  type
+    function: all expressions have a type which is known at compile time
+    usage:    (...)
+*/
+TYPE: 'type';
+
+ 
+/*
+    keyword:  using
+    function: provides syntactic convenience in modules where the same
+                   parameter names and types are used over and over
+    usage:    (using
+                   c: Context
+                   n: Node
+                   counter: int
+                   )
+*/
+USING: 'using';
+
+ 
+/*
+    keyword:  when
+    function: almost identical to the if statement
+    usage:    (when sizeof(int) == 2:)
+*/
+WHEN: 'when';
+
+ 
+/*
+    keyword:  while
+    function: statement is executed until the expr evaluates to false
+    usage:    (while expr1:
+                   ...
+                   )
+*/
+WHILE: 'while';
+
+ 
+/*
+    keyword:  xor
+    function: xor operator
+    usage:    (x xor y)
+*/
+XOR: 'xor';
+
+ 
 line: AND;
 
 start: line*;
