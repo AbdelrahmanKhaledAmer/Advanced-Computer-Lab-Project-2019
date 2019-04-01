@@ -325,7 +325,7 @@ INTERFACE: 'interface';
     keyword:  is
     type:     operator
     function: asserts type instance of a variable.
-    usage:    if X is int
+    usage:    (if X is int)
 */
 IS: 'is';
 
@@ -335,9 +335,45 @@ IS: 'is';
     keyword:  isnot
     type:     operator
     function: asserts not type instance of a variable.
-    usage:    if X isnot int
+    usage:    (if X isnot int)
 */
 ISNOT: 'isnot';
+
+
+/*
+    keyword:  iterator 
+    function: similar to a procedure, except that it can be
+                   called in the context of a for loop
+    usage:    (iterator count0(): int {.closure.} =
+                   yield 0
+                   )
+*/
+ITERATOR: 'iterator';
+
+
+/*
+    keyword:  let 
+    function: declares new local and global single assignment variables and
+                   binds a value to them
+    usage:    (let x = 317)
+*/
+LET: 'let';
+
+
+/*
+    keyword:  macro 
+    function: a special function that is executed at compile-time
+    usage:    (macro debug(n: varargs[typed]): untyped =)
+*/
+MACRO: 'macro';
+
+
+/*
+    keyword:  method 
+    function: a proc belonging to a type
+    usage:    (method testMethod(g: SomeDerived) =)
+*/
+METHOD: 'method';
 
 
 line: AND;
