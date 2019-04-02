@@ -333,9 +333,7 @@ MACRO: 'macro';
 */
 METHOD: 'method';
 
-
 /*
-<<<<<<< Updated upstream
     keyword:  mixin 
     function: a symbol can be forced to be open by a mixin declaration
     usage:    (mixin X)
@@ -480,14 +478,14 @@ TRY: 'try';
     usage:    ((DATA1, DATA2, ..., DATAN))
 */
 TUPLE: 'tuple';
- 
+
 /*
     keyword:  type
     function: all expressions have a type which is known at compile time
     usage:    (...)
 */
 TYPE: 'type';
- 
+
 /*
     keyword:  using
     function: provides syntactic convenience in modules where the same
@@ -522,7 +520,7 @@ WHILE: 'while';
     usage:    (x xor y)
 */
 XOR: 'xor';
- 
+
 /*
     keyword:  yield
     function: replaces `return` in iterators
@@ -717,8 +715,213 @@ OCTDIGIT: [0-7];
 */
 BINDIGIT: [01];
 
+/*
+    keyword:  -
+    function: assigns the right-hand side to the left-hand side
+    usage:    (x = y)
+*/
+EQUALS_OPERATOR: '=';
+
+/*
+    keyword:  -
+    function: adds two numbers together
+    usage:    (x + y)
+*/
+ADD_OPERATOR: '+';
+
+/*
+    keyword:  -
+    function: multiplies two numbers together
+    usage:    (x * y)
+*/
+MUL_OPERATOR: '*';
+
+/*
+    keyword:  -
+    function: subtrcts two numbers from each other
+    usage:    (x - y)
+*/
+MINUS_OPERATOR: '-';
+
+/*
+    keyword:  -
+    function: divide two numbers together
+    usage:    (x / y)
+*/
+DIV_OPERATOR: '/';
+
+/*
+    keyword:  // TODO
+    function: 
+    usage:    
+*/
+BITWISE_NOT_OPERATOR: '~';
+
+/*
+    keyword:  -
+    function: and the bits of two numbers
+    usage:    (x & y)
+*/
+AND_OPERATOR: '&';
+
+/*
+    keyword:  -
+    function: or the bits of two numbers
+    usage:    (x | y)
+*/
+OR_OPERATOR: OR;
+
+/*
+    keyword:  -
+    function: return true if lhs is less than rhs
+    usage:    (x < y)
+*/
+LESS_THAN: '<';
+
+/*
+    keyword:  -
+    function: return true if lhs is greater than rhs
+    usage:    (x > y)
+*/
+GREATER_THAN: '>';
+
+/*
+    keyword:  -
+    function: the @ symbol
+    usage:    // TODO
+*/
+AT: '@';
+
+/*
+    keyword:  // TODO
+    function: 
+    usage:    
+*/
+NOT_OPERATOR: '!';
+
+/*
+    keyword:  // todo
+    function:
+    usage:
+*/
+MODULUS: '%';
+
+/*
+    keyword:  xor
+    function: xor the bits of two numbers
+    usage:    (x xor y)
+*/
+XOR_OPERATOR: XOR;
+
+/*
+    keyword:  -
+    function: calls a subsidiary attribute or function of an object
+    usage:    (object.function()) (object.attribute)
+*/
+DOT: '.';
+
+/*
+    keyword:  -
+    function: at the end of block initializations
+    usage:    (if x:) (while x:)
+*/
+COLON: ':';
+
+/*
+    keyword:  -
+    function: an opened parenthesis.
+    usage:    -
+*/
+OPEN_PAREN: '(';
+
+/*
+    keyword:  -
+    function: a closed parenthesis.
+    usage:    -
+*/
+CLOSE_PAREN: ')';
+
+/*
+    keyword:  -
+    function: an opened brace.
+    usage:    -
+*/
+OPEN_BRACE: '{';
+
+/*
+    keyword:  -
+    function: a closed brace.
+    usage:    -
+*/
+CLOSE_BRACE: '}';
+
+/*
+    keyword:  -
+    function: an opened bracket.
+    usage:    -
+*/
+OPEN_BRACK: '[';
+
+/*
+    keyword:  -
+    function: a closed bracket.
+    usage:    -
+*/
+CLOSE_BRACK: ']';
+
+/*
+    keyword:  -
+    function: separates entities in a tuple, line, object, etc
+    usage:    ((x, y)) ([x,y])
+*/
+COMMA: ',';
+
+/*
+    keyword:  -
+    function: // TODO: what do these do?
+    usage:    // TODO: how are they used?
+*/
+SEMI_COLON: ';';
+
+/*
+    keyword:  -
+    function: a string literal
+    usage:    ("this is a string")
+*/
+STR_LIT: '"' (ESC_CHAR | CHAR_LIT) '"';
+ESC_CHAR: '\\' .;
+
+/*
+    keyword:  -
+    function: character literal
+    usage:    // TODO
+*/
+CHAR_LIT: [A-Za-z];
 
 // TODO: change to statements in the language eventually.
-line: AND;
+line: AND | VARIABLE | ADDR | AS | ASM
+    | BIND | BLOCK | BREAK | CASE | CAST
+    | CONST | CONCEPT | CONTINUE | CONVERTER | DEFER
+    | DISCARD | DISTINCT | DIV | DO | ELIF
+    | ELSE | END | ENUM | EXCEPT | EXPORT
+    | FINALLY | FOR | FROM | FUNC | IF
+    | IMPORT | IN | INCLUDE | INTERFACE | IS
+    | ISNOT | ITERATOR | LET | MACRO | METHOD
+    | MIXIN | MOD | NIL | NOT | NOTIN
+    | OBJECT | OF | OR | OUT | PROC
+    | PTR | RAISE | REF | RETURN | SHL
+    | SHR | STATIC | TEMPLATE | TRY | TUPLE
+    | TYPE | USING | WHEN | WHILE | XOR
+    | YIELD | IDENTIFIER | LETTER | DIGIT | INT8_LIT
+    | INT16_LIT | INT32_LIT | INT64_LIT | UINT_LIT | UINT8_LIT
+    | UINT16_LIT | UINT32_LIT | UINT64_LIT | FLOAT32_LIT | FLOAT32_SUFFIX
+    | FLOAT64_LIT | FLOAT64_SUFFIX | FLOAT_LIT | EXP | INT_LIT
+    | HEX_LIT | DEC_LIT | OCT_LIT | BIN_LIT | HEXDIGIT
+    | OCTDIGIT | BINDIGIT | EQUALS_OPERATOR | ADD_OPERATOR | MUL_OPERATOR
+    | MINUS_OPERATOR | DIV_OPERATOR | BITWISE_NOT_OPERATOR | AND_OPERATOR | OR_OPERATOR
+    | LESS_THAN | GREATER_THAN | AT | NOT_OPERATOR | MODULUS
+    | XOR_OPERATOR | DOT | COLON | OPEN_PAREN | CLOSE_PAREN
+    | OPEN_BRACE | CLOSE_BRACE | OPEN_BRACK | CLOSE_BRACK | COMMA
+    | SEMI_COLON | STR_LIT | CHAR_LIT;
 
 start: line*;
