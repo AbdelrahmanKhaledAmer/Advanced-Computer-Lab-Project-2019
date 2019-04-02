@@ -1,1 +1,3 @@
 code/.antlr/
+code/__pycache__/
+.vscode/

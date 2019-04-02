@@ -533,7 +533,7 @@ YIELD: 'yield';
     function: variable names, alphanumeric
     usage:    (a) (a1) (a_1) (abc) (a_bc) NOT VALID:(a__b)
 */
-IDENTIFIER: LETTER ('_'? (LETTER | DIGIT)*)*;
+IDENTIFIER: LETTER ('_'? (LETTER | DIGIT))*;
 
 /*
     keyword:  -
@@ -811,7 +811,7 @@ MODULUS: '%';
     function: xor the bits of two numbers
     usage:    (x xor y)
 */
-XOR_OPERATOR: XOR;
+XOR_OPERATOR: '^';
 
 /*
     keyword:  -
@@ -961,8 +961,8 @@ MULTILINE_COMMENT: ('#[' .*? MULTILINE_COMMENT .*?']#'
     function: indentation (4 spaces from the left)
     usage:    (    -start of code)
 */
-INDENTATION: ('    ' INDENTATION
-           |  '    ') -> skip;
+INDENT: ('    ' INDENT
+      |  '    ') -> skip;
 /*
     Skip whitespace
 */
