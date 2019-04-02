@@ -1,13 +1,11 @@
 grammar milestone_1;
 
-
 /*
     keyword:  and
     function: boolean and
     usage:    (x and y)
 */
 AND: 'and';
-
 
 /*
     keyword:  var
@@ -16,7 +14,6 @@ AND: 'and';
 */
 VARIABLE: 'var';
 
-
 /*
     keyword:  addr
     function: gets the memory address of a veriable (pointer)
@@ -24,14 +21,12 @@ VARIABLE: 'var';
 */
 ADDR: 'addr';
 
-
 /*
     keyword:  as
     function: assigns a module to s pecific identifier
     usage:    (import x as y)
 */
 AS: 'as';
-
 
 /*
     keyword:  asm
@@ -42,14 +37,12 @@ AS: 'as';
 */
 ASM: 'asm';
 
-
 /*
     keyword:  bind
     function: // TODO
     usage:    (bind x)
 */
 BIND: 'bind';
-
 
 /*
     keyword:  block
@@ -58,14 +51,12 @@ BIND: 'bind';
 */
 BLOCK: 'block';
 
-
 /*
     keyword:  break
     function: break statement is used to leave a block immediately
     usage:    (if finished(x): break)
 */
 BREAK: 'break';
-
 
 /*
     keyword:  case
@@ -79,7 +70,6 @@ BREAK: 'break';
 */
 CASE: 'case';
 
-
 /*
     keyword:  cast
     function: convert type of var into another type
@@ -87,14 +77,12 @@ CASE: 'case';
 */
 CAST: 'cast';
 
-
 /*
     keyword:  const
     function: symbols which are bound to a value
     usage:    (const x = 1)
 */
 CONST: 'const';
-
 
 /*
     keyword:  concept
@@ -106,7 +94,6 @@ CONST: 'const';
 */
 CONCEPT: 'concept';
 
-
 /*
     keyword:  continue
     function: leads to the immediate next iteration
@@ -116,7 +103,6 @@ CONCEPT: 'concept';
 */
 CONTINUE: 'continue';
 
-
 /*
     keyword:  converter
     function: like an ordinary proc except that it enhances the
@@ -124,7 +110,6 @@ CONTINUE: 'continue';
     usage:    (converter toBool(x: int): bool = x != 0)
 */
 CONVERTER: 'converter';
-
 
 /*
     keyword:  defer
@@ -135,14 +120,12 @@ CONVERTER: 'converter';
 */
 DEFER: 'defer';
 
-
 /*
     keyword:  discard
     function: return value can be ignored implicitly
     usage:    (discard p(3, 4))
 */
 DISCARD: 'discard';
-
 
 /*
     keyword:  distinct
@@ -151,7 +134,6 @@ DISCARD: 'discard';
 */
 DISTINCT: 'distinct';
 
-
 /*
     keyword:  div
     type:     operator
@@ -159,7 +141,6 @@ DISTINCT: 'distinct';
     usage:    (x = 5 div 2)
 */
 DIV: 'div';
-
 
 /*
     keyword:  do
@@ -170,7 +151,6 @@ DIV: 'div';
                    )
 */
 DO: 'do';
-
 
 /*
     keyword:  elif
@@ -183,7 +163,6 @@ DO: 'do';
 */
 ELIF: 'elif';
 
-
 /*
     keyword:  else
     function: gets evaluated if previous 'if'\'elif' condition failed
@@ -195,8 +174,6 @@ ELIF: 'elif';
 */
 ELSE: 'else';
 
-
-
 // TODO: What is this????
 /*
     keyword:  end
@@ -204,7 +181,6 @@ ELSE: 'else';
     usage:    ()
 */
 END: 'end';
-
 
 /*
     keyword:  enum 
@@ -217,7 +193,6 @@ END: 'end';
 */
 ENUM: 'enum';
 
-
 /*
     keyword:  except 
     function: part of try...except blocks
@@ -229,7 +204,6 @@ ENUM: 'enum';
 */
 EXCEPT: 'except';
 
-
 // TODO: add usage
 /*
     keyword:  export 
@@ -238,7 +212,6 @@ EXCEPT: 'except';
     usage:    (export B.MyObject)
 */
 EXPORT: 'export';
-
 
 /*
     keyword:  finally 
@@ -251,7 +224,6 @@ EXPORT: 'export';
 */
 FINALLY: 'finally';
 
-
 /*
     keyword:  for 
     function: abstract mechanism to iterate over the elements of a container
@@ -261,14 +233,12 @@ FINALLY: 'finally';
 */
 FOR: 'for';
 
-
 /*
     keyword:  from 
     function: list the symbols one likes to use without explicit full qualification
     usage:    (from module import `%`)
 */
 FROM: 'from';
-
 
 /*
     keyword:  func 
@@ -277,14 +247,12 @@ FROM: 'from';
 */
 FUNC: 'func';
 
-
 /*
     keyword:  if 
     function: a simple way to make a branch in the control flow
     usage:    (if name == "Andreas": ...)
 */
 IF: 'if';
-
 
 /*
     keyword:  import
@@ -293,7 +261,6 @@ IF: 'if';
 */
 IMPORT: 'import';
 
-
 /*
     keyword:  in
     function: catches elements in an array
@@ -301,15 +268,12 @@ IMPORT: 'import';
 */
 IN: 'in';
 
-
-// TODO: change to statements in the language eventually
 /*
     keyword:  include
     function: The include merely includes the contents of a file
     usage:    (include [file1, file2, ... fileN])
 */
 INCLUDE: 'include';
-
 
 // TODO: What is this????
 /*
@@ -318,7 +282,6 @@ INCLUDE: 'include';
     usage:    (?)
 */
 INTERFACE: 'interface';
-
 
 // TODO: change usage
 /*
@@ -329,7 +292,6 @@ INTERFACE: 'interface';
 */
 IS: 'is';
 
-
 // TODO: change usage
 /*
     keyword:  isnot
@@ -338,7 +300,6 @@ IS: 'is';
     usage:    (if X isnot int)
 */
 ISNOT: 'isnot';
-
 
 /*
     keyword:  iterator 
@@ -350,7 +311,6 @@ ISNOT: 'isnot';
 */
 ITERATOR: 'iterator';
 
-
 /*
     keyword:  let 
     function: declares new local and global single assignment variables and
@@ -359,14 +319,12 @@ ITERATOR: 'iterator';
 */
 LET: 'let';
 
-
 /*
     keyword:  macro 
     function: a special function that is executed at compile-time
     usage:    (macro debug(n: varargs[typed]): untyped =)
 */
 MACRO: 'macro';
-
 
 /*
     keyword:  method 
@@ -377,12 +335,12 @@ METHOD: 'method';
 
 
 /*
+<<<<<<< Updated upstream
     keyword:  mixin 
     function: a symbol can be forced to be open by a mixin declaration
     usage:    (mixin X)
 */
 MIXIN: 'mixin';
-
 
 /*
     keyword:  mod
@@ -392,14 +350,12 @@ MIXIN: 'mixin';
 */
 MOD: 'mod';
 
-
 /*
     keyword:  nil
     function: nothing
     usage:    (nil)
 */
 NIL: 'nil';
-
 
 /*
     keyword:  not
@@ -408,14 +364,12 @@ NIL: 'nil';
 */
 NOT: 'not';
 
-
 /*
     keyword:  notin
     function: reverse 'in' operator
     usage:    (x notin "string")
 */
 NOTIN: 'notin';
-
 
 /*
     keyword:  object
@@ -428,14 +382,12 @@ NOTIN: 'notin';
 */
 OBJECT: 'object';
 
-
 /*
     keyword:  of
     function: used with case statements
     usage:    (of "go-for-a-walk":)
 */
 OF: 'of';
-
 
 /*
     keyword:  or
@@ -444,14 +396,12 @@ OF: 'of';
 */
 OR: 'or';
 
-
 /*
     keyword:  out
     function: used with case statements
     usage:    (COND or COND)
 */
 OUT: 'out';
-
 
 /*
     keyword:  proc
@@ -460,14 +410,12 @@ OUT: 'out';
 */
 PROC: 'proc';
 
-
 /*
     keyword:  ptr
     function: pointer-like types
     usage:    (ptr x = ...)
 */
 PTR: 'ptr';
-
 
 /*
     keyword:  raise
@@ -476,14 +424,12 @@ PTR: 'ptr';
 */
 RAISE: 'raise';
 
-
 /*
     keyword:  ref
     function: traced references are declared with the ref keyword
     usage:    (Node = ref NodeObj)
 */
 REF: 'ref';
-
 
 /*
     keyword:  return
@@ -492,14 +438,12 @@ REF: 'ref';
 */
 RETURN: 'return';
 
-
 /*
     keyword:  shl
     function: logic shift left
     usage:    (x shl y)
 */
 SHL: 'shl';
-
 
 /*
     keyword:  shr
@@ -508,14 +452,12 @@ SHL: 'shl';
 */
 SHR: 'shr';
 
-
 /*
     keyword:  static
     function: enforce compile time evaluation explicitly
     usage:    (static: echo "echo at compile time")
 */
 STATIC: 'static';
-
  
 /*
     keyword:  template
@@ -523,7 +465,6 @@ STATIC: 'static';
     usage:    (template declareInt(x: untyped) = var x: int)
 */
 TEMPLATE: 'template';
-
  
 /*
     keyword:  try
@@ -533,14 +474,12 @@ TEMPLATE: 'template';
 */
 TRY: 'try';
 
- 
 /*
     keyword:  tuple
     function: any tuple type
     usage:    ((DATA1, DATA2, ..., DATAN))
 */
 TUPLE: 'tuple';
-
  
 /*
     keyword:  type
@@ -548,7 +487,6 @@ TUPLE: 'tuple';
     usage:    (...)
 */
 TYPE: 'type';
-
  
 /*
     keyword:  using
@@ -561,7 +499,6 @@ TYPE: 'type';
                    )
 */
 USING: 'using';
-
  
 /*
     keyword:  when
@@ -570,7 +507,6 @@ USING: 'using';
 */
 WHEN: 'when';
 
- 
 /*
     keyword:  while
     function: statement is executed until the expr evaluates to false
@@ -579,7 +515,6 @@ WHEN: 'when';
                    )
 */
 WHILE: 'while';
-
  
 /*
     keyword:  xor
@@ -587,8 +522,203 @@ WHILE: 'while';
     usage:    (x xor y)
 */
 XOR: 'xor';
-
  
+/*
+    keyword:  yield
+    function: replaces `return` in iterators
+    usage:    (yield x)
+*/
+YIELD: 'yield';
+
+/*
+    keyword:  -
+    function: variable names, alphanumeric
+    usage:    (a) (a1) (a_1) (abc) (a_bc) NOT VALID:(a__b)
+*/
+IDENTIFIER: LETTER ('_'? (LETTER | DIGIT)*)*;
+
+/*
+    keyword:  -
+    function: a single character from the english alphabet
+    usage:    -
+*/
+LETTER: [a-zA-Z];
+
+/*
+    keyword:  -
+    function: a single base 10 digit
+    usage:    -
+*/
+DIGIT: [0-9];
+
+/*
+    keyword:  -
+    function: 8 bit integer
+    usage:    -
+*/
+INT8_LIT: INT_LIT '\''? ('i' | 'I') '8';
+
+/*
+    keyword:  -
+    function: 16 bit integer
+    usage:    -
+*/
+INT16_LIT: INT_LIT '\''? ('i' | 'I') '16';
+
+/*
+    keyword:  -
+    function: 32 bit integer
+    usage:    -
+*/
+INT32_LIT: INT_LIT '\''? ('i' | 'I') '32';
+
+/*
+    keyword:  -
+    function: 64 bit integer
+    usage:    -
+*/
+INT64_LIT: INT_LIT '\''? ('i' | 'I') '64';
+
+/*
+    keyword:  -
+    function: unsigned integer
+    usage:    -
+*/
+UINT_LIT: INT_LIT '\''? ('u' | 'U');
+
+/*
+    keyword:  -
+    function: 8 bit unsigned integer
+    usage:    -
+*/
+UINT8_LIT: INT_LIT '\''? ('u' | 'U') '8';
+
+/*
+    keyword:  -
+    function: 16 bit unsigned integer
+    usage:    -
+*/
+UINT16_LIT: INT_LIT '\''? ('u' | 'U') '16';
+
+/*
+    keyword:  -
+    function: 32 bit unsigned integer
+    usage:    -
+*/
+UINT32_LIT: INT_LIT '\''? ('u' | 'U') '32';
+
+/*
+    keyword:  -
+    function: 64 bit unsigned integer
+    usage:    -
+*/
+UINT64_LIT: INT_LIT '\''? ('u' | 'U') '64';
+
+/*
+    keyword:  -
+    function: 32 bit float
+    usage:    -
+*/
+FLOAT32_LIT: HEX_LIT '\'' FLOAT32_SUFFIX
+           | (FLOAT_LIT | DEC_LIT | OCT_LIT | BIN_LIT) '\''? FLOAT32_SUFFIX;
+
+/*
+    keyword:  -
+    function: 32 bit float suffix
+    usage:    -
+*/
+FLOAT32_SUFFIX: (('F' | 'f') '32'?);
+
+/*
+    keyword:  -
+    function: 64 bit float
+    usage:    -
+*/
+FLOAT64_LIT: HEX_LIT '\'' FLOAT64_SUFFIX
+           | (FLOAT_LIT | DEC_LIT | OCT_LIT | BIN_LIT) '\''? FLOAT64_SUFFIX;
+
+/*
+    keyword:  -
+    function: 64 bit float suffix
+    usage:    -
+*/
+FLOAT64_SUFFIX: (('F' | 'f') '64') | 'd' | 'D';
+
+/*
+    keyword:  -
+    function: an exponent
+    usage:    -
+*/
+FLOAT_LIT: DIGIT ('_'? DIGIT)* (('.' DIGIT ('_'? DIGIT)* EXP?) |EXP);
+
+/*
+    keyword:  -
+    function: an exponent
+    usage:    -
+*/
+EXP:('e' | 'E' ) ('+' | '-')? DIGIT ( '_'? DIGIT )*;
+
+/*
+    keyword:  -
+    function: an integer number
+    usage:    -
+*/
+INT_LIT: BIN_LIT
+       | OCT_LIT
+       | DEC_LIT
+       | HEX_LIT;
+
+/*
+    keyword:  -
+    function: a hexadecimal number
+    usage:    -
+*/
+HEX_LIT: '0' ('x' | 'X') HEXDIGIT ('_'? HEXDIGIT)*;
+
+/*
+    keyword:  -
+    function: a decimal number
+    usage:    -
+*/
+DEC_LIT: DIGIT ('_'? DIGIT)*;
+
+/*
+    keyword:  -
+    function: a base 8 number
+    usage:    -
+*/
+OCT_LIT: '0o' OCTDIGIT ('_'? OCTDIGIT)*;
+
+/*
+    keyword:  -
+    function: a binary number
+    usage:    -
+*/
+BIN_LIT: '0' ('b' | 'B') BINDIGIT ('_'? BINDIGIT)*;
+
+/*
+    keyword:  -
+    function: a single base 16 digit
+    usage:    -
+*/
+HEXDIGIT: DIGIT | [A-Fa-f];
+
+/*
+    keyword:  -
+    function: a single base 8 digit
+    usage:    -
+*/
+OCTDIGIT: [0-7];
+
+/*
+    keyword:  -
+    function: a single base 2 digit
+    usage:    -
+*/
+BINDIGIT: [01];
+
+
+// TODO: change to statements in the language eventually.
 line: AND;
 
 start: line*;
