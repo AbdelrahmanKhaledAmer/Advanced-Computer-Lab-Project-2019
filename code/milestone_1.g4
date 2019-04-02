@@ -938,6 +938,36 @@ GENERALIZED_STR_LIT: IDENTIFIER '"' TRIPLESTR_ITEM* '"';
 */
 GENERALIZED_TRIPLESTR_LIT: IDENTIFIER TRIPLESTR_LIT;
 
+/*
+    keyword:  -
+    function: a single comment line
+    usage:    (# this is a comment)
+*/
+COMMENT: '#' ~[\n\r\f]* -> skip;
+
+/*
+    keyword:  -
+    function: multi-line comment
+    usage:    (#[multiline comment
+               #[multiline
+               comment inside]#
+               ]#)
+*/
+MULTILINE_COMMENT: ('#[' .*? MULTILINE_COMMENT .*?']#'
+                   |'#[' .*? ']#') -> skip;
+
+/*
+    keyword:  -
+    function: indentation (4 spaces from the left)
+    usage:    (    -start of code)
+*/
+INDENTATION: ('    ' INDENTATION
+           |  '    ') -> skip;
+/*
+    Skip whitespace
+*/
+WHITESPACE: [ \t\n\r]+ -> skip;
+
 // TODO: change to statements in the language eventually.
 line: AND | VARIABLE | ADDR | AS | ASM
     | BIND | BLOCK | BREAK | CASE | CAST
@@ -962,6 +992,7 @@ line: AND | VARIABLE | ADDR | AS | ASM
     | LESS_THAN | GREATER_THAN | AT | NOT_OPERATOR | MODULUS
     | XOR_OPERATOR | DOT | COLON | OPEN_PAREN | CLOSE_PAREN
     | OPEN_BRACE | CLOSE_BRACE | OPEN_BRACK | CLOSE_BRACK | COMMA
-    | SEMI_COLON | STR_LIT | CHAR_LIT;
+    | SEMI_COLON | STR_LIT | CHAR_LIT | TRIPLESTR_LIT | TRIPLESTR_ITEM
+    | RSTR_STR | GENERALIZED_STR_LIT | GENERALIZED_TRIPLESTR_LIT;
 
 start: line*;
