@@ -898,6 +898,46 @@ ESC_CHAR: '\\' .;
 */
 CHAR_LIT: [A-Za-z];
 
+/*
+    keyword:  -
+    function: triple string literal
+    usage:    ("""
+               this is a string
+               """)
+*/
+TRIPLESTR_LIT: '"""' TRIPLESTR_ITEM* '"""' ~'"';
+
+/*  TODO: REVIEW
+    keyword:  -
+    function: anything that can be inside a triple string
+    usage:    ("""
+               This is an item
+               this is another item with escapes\n
+               """)
+*/
+TRIPLESTR_ITEM: .;
+
+/*  TODO: REVIEW
+    keyword:  -
+    function: a raw string that does not care for escapes
+    usage:    r"this is a string"
+*/
+RSTR_STR: ('r' | 'R') '"' TRIPLESTR_ITEM* '"';
+
+/*  TODO: REVIEW
+    keyword:  -
+    function: calls a function on a raw string literal
+    usage:    (x"string") <--> (x(r"string"))
+*/
+GENERALIZED_STR_LIT: IDENTIFIER '"' TRIPLESTR_ITEM* '"';
+
+/*  TODO: REVIEW
+    keyword:  -
+    function: calls a function on a triple string literal
+    usage:    (x"""string""") <--> (x("""string"""))
+*/
+GENERALIZED_TRIPLESTR_LIT: IDENTIFIER TRIPLESTR_LIT;
+
 // TODO: change to statements in the language eventually.
 line: AND | VARIABLE | ADDR | AS | ASM
     | BIND | BLOCK | BREAK | CASE | CAST
