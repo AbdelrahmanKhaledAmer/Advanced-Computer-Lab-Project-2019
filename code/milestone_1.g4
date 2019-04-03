@@ -915,14 +915,14 @@ TRIPLESTR_LIT: '"""' TRIPLESTR_ITEM* '"""' ~'"';
                this is another item with escapes\n
                """)
 */
-TRIPLESTR_ITEM: .;
+fragment TRIPLESTR_ITEM: .;
 
 /*  TODO: REVIEW
     keyword:  -
     function: a raw string that does not care for escapes
     usage:    r"this is a string"
 */
-RSTR_STR: ('r' | 'R') '"' TRIPLESTR_ITEM* '"';
+RSTR_LIT: ('r' | 'R') '"' TRIPLESTR_ITEM* '"';
 
 /*  TODO: REVIEW
     keyword:  -
@@ -961,8 +961,7 @@ MULTILINE_COMMENT: ('#[' .*? MULTILINE_COMMENT .*?']#'
     function: indentation (4 spaces from the left)
     usage:    (    -start of code)
 */
-INDENT: ('    ' INDENT
-      |  '    ') -> skip;
+INDENT: ('    ')+;
 /*
     Skip whitespace
 */
@@ -992,7 +991,7 @@ line: AND | VARIABLE | ADDR | AS | ASM
     | LESS_THAN | GREATER_THAN | AT | NOT_OPERATOR | MODULUS
     | XOR_OPERATOR | DOT | COLON | OPEN_PAREN | CLOSE_PAREN
     | OPEN_BRACE | CLOSE_BRACE | OPEN_BRACK | CLOSE_BRACK | COMMA
-    | SEMI_COLON | STR_LIT | CHAR_LIT | TRIPLESTR_LIT | TRIPLESTR_ITEM
-    | RSTR_STR | GENERALIZED_STR_LIT | GENERALIZED_TRIPLESTR_LIT;
+    | SEMI_COLON | STR_LIT | CHAR_LIT | TRIPLESTR_LIT | INDENT
+    | RSTR_LIT | GENERALIZED_STR_LIT | GENERALIZED_TRIPLESTR_LIT;
 
 start: line*;

@@ -195,10 +195,8 @@ def get_token_type(token):
         return "CHAR_LIT"
     elif token.type == milestone_1Lexer.TRIPLESTR_LIT:
         return "TRIPLESTR_LIT"
-    elif token.type == milestone_1Lexer.TRIPLESTR_ITEM:
-        return "TRIPLESTR_ITEM"
-    elif token.type == milestone_1Lexer.RSTR_STR:
-        return "RSTR_STR"
+    elif token.type == milestone_1Lexer.RSTR_LIT:
+        return "RSTR_LIT"
     elif token.type == milestone_1Lexer.GENERALIZED_STR_LIT:
         return "GENERALIZED_STR_LIT"
     elif token.type == milestone_1Lexer.GENERALIZED_TRIPLESTR_LIT:
@@ -227,6 +225,8 @@ def get_token_type(token):
         return "INT32_LIT"
     elif token.type == milestone_1Lexer.INT64_LIT:
         return "INT64_LIT"
+    elif token.type == milestone_1Lexer.DIGIT:
+        return "DIGIT"
     else:
         return "ERROR UNKNOWN TOKEN"
 
