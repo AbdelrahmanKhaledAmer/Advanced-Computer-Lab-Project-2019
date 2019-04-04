@@ -5,7 +5,7 @@ from io import StringIO
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\u0080")
+        buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\u0081")
         buf.write("\17\4\2\t\2\4\3\t\3\3\2\3\2\3\3\7\3\n\n\3\f\3\16\3\r\13")
         buf.write("\3\3\3\2\2\4\2\4\2\3\4\2\3|\177\177\r\2\6\3\2\2\2\4\13")
         buf.write("\3\2\2\2\6\7\t\2\2\2\7\3\3\2\2\2\b\n\5\2\2\2\t\b\3\2\2")
@@ -46,7 +46,10 @@ class milestone_1Parser ( Parser ):
                      "<INVALID>", "<INVALID>", "'+'", "'*'", "'-'", "'/'", 
                      "'~'", "'&'", "<INVALID>", "'<'", "'>'", "'@'", "'!'", 
                      "'%'", "'^'", "'.'", "':'", "'('", "')'", "'{'", "'}'", 
-                     "'['", "']'", "','", "';'" ]
+                     "'['", "']'", "','", "';'", "<INVALID>", "<INVALID>", 
+                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "'\n'" ]
 
     symbolicNames = [ "<INVALID>", "AND", "VARIABLE", "ADDR", "AS", "ASM", 
                       "BIND", "BLOCK", "BREAK", "CASE", "CAST", "CONST", 
@@ -73,7 +76,8 @@ class milestone_1Parser ( Parser ):
                       "CLOSE_BRACE", "OPEN_BRACK", "CLOSE_BRACK", "COMMA", 
                       "SEMI_COLON", "STR_LIT", "CHAR_LIT", "TRIPLESTR_LIT", 
                       "RSTR_LIT", "GENERALIZED_STR_LIT", "GENERALIZED_TRIPLESTR_LIT", 
-                      "COMMENT", "MULTILINE_COMMENT", "INDENT", "WHITESPACE" ]
+                      "COMMENT", "MULTILINE_COMMENT", "INDENT", "WHITESPACE", 
+                      "NEWLINE" ]
 
     RULE_line = 0
     RULE_start = 1
@@ -207,6 +211,7 @@ class milestone_1Parser ( Parser ):
     MULTILINE_COMMENT=124
     INDENT=125
     WHITESPACE=126
+    NEWLINE=127
 
     def __init__(self, input:TokenStream):
         super().__init__(input)
