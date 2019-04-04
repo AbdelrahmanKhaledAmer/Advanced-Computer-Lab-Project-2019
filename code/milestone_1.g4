@@ -906,7 +906,7 @@ CHAR_LIT: '\'' (ESC_CHAR | ANY_CHAR | '"') '\'';
                this is a string
                """)
 */
-TRIPLESTR_LIT: '"""' TRIPLESTR_ITEM* '"""' ~'"';
+TRIPLESTR_LIT: '"""' TRIPLESTR_ITEM* '"""';
 
 /*  TODO: REVIEW
     keyword:  -
@@ -955,7 +955,8 @@ COMMENT: '#'+ ~[\n\r\f]* -> skip;
                comment inside]#
                ]#)
 */
-MULTILINE_COMMENT: (MLC_START ANY_BUT_MLC_START*?
+MULTILINE_COMMENT: INDENT*
+                   (MLC_START ANY_BUT_MLC_START*?
                     MULTILINE_COMMENT
                     ANY_BUT_MLC_END*? MLC_END
                  |  MLC_START ANY_BUT_MLC_START*? MLC_END) -> skip;
@@ -969,7 +970,7 @@ fragment ANY_BUT_MLC_END: ~'#'+ ']' | ~']';
     function: indentation (4 spaces from the left)
     usage:    (    -start of code)
 */
-INDENT: ('    ')+;
+INDENT: {self._input.LA(-1) == ord('\n') or self._input.LA(-1) == Token.EOF}? '    '+;
 
 /*
     Skip whitespace

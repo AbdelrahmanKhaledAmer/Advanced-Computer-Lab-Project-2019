@@ -229,6 +229,8 @@ def get_token_type(token):
         return "DIGIT"
     elif token.type == milestone_1Lexer.UINT_LIT:
         return "UINT_LIT"
+    elif token.type == milestone_1Lexer.INDENT:
+        return "INDENT"
     else:
         return "ERROR UNKNOWN TOKEN"
 
