@@ -906,7 +906,7 @@ CHAR_LIT: '\'' (ESC_CHAR | ANY_CHAR | '"') '\'';
                this is a string
                """)
 */
-TRIPLESTR_LIT: '"""' TRIPLESTR_ITEM* '"""';
+TRIPLESTR_LIT: '"""' TRIPLESTR_ITEM*? '"""';
 
 /*  TODO: REVIEW
     keyword:  -
