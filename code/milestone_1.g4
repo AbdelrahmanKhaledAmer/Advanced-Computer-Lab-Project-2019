@@ -956,14 +956,13 @@ COMMENT: '#'+ ~[\n\r\f]* -> skip;
                ]#)
 */
 MULTILINE_COMMENT: INDENT*
-                   (MLC_START ANY_BUT_MLC_START*?
+                   (MLC_START ANY_BUT_MLC_END*?
                     MULTILINE_COMMENT
                     ANY_BUT_MLC_END*? MLC_END
-                 |  MLC_START ANY_BUT_MLC_START*? MLC_END) -> skip;
+                 |  MLC_START ANY_BUT_MLC_END*? MLC_END) -> skip;
 fragment MLC_START: '#'+ '[';
-fragment ANY_BUT_MLC_START: '#'+ ~'[' | ~'#'+;
-fragment MLC_END: ']' '#'+;
-fragment ANY_BUT_MLC_END: ~'#'+ ']' | ~']';
+fragment MLC_END: ']' '#'+; 
+fragment ANY_BUT_MLC_END: ']' ~'#' | ~']';
 
 /*
     keyword:  -
