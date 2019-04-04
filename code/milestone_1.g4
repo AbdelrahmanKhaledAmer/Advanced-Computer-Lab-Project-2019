@@ -720,7 +720,7 @@ BINDIGIT: [01];
     function: assigns the right-hand side to the left-hand side
     usage:    (x = y)
 */
-EQUALS_OPERATOR: '=';
+EQUALS_OPERATOR: '=' '='?;
 
 /*
     keyword:  -
@@ -888,15 +888,16 @@ SEMI_COLON: ';';
     function: a string literal
     usage:    ("this is a string")
 */
-STR_LIT: '"' (ESC_CHAR | CHAR_LIT) '"';
-ESC_CHAR: '\\' .;
+STR_LIT: '"' (ESC_CHAR | ANY_CHAR)* '"';
+fragment ESC_CHAR: '\\' .;
+fragment ANY_CHAR: [a-zA-Z0-9, '!@#$%^&*?];
 
 /*
     keyword:  -
     function: character literal
     usage:    // TODO
 */
-CHAR_LIT: [A-Za-z];
+CHAR_LIT: '\'' (ESC_CHAR | ANY_CHAR) '\'';
 
 /*
     keyword:  -
@@ -922,14 +923,15 @@ fragment TRIPLESTR_ITEM: .;
     function: a raw string that does not care for escapes
     usage:    r"this is a string"
 */
-RSTR_LIT: ('r' | 'R') '"' TRIPLESTR_ITEM* '"';
+RSTR_LIT: ('r' | 'R') '"' RSTR_ITEM* '"';
+fragment RSTR_ITEM: ~'"';
 
 /*  TODO: REVIEW
     keyword:  -
     function: calls a function on a raw string literal
     usage:    (x"string") <--> (x(r"string"))
 */
-GENERALIZED_STR_LIT: IDENTIFIER '"' TRIPLESTR_ITEM* '"';
+GENERALIZED_STR_LIT: IDENTIFIER '"' RSTR_ITEM* '"';
 
 /*  TODO: REVIEW
     keyword:  -
@@ -943,7 +945,7 @@ GENERALIZED_TRIPLESTR_LIT: IDENTIFIER TRIPLESTR_LIT;
     function: a single comment line
     usage:    (# this is a comment)
 */
-COMMENT: '#' ~[\n\r\f]* -> skip;
+COMMENT: '#'+ ~[\n\r\f]* -> skip;
 
 /*
     keyword:  -
@@ -953,8 +955,14 @@ COMMENT: '#' ~[\n\r\f]* -> skip;
                comment inside]#
                ]#)
 */
-MULTILINE_COMMENT: ('#[' .*? MULTILINE_COMMENT .*?']#'
-                   |'#[' .*? ']#') -> skip;
+MULTILINE_COMMENT: (MLC_START ANY_BUT_MLC_START*?
+                    MULTILINE_COMMENT
+                    ANY_BUT_MLC_END*? MLC_END
+                 |  MLC_START ANY_BUT_MLC_START*? MLC_END) -> skip;
+fragment MLC_START: '#'+ '[';
+fragment ANY_BUT_MLC_START: '#'+ ~'[' | ~'#'+;
+fragment MLC_END: ']' '#'+;
+fragment ANY_BUT_MLC_END: ~'#'+ ']' | ~']';
 
 /*
     keyword:  -
@@ -962,6 +970,7 @@ MULTILINE_COMMENT: ('#[' .*? MULTILINE_COMMENT .*?']#'
     usage:    (    -start of code)
 */
 INDENT: ('    ')+;
+
 /*
     Skip whitespace
 */

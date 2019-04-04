@@ -5,12 +5,12 @@ from io import StringIO
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\u0081")
+        buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\u0080")
         buf.write("\17\4\2\t\2\4\3\t\3\3\2\3\2\3\3\7\3\n\n\3\f\3\16\3\r\13")
-        buf.write("\3\3\3\2\2\4\2\4\2\3\5\2\3wy}\u0080\u0080\r\2\6\3\2\2")
-        buf.write("\2\4\13\3\2\2\2\6\7\t\2\2\2\7\3\3\2\2\2\b\n\5\2\2\2\t")
-        buf.write("\b\3\2\2\2\n\r\3\2\2\2\13\t\3\2\2\2\13\f\3\2\2\2\f\5\3")
-        buf.write("\2\2\2\r\13\3\2\2\2\3\13")
+        buf.write("\3\3\3\2\2\4\2\4\2\3\4\2\3|\177\177\r\2\6\3\2\2\2\4\13")
+        buf.write("\3\2\2\2\6\7\t\2\2\2\7\3\3\2\2\2\b\n\5\2\2\2\t\b\3\2\2")
+        buf.write("\2\n\r\3\2\2\2\13\t\3\2\2\2\13\f\3\2\2\2\f\5\3\2\2\2\r")
+        buf.write("\13\3\2\2\2\3\13")
         return buf.getvalue()
 
 
@@ -43,10 +43,10 @@ class milestone_1Parser ( Parser ):
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "<INVALID>", "'='", "'+'", "'*'", "'-'", "'/'", "'~'", 
-                     "'&'", "<INVALID>", "'<'", "'>'", "'@'", "'!'", "'%'", 
-                     "'^'", "'.'", "':'", "'('", "')'", "'{'", "'}'", "'['", 
-                     "']'", "','", "';'" ]
+                     "<INVALID>", "<INVALID>", "'+'", "'*'", "'-'", "'/'", 
+                     "'~'", "'&'", "<INVALID>", "'<'", "'>'", "'@'", "'!'", 
+                     "'%'", "'^'", "'.'", "':'", "'('", "')'", "'{'", "'}'", 
+                     "'['", "']'", "','", "';'" ]
 
     symbolicNames = [ "<INVALID>", "AND", "VARIABLE", "ADDR", "AS", "ASM", 
                       "BIND", "BLOCK", "BREAK", "CASE", "CAST", "CONST", 
@@ -71,7 +71,7 @@ class milestone_1Parser ( Parser ):
                       "NOT_OPERATOR", "MODULUS", "XOR_OPERATOR", "DOT", 
                       "COLON", "OPEN_PAREN", "CLOSE_PAREN", "OPEN_BRACE", 
                       "CLOSE_BRACE", "OPEN_BRACK", "CLOSE_BRACK", "COMMA", 
-                      "SEMI_COLON", "STR_LIT", "ESC_CHAR", "CHAR_LIT", "TRIPLESTR_LIT", 
+                      "SEMI_COLON", "STR_LIT", "CHAR_LIT", "TRIPLESTR_LIT", 
                       "RSTR_LIT", "GENERALIZED_STR_LIT", "GENERALIZED_TRIPLESTR_LIT", 
                       "COMMENT", "MULTILINE_COMMENT", "INDENT", "WHITESPACE" ]
 
@@ -198,16 +198,15 @@ class milestone_1Parser ( Parser ):
     COMMA=115
     SEMI_COLON=116
     STR_LIT=117
-    ESC_CHAR=118
-    CHAR_LIT=119
-    TRIPLESTR_LIT=120
-    RSTR_LIT=121
-    GENERALIZED_STR_LIT=122
-    GENERALIZED_TRIPLESTR_LIT=123
-    COMMENT=124
-    MULTILINE_COMMENT=125
-    INDENT=126
-    WHITESPACE=127
+    CHAR_LIT=118
+    TRIPLESTR_LIT=119
+    RSTR_LIT=120
+    GENERALIZED_STR_LIT=121
+    GENERALIZED_TRIPLESTR_LIT=122
+    COMMENT=123
+    MULTILINE_COMMENT=124
+    INDENT=125
+    WHITESPACE=126
 
     def __init__(self, input:TokenStream):
         super().__init__(input)
