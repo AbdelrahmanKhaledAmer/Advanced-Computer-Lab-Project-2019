@@ -1,4 +1,4 @@
-# Generated from milestone_1.g4 by ANTLR 4.6
+# Generated from milestone_2.g4 by ANTLR 4.6
 from antlr4 import *
 from io import StringIO
 
@@ -506,7 +506,7 @@ def serializedATN():
         return buf.getvalue()
 
 
-class milestone_1Lexer(Lexer):
+class milestone_2Lexer(Lexer):
 
     atn = ATNDeserializer().deserialize(serializedATN())
 
@@ -708,7 +708,7 @@ class milestone_1Lexer(Lexer):
                   "COMMENT", "MULTILINE_COMMENT", "MLC_START", "MLC_END", 
                   "ANY_BUT_MLC_END", "INDENT", "WHITESPACE", "NEWLINE" ]
 
-    grammarFileName = "milestone_1.g4"
+    grammarFileName = "milestone_2.g4"
 
     def __init__(self, input=None):
         super().__init__(input)
