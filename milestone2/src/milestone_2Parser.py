@@ -6,11 +6,17 @@ from io import StringIO
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\u0081")
-        buf.write("\17\4\2\t\2\4\3\t\3\3\2\3\2\3\3\7\3\n\n\3\f\3\16\3\r\13")
-        buf.write("\3\3\3\2\2\4\2\4\2\3\4\2\3|\177\177\r\2\6\3\2\2\2\4\13")
-        buf.write("\3\2\2\2\6\7\t\2\2\2\7\3\3\2\2\2\b\n\5\2\2\2\t\b\3\2\2")
-        buf.write("\2\n\r\3\2\2\2\13\t\3\2\2\2\13\f\3\2\2\2\f\5\3\2\2\2\r")
-        buf.write("\13\3\2\2\2\3\13")
+        buf.write("\37\4\2\t\2\4\3\t\3\3\2\3\2\3\2\3\2\7\2\13\n\2\f\2\16")
+        buf.write("\2\16\13\2\3\2\3\2\3\2\3\2\3\2\3\2\7\2\26\n\2\f\2\16\2")
+        buf.write("\31\13\2\5\2\33\n\2\3\3\3\3\3\3\2\2\4\2\4\2\2\37\2\32")
+        buf.write("\3\2\2\2\4\34\3\2\2\2\6\7\7!\2\2\7\f\7E\2\2\b\t\7u\2\2")
+        buf.write("\t\13\7E\2\2\n\b\3\2\2\2\13\16\3\2\2\2\f\n\3\2\2\2\f\r")
+        buf.write("\3\2\2\2\r\33\3\2\2\2\16\f\3\2\2\2\17\20\7\36\2\2\20\21")
+        buf.write("\7E\2\2\21\22\7!\2\2\22\27\7E\2\2\23\24\7u\2\2\24\26\7")
+        buf.write("E\2\2\25\23\3\2\2\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30")
+        buf.write("\3\2\2\2\30\33\3\2\2\2\31\27\3\2\2\2\32\6\3\2\2\2\32\17")
+        buf.write("\3\2\2\2\33\3\3\2\2\2\34\35\5\2\2\2\35\5\3\2\2\2\5\f\27")
+        buf.write("\32")
         return buf.getvalue()
 
 
@@ -79,10 +85,10 @@ class milestone_2Parser ( Parser ):
                       "COMMENT", "MULTILINE_COMMENT", "INDENT", "WHITESPACE", 
                       "NEWLINE" ]
 
-    RULE_line = 0
+    RULE_importStmt = 0
     RULE_start = 1
 
-    ruleNames =  [ "line", "start" ]
+    ruleNames =  [ "importStmt", "start" ]
 
     EOF = Token.EOF
     AND=1
@@ -221,409 +227,98 @@ class milestone_2Parser ( Parser ):
 
 
 
-    class LineContext(ParserRuleContext):
+    class ImportStmtContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def AND(self):
-            return self.getToken(milestone_2Parser.AND, 0)
+        def IMPORT(self):
+            return self.getToken(milestone_2Parser.IMPORT, 0)
 
-        def VARIABLE(self):
-            return self.getToken(milestone_2Parser.VARIABLE, 0)
+        def IDENTIFIER(self, i:int=None):
+            if i is None:
+                return self.getTokens(milestone_2Parser.IDENTIFIER)
+            else:
+                return self.getToken(milestone_2Parser.IDENTIFIER, i)
 
-        def ADDR(self):
-            return self.getToken(milestone_2Parser.ADDR, 0)
-
-        def AS(self):
-            return self.getToken(milestone_2Parser.AS, 0)
-
-        def ASM(self):
-            return self.getToken(milestone_2Parser.ASM, 0)
-
-        def BIND(self):
-            return self.getToken(milestone_2Parser.BIND, 0)
-
-        def BLOCK(self):
-            return self.getToken(milestone_2Parser.BLOCK, 0)
-
-        def BREAK(self):
-            return self.getToken(milestone_2Parser.BREAK, 0)
-
-        def CASE(self):
-            return self.getToken(milestone_2Parser.CASE, 0)
-
-        def CAST(self):
-            return self.getToken(milestone_2Parser.CAST, 0)
-
-        def CONST(self):
-            return self.getToken(milestone_2Parser.CONST, 0)
-
-        def CONCEPT(self):
-            return self.getToken(milestone_2Parser.CONCEPT, 0)
-
-        def CONTINUE(self):
-            return self.getToken(milestone_2Parser.CONTINUE, 0)
-
-        def CONVERTER(self):
-            return self.getToken(milestone_2Parser.CONVERTER, 0)
-
-        def DEFER(self):
-            return self.getToken(milestone_2Parser.DEFER, 0)
-
-        def DISCARD(self):
-            return self.getToken(milestone_2Parser.DISCARD, 0)
-
-        def DISTINCT(self):
-            return self.getToken(milestone_2Parser.DISTINCT, 0)
-
-        def DIV(self):
-            return self.getToken(milestone_2Parser.DIV, 0)
-
-        def DO(self):
-            return self.getToken(milestone_2Parser.DO, 0)
-
-        def ELIF(self):
-            return self.getToken(milestone_2Parser.ELIF, 0)
-
-        def ELSE(self):
-            return self.getToken(milestone_2Parser.ELSE, 0)
-
-        def END(self):
-            return self.getToken(milestone_2Parser.END, 0)
-
-        def ENUM(self):
-            return self.getToken(milestone_2Parser.ENUM, 0)
-
-        def EXCEPT(self):
-            return self.getToken(milestone_2Parser.EXCEPT, 0)
-
-        def EXPORT(self):
-            return self.getToken(milestone_2Parser.EXPORT, 0)
-
-        def FINALLY(self):
-            return self.getToken(milestone_2Parser.FINALLY, 0)
-
-        def FOR(self):
-            return self.getToken(milestone_2Parser.FOR, 0)
+        def COMMA(self, i:int=None):
+            if i is None:
+                return self.getTokens(milestone_2Parser.COMMA)
+            else:
+                return self.getToken(milestone_2Parser.COMMA, i)
 
         def FROM(self):
             return self.getToken(milestone_2Parser.FROM, 0)
 
-        def FUNC(self):
-            return self.getToken(milestone_2Parser.FUNC, 0)
-
-        def IF(self):
-            return self.getToken(milestone_2Parser.IF, 0)
-
-        def IMPORT(self):
-            return self.getToken(milestone_2Parser.IMPORT, 0)
-
-        def IN(self):
-            return self.getToken(milestone_2Parser.IN, 0)
-
-        def INCLUDE(self):
-            return self.getToken(milestone_2Parser.INCLUDE, 0)
-
-        def INTERFACE(self):
-            return self.getToken(milestone_2Parser.INTERFACE, 0)
-
-        def IS(self):
-            return self.getToken(milestone_2Parser.IS, 0)
-
-        def ISNOT(self):
-            return self.getToken(milestone_2Parser.ISNOT, 0)
-
-        def ITERATOR(self):
-            return self.getToken(milestone_2Parser.ITERATOR, 0)
-
-        def LET(self):
-            return self.getToken(milestone_2Parser.LET, 0)
-
-        def MACRO(self):
-            return self.getToken(milestone_2Parser.MACRO, 0)
-
-        def METHOD(self):
-            return self.getToken(milestone_2Parser.METHOD, 0)
-
-        def MIXIN(self):
-            return self.getToken(milestone_2Parser.MIXIN, 0)
-
-        def MOD(self):
-            return self.getToken(milestone_2Parser.MOD, 0)
-
-        def NIL(self):
-            return self.getToken(milestone_2Parser.NIL, 0)
-
-        def NOT(self):
-            return self.getToken(milestone_2Parser.NOT, 0)
-
-        def NOTIN(self):
-            return self.getToken(milestone_2Parser.NOTIN, 0)
-
-        def OBJECT(self):
-            return self.getToken(milestone_2Parser.OBJECT, 0)
-
-        def OF(self):
-            return self.getToken(milestone_2Parser.OF, 0)
-
-        def OR(self):
-            return self.getToken(milestone_2Parser.OR, 0)
-
-        def OUT(self):
-            return self.getToken(milestone_2Parser.OUT, 0)
-
-        def PROC(self):
-            return self.getToken(milestone_2Parser.PROC, 0)
-
-        def PTR(self):
-            return self.getToken(milestone_2Parser.PTR, 0)
-
-        def RAISE(self):
-            return self.getToken(milestone_2Parser.RAISE, 0)
-
-        def REF(self):
-            return self.getToken(milestone_2Parser.REF, 0)
-
-        def RETURN(self):
-            return self.getToken(milestone_2Parser.RETURN, 0)
-
-        def SHL(self):
-            return self.getToken(milestone_2Parser.SHL, 0)
-
-        def SHR(self):
-            return self.getToken(milestone_2Parser.SHR, 0)
-
-        def STATIC(self):
-            return self.getToken(milestone_2Parser.STATIC, 0)
-
-        def TEMPLATE(self):
-            return self.getToken(milestone_2Parser.TEMPLATE, 0)
-
-        def TRY(self):
-            return self.getToken(milestone_2Parser.TRY, 0)
-
-        def TUPLE(self):
-            return self.getToken(milestone_2Parser.TUPLE, 0)
-
-        def TYPE(self):
-            return self.getToken(milestone_2Parser.TYPE, 0)
-
-        def USING(self):
-            return self.getToken(milestone_2Parser.USING, 0)
-
-        def WHEN(self):
-            return self.getToken(milestone_2Parser.WHEN, 0)
-
-        def WHILE(self):
-            return self.getToken(milestone_2Parser.WHILE, 0)
-
-        def XOR(self):
-            return self.getToken(milestone_2Parser.XOR, 0)
-
-        def YIELD(self):
-            return self.getToken(milestone_2Parser.YIELD, 0)
-
-        def IDENTIFIER(self):
-            return self.getToken(milestone_2Parser.IDENTIFIER, 0)
-
-        def LETTER(self):
-            return self.getToken(milestone_2Parser.LETTER, 0)
-
-        def DIGIT(self):
-            return self.getToken(milestone_2Parser.DIGIT, 0)
-
-        def INT8_LIT(self):
-            return self.getToken(milestone_2Parser.INT8_LIT, 0)
-
-        def INT16_LIT(self):
-            return self.getToken(milestone_2Parser.INT16_LIT, 0)
-
-        def INT32_LIT(self):
-            return self.getToken(milestone_2Parser.INT32_LIT, 0)
-
-        def INT64_LIT(self):
-            return self.getToken(milestone_2Parser.INT64_LIT, 0)
-
-        def UINT_LIT(self):
-            return self.getToken(milestone_2Parser.UINT_LIT, 0)
-
-        def UINT8_LIT(self):
-            return self.getToken(milestone_2Parser.UINT8_LIT, 0)
-
-        def UINT16_LIT(self):
-            return self.getToken(milestone_2Parser.UINT16_LIT, 0)
-
-        def UINT32_LIT(self):
-            return self.getToken(milestone_2Parser.UINT32_LIT, 0)
-
-        def UINT64_LIT(self):
-            return self.getToken(milestone_2Parser.UINT64_LIT, 0)
-
-        def FLOAT32_LIT(self):
-            return self.getToken(milestone_2Parser.FLOAT32_LIT, 0)
-
-        def FLOAT32_SUFFIX(self):
-            return self.getToken(milestone_2Parser.FLOAT32_SUFFIX, 0)
-
-        def FLOAT64_LIT(self):
-            return self.getToken(milestone_2Parser.FLOAT64_LIT, 0)
-
-        def FLOAT64_SUFFIX(self):
-            return self.getToken(milestone_2Parser.FLOAT64_SUFFIX, 0)
-
-        def FLOAT_LIT(self):
-            return self.getToken(milestone_2Parser.FLOAT_LIT, 0)
-
-        def EXP(self):
-            return self.getToken(milestone_2Parser.EXP, 0)
-
-        def INT_LIT(self):
-            return self.getToken(milestone_2Parser.INT_LIT, 0)
-
-        def HEX_LIT(self):
-            return self.getToken(milestone_2Parser.HEX_LIT, 0)
-
-        def DEC_LIT(self):
-            return self.getToken(milestone_2Parser.DEC_LIT, 0)
-
-        def OCT_LIT(self):
-            return self.getToken(milestone_2Parser.OCT_LIT, 0)
-
-        def BIN_LIT(self):
-            return self.getToken(milestone_2Parser.BIN_LIT, 0)
-
-        def HEXDIGIT(self):
-            return self.getToken(milestone_2Parser.HEXDIGIT, 0)
-
-        def OCTDIGIT(self):
-            return self.getToken(milestone_2Parser.OCTDIGIT, 0)
-
-        def BINDIGIT(self):
-            return self.getToken(milestone_2Parser.BINDIGIT, 0)
-
-        def EQUALS_OPERATOR(self):
-            return self.getToken(milestone_2Parser.EQUALS_OPERATOR, 0)
-
-        def ADD_OPERATOR(self):
-            return self.getToken(milestone_2Parser.ADD_OPERATOR, 0)
-
-        def MUL_OPERATOR(self):
-            return self.getToken(milestone_2Parser.MUL_OPERATOR, 0)
-
-        def MINUS_OPERATOR(self):
-            return self.getToken(milestone_2Parser.MINUS_OPERATOR, 0)
-
-        def DIV_OPERATOR(self):
-            return self.getToken(milestone_2Parser.DIV_OPERATOR, 0)
-
-        def BITWISE_NOT_OPERATOR(self):
-            return self.getToken(milestone_2Parser.BITWISE_NOT_OPERATOR, 0)
-
-        def AND_OPERATOR(self):
-            return self.getToken(milestone_2Parser.AND_OPERATOR, 0)
-
-        def OR_OPERATOR(self):
-            return self.getToken(milestone_2Parser.OR_OPERATOR, 0)
-
-        def LESS_THAN(self):
-            return self.getToken(milestone_2Parser.LESS_THAN, 0)
-
-        def GREATER_THAN(self):
-            return self.getToken(milestone_2Parser.GREATER_THAN, 0)
-
-        def AT(self):
-            return self.getToken(milestone_2Parser.AT, 0)
-
-        def NOT_OPERATOR(self):
-            return self.getToken(milestone_2Parser.NOT_OPERATOR, 0)
-
-        def MODULUS(self):
-            return self.getToken(milestone_2Parser.MODULUS, 0)
-
-        def XOR_OPERATOR(self):
-            return self.getToken(milestone_2Parser.XOR_OPERATOR, 0)
-
-        def DOT(self):
-            return self.getToken(milestone_2Parser.DOT, 0)
-
-        def COLON(self):
-            return self.getToken(milestone_2Parser.COLON, 0)
-
-        def OPEN_PAREN(self):
-            return self.getToken(milestone_2Parser.OPEN_PAREN, 0)
-
-        def CLOSE_PAREN(self):
-            return self.getToken(milestone_2Parser.CLOSE_PAREN, 0)
-
-        def OPEN_BRACE(self):
-            return self.getToken(milestone_2Parser.OPEN_BRACE, 0)
-
-        def CLOSE_BRACE(self):
-            return self.getToken(milestone_2Parser.CLOSE_BRACE, 0)
-
-        def OPEN_BRACK(self):
-            return self.getToken(milestone_2Parser.OPEN_BRACK, 0)
-
-        def CLOSE_BRACK(self):
-            return self.getToken(milestone_2Parser.CLOSE_BRACK, 0)
-
-        def COMMA(self):
-            return self.getToken(milestone_2Parser.COMMA, 0)
-
-        def SEMI_COLON(self):
-            return self.getToken(milestone_2Parser.SEMI_COLON, 0)
-
-        def STR_LIT(self):
-            return self.getToken(milestone_2Parser.STR_LIT, 0)
-
-        def CHAR_LIT(self):
-            return self.getToken(milestone_2Parser.CHAR_LIT, 0)
-
-        def TRIPLESTR_LIT(self):
-            return self.getToken(milestone_2Parser.TRIPLESTR_LIT, 0)
-
-        def INDENT(self):
-            return self.getToken(milestone_2Parser.INDENT, 0)
-
-        def RSTR_LIT(self):
-            return self.getToken(milestone_2Parser.RSTR_LIT, 0)
-
-        def GENERALIZED_STR_LIT(self):
-            return self.getToken(milestone_2Parser.GENERALIZED_STR_LIT, 0)
-
-        def GENERALIZED_TRIPLESTR_LIT(self):
-            return self.getToken(milestone_2Parser.GENERALIZED_TRIPLESTR_LIT, 0)
-
         def getRuleIndex(self):
-            return milestone_2Parser.RULE_line
+            return milestone_2Parser.RULE_importStmt
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterLine" ):
-                listener.enterLine(self)
+            if hasattr( listener, "enterImportStmt" ):
+                listener.enterImportStmt(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitLine" ):
-                listener.exitLine(self)
+            if hasattr( listener, "exitImportStmt" ):
+                listener.exitImportStmt(self)
 
 
 
 
-    def line(self):
+    def importStmt(self):
 
-        localctx = milestone_2Parser.LineContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 0, self.RULE_line)
+        localctx = milestone_2Parser.ImportStmtContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 0, self.RULE_importStmt)
         self._la = 0 # Token type
         try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 4
-            _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << milestone_2Parser.AND) | (1 << milestone_2Parser.VARIABLE) | (1 << milestone_2Parser.ADDR) | (1 << milestone_2Parser.AS) | (1 << milestone_2Parser.ASM) | (1 << milestone_2Parser.BIND) | (1 << milestone_2Parser.BLOCK) | (1 << milestone_2Parser.BREAK) | (1 << milestone_2Parser.CASE) | (1 << milestone_2Parser.CAST) | (1 << milestone_2Parser.CONST) | (1 << milestone_2Parser.CONCEPT) | (1 << milestone_2Parser.CONTINUE) | (1 << milestone_2Parser.CONVERTER) | (1 << milestone_2Parser.DEFER) | (1 << milestone_2Parser.DISCARD) | (1 << milestone_2Parser.DISTINCT) | (1 << milestone_2Parser.DIV) | (1 << milestone_2Parser.DO) | (1 << milestone_2Parser.ELIF) | (1 << milestone_2Parser.ELSE) | (1 << milestone_2Parser.END) | (1 << milestone_2Parser.ENUM) | (1 << milestone_2Parser.EXCEPT) | (1 << milestone_2Parser.EXPORT) | (1 << milestone_2Parser.FINALLY) | (1 << milestone_2Parser.FOR) | (1 << milestone_2Parser.FROM) | (1 << milestone_2Parser.FUNC) | (1 << milestone_2Parser.IF) | (1 << milestone_2Parser.IMPORT) | (1 << milestone_2Parser.IN) | (1 << milestone_2Parser.INCLUDE) | (1 << milestone_2Parser.INTERFACE) | (1 << milestone_2Parser.IS) | (1 << milestone_2Parser.ISNOT) | (1 << milestone_2Parser.ITERATOR) | (1 << milestone_2Parser.LET) | (1 << milestone_2Parser.MACRO) | (1 << milestone_2Parser.METHOD) | (1 << milestone_2Parser.MIXIN) | (1 << milestone_2Parser.MOD) | (1 << milestone_2Parser.NIL) | (1 << milestone_2Parser.NOT) | (1 << milestone_2Parser.NOTIN) | (1 << milestone_2Parser.OBJECT) | (1 << milestone_2Parser.OF) | (1 << milestone_2Parser.OR) | (1 << milestone_2Parser.OUT) | (1 << milestone_2Parser.PROC) | (1 << milestone_2Parser.PTR) | (1 << milestone_2Parser.RAISE) | (1 << milestone_2Parser.REF) | (1 << milestone_2Parser.RETURN) | (1 << milestone_2Parser.SHL) | (1 << milestone_2Parser.SHR) | (1 << milestone_2Parser.STATIC) | (1 << milestone_2Parser.TEMPLATE) | (1 << milestone_2Parser.TRY) | (1 << milestone_2Parser.TUPLE) | (1 << milestone_2Parser.TYPE) | (1 << milestone_2Parser.USING) | (1 << milestone_2Parser.WHEN))) != 0) or ((((_la - 64)) & ~0x3f) == 0 and ((1 << (_la - 64)) & ((1 << (milestone_2Parser.WHILE - 64)) | (1 << (milestone_2Parser.XOR - 64)) | (1 << (milestone_2Parser.YIELD - 64)) | (1 << (milestone_2Parser.IDENTIFIER - 64)) | (1 << (milestone_2Parser.LETTER - 64)) | (1 << (milestone_2Parser.DIGIT - 64)) | (1 << (milestone_2Parser.INT8_LIT - 64)) | (1 << (milestone_2Parser.INT16_LIT - 64)) | (1 << (milestone_2Parser.INT32_LIT - 64)) | (1 << (milestone_2Parser.INT64_LIT - 64)) | (1 << (milestone_2Parser.UINT_LIT - 64)) | (1 << (milestone_2Parser.UINT8_LIT - 64)) | (1 << (milestone_2Parser.UINT16_LIT - 64)) | (1 << (milestone_2Parser.UINT32_LIT - 64)) | (1 << (milestone_2Parser.UINT64_LIT - 64)) | (1 << (milestone_2Parser.FLOAT32_LIT - 64)) | (1 << (milestone_2Parser.FLOAT32_SUFFIX - 64)) | (1 << (milestone_2Parser.FLOAT64_LIT - 64)) | (1 << (milestone_2Parser.FLOAT64_SUFFIX - 64)) | (1 << (milestone_2Parser.FLOAT_LIT - 64)) | (1 << (milestone_2Parser.EXP - 64)) | (1 << (milestone_2Parser.INT_LIT - 64)) | (1 << (milestone_2Parser.HEX_LIT - 64)) | (1 << (milestone_2Parser.DEC_LIT - 64)) | (1 << (milestone_2Parser.OCT_LIT - 64)) | (1 << (milestone_2Parser.BIN_LIT - 64)) | (1 << (milestone_2Parser.HEXDIGIT - 64)) | (1 << (milestone_2Parser.OCTDIGIT - 64)) | (1 << (milestone_2Parser.BINDIGIT - 64)) | (1 << (milestone_2Parser.EQUALS_OPERATOR - 64)) | (1 << (milestone_2Parser.ADD_OPERATOR - 64)) | (1 << (milestone_2Parser.MUL_OPERATOR - 64)) | (1 << (milestone_2Parser.MINUS_OPERATOR - 64)) | (1 << (milestone_2Parser.DIV_OPERATOR - 64)) | (1 << (milestone_2Parser.BITWISE_NOT_OPERATOR - 64)) | (1 << (milestone_2Parser.AND_OPERATOR - 64)) | (1 << (milestone_2Parser.OR_OPERATOR - 64)) | (1 << (milestone_2Parser.LESS_THAN - 64)) | (1 << (milestone_2Parser.GREATER_THAN - 64)) | (1 << (milestone_2Parser.AT - 64)) | (1 << (milestone_2Parser.NOT_OPERATOR - 64)) | (1 << (milestone_2Parser.MODULUS - 64)) | (1 << (milestone_2Parser.XOR_OPERATOR - 64)) | (1 << (milestone_2Parser.DOT - 64)) | (1 << (milestone_2Parser.COLON - 64)) | (1 << (milestone_2Parser.OPEN_PAREN - 64)) | (1 << (milestone_2Parser.CLOSE_PAREN - 64)) | (1 << (milestone_2Parser.OPEN_BRACE - 64)) | (1 << (milestone_2Parser.CLOSE_BRACE - 64)) | (1 << (milestone_2Parser.OPEN_BRACK - 64)) | (1 << (milestone_2Parser.CLOSE_BRACK - 64)) | (1 << (milestone_2Parser.COMMA - 64)) | (1 << (milestone_2Parser.SEMI_COLON - 64)) | (1 << (milestone_2Parser.STR_LIT - 64)) | (1 << (milestone_2Parser.CHAR_LIT - 64)) | (1 << (milestone_2Parser.TRIPLESTR_LIT - 64)) | (1 << (milestone_2Parser.RSTR_LIT - 64)) | (1 << (milestone_2Parser.GENERALIZED_STR_LIT - 64)) | (1 << (milestone_2Parser.GENERALIZED_TRIPLESTR_LIT - 64)) | (1 << (milestone_2Parser.INDENT - 64)))) != 0)):
-                self._errHandler.recoverInline(self)
+            self.state = 24
+            self._errHandler.sync(self)
+            token = self._input.LA(1)
+            if token in [milestone_2Parser.IMPORT]:
+                self.enterOuterAlt(localctx, 1)
+                self.state = 4
+                self.match(milestone_2Parser.IMPORT)
+                self.state = 5
+                self.match(milestone_2Parser.IDENTIFIER)
+                self.state = 10
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while _la==milestone_2Parser.COMMA:
+                    self.state = 6
+                    self.match(milestone_2Parser.COMMA)
+                    self.state = 7
+                    self.match(milestone_2Parser.IDENTIFIER)
+                    self.state = 12
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+
+                pass
+            elif token in [milestone_2Parser.FROM]:
+                self.enterOuterAlt(localctx, 2)
+                self.state = 13
+                self.match(milestone_2Parser.FROM)
+                self.state = 14
+                self.match(milestone_2Parser.IDENTIFIER)
+                self.state = 15
+                self.match(milestone_2Parser.IMPORT)
+                self.state = 16
+                self.match(milestone_2Parser.IDENTIFIER)
+                self.state = 21
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while _la==milestone_2Parser.COMMA:
+                    self.state = 17
+                    self.match(milestone_2Parser.COMMA)
+                    self.state = 18
+                    self.match(milestone_2Parser.IDENTIFIER)
+                    self.state = 23
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+
+                pass
             else:
-                self._errHandler.reportMatch(self)
-                self.consume()
+                raise NoViableAltException(self)
+
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -638,11 +333,8 @@ class milestone_2Parser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def line(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(milestone_2Parser.LineContext)
-            else:
-                return self.getTypedRuleContext(milestone_2Parser.LineContext,i)
+        def importStmt(self):
+            return self.getTypedRuleContext(milestone_2Parser.ImportStmtContext,0)
 
 
         def getRuleIndex(self):
@@ -663,19 +355,10 @@ class milestone_2Parser ( Parser ):
 
         localctx = milestone_2Parser.StartContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_start)
-        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 9
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << milestone_2Parser.AND) | (1 << milestone_2Parser.VARIABLE) | (1 << milestone_2Parser.ADDR) | (1 << milestone_2Parser.AS) | (1 << milestone_2Parser.ASM) | (1 << milestone_2Parser.BIND) | (1 << milestone_2Parser.BLOCK) | (1 << milestone_2Parser.BREAK) | (1 << milestone_2Parser.CASE) | (1 << milestone_2Parser.CAST) | (1 << milestone_2Parser.CONST) | (1 << milestone_2Parser.CONCEPT) | (1 << milestone_2Parser.CONTINUE) | (1 << milestone_2Parser.CONVERTER) | (1 << milestone_2Parser.DEFER) | (1 << milestone_2Parser.DISCARD) | (1 << milestone_2Parser.DISTINCT) | (1 << milestone_2Parser.DIV) | (1 << milestone_2Parser.DO) | (1 << milestone_2Parser.ELIF) | (1 << milestone_2Parser.ELSE) | (1 << milestone_2Parser.END) | (1 << milestone_2Parser.ENUM) | (1 << milestone_2Parser.EXCEPT) | (1 << milestone_2Parser.EXPORT) | (1 << milestone_2Parser.FINALLY) | (1 << milestone_2Parser.FOR) | (1 << milestone_2Parser.FROM) | (1 << milestone_2Parser.FUNC) | (1 << milestone_2Parser.IF) | (1 << milestone_2Parser.IMPORT) | (1 << milestone_2Parser.IN) | (1 << milestone_2Parser.INCLUDE) | (1 << milestone_2Parser.INTERFACE) | (1 << milestone_2Parser.IS) | (1 << milestone_2Parser.ISNOT) | (1 << milestone_2Parser.ITERATOR) | (1 << milestone_2Parser.LET) | (1 << milestone_2Parser.MACRO) | (1 << milestone_2Parser.METHOD) | (1 << milestone_2Parser.MIXIN) | (1 << milestone_2Parser.MOD) | (1 << milestone_2Parser.NIL) | (1 << milestone_2Parser.NOT) | (1 << milestone_2Parser.NOTIN) | (1 << milestone_2Parser.OBJECT) | (1 << milestone_2Parser.OF) | (1 << milestone_2Parser.OR) | (1 << milestone_2Parser.OUT) | (1 << milestone_2Parser.PROC) | (1 << milestone_2Parser.PTR) | (1 << milestone_2Parser.RAISE) | (1 << milestone_2Parser.REF) | (1 << milestone_2Parser.RETURN) | (1 << milestone_2Parser.SHL) | (1 << milestone_2Parser.SHR) | (1 << milestone_2Parser.STATIC) | (1 << milestone_2Parser.TEMPLATE) | (1 << milestone_2Parser.TRY) | (1 << milestone_2Parser.TUPLE) | (1 << milestone_2Parser.TYPE) | (1 << milestone_2Parser.USING) | (1 << milestone_2Parser.WHEN))) != 0) or ((((_la - 64)) & ~0x3f) == 0 and ((1 << (_la - 64)) & ((1 << (milestone_2Parser.WHILE - 64)) | (1 << (milestone_2Parser.XOR - 64)) | (1 << (milestone_2Parser.YIELD - 64)) | (1 << (milestone_2Parser.IDENTIFIER - 64)) | (1 << (milestone_2Parser.LETTER - 64)) | (1 << (milestone_2Parser.DIGIT - 64)) | (1 << (milestone_2Parser.INT8_LIT - 64)) | (1 << (milestone_2Parser.INT16_LIT - 64)) | (1 << (milestone_2Parser.INT32_LIT - 64)) | (1 << (milestone_2Parser.INT64_LIT - 64)) | (1 << (milestone_2Parser.UINT_LIT - 64)) | (1 << (milestone_2Parser.UINT8_LIT - 64)) | (1 << (milestone_2Parser.UINT16_LIT - 64)) | (1 << (milestone_2Parser.UINT32_LIT - 64)) | (1 << (milestone_2Parser.UINT64_LIT - 64)) | (1 << (milestone_2Parser.FLOAT32_LIT - 64)) | (1 << (milestone_2Parser.FLOAT32_SUFFIX - 64)) | (1 << (milestone_2Parser.FLOAT64_LIT - 64)) | (1 << (milestone_2Parser.FLOAT64_SUFFIX - 64)) | (1 << (milestone_2Parser.FLOAT_LIT - 64)) | (1 << (milestone_2Parser.EXP - 64)) | (1 << (milestone_2Parser.INT_LIT - 64)) | (1 << (milestone_2Parser.HEX_LIT - 64)) | (1 << (milestone_2Parser.DEC_LIT - 64)) | (1 << (milestone_2Parser.OCT_LIT - 64)) | (1 << (milestone_2Parser.BIN_LIT - 64)) | (1 << (milestone_2Parser.HEXDIGIT - 64)) | (1 << (milestone_2Parser.OCTDIGIT - 64)) | (1 << (milestone_2Parser.BINDIGIT - 64)) | (1 << (milestone_2Parser.EQUALS_OPERATOR - 64)) | (1 << (milestone_2Parser.ADD_OPERATOR - 64)) | (1 << (milestone_2Parser.MUL_OPERATOR - 64)) | (1 << (milestone_2Parser.MINUS_OPERATOR - 64)) | (1 << (milestone_2Parser.DIV_OPERATOR - 64)) | (1 << (milestone_2Parser.BITWISE_NOT_OPERATOR - 64)) | (1 << (milestone_2Parser.AND_OPERATOR - 64)) | (1 << (milestone_2Parser.OR_OPERATOR - 64)) | (1 << (milestone_2Parser.LESS_THAN - 64)) | (1 << (milestone_2Parser.GREATER_THAN - 64)) | (1 << (milestone_2Parser.AT - 64)) | (1 << (milestone_2Parser.NOT_OPERATOR - 64)) | (1 << (milestone_2Parser.MODULUS - 64)) | (1 << (milestone_2Parser.XOR_OPERATOR - 64)) | (1 << (milestone_2Parser.DOT - 64)) | (1 << (milestone_2Parser.COLON - 64)) | (1 << (milestone_2Parser.OPEN_PAREN - 64)) | (1 << (milestone_2Parser.CLOSE_PAREN - 64)) | (1 << (milestone_2Parser.OPEN_BRACE - 64)) | (1 << (milestone_2Parser.CLOSE_BRACE - 64)) | (1 << (milestone_2Parser.OPEN_BRACK - 64)) | (1 << (milestone_2Parser.CLOSE_BRACK - 64)) | (1 << (milestone_2Parser.COMMA - 64)) | (1 << (milestone_2Parser.SEMI_COLON - 64)) | (1 << (milestone_2Parser.STR_LIT - 64)) | (1 << (milestone_2Parser.CHAR_LIT - 64)) | (1 << (milestone_2Parser.TRIPLESTR_LIT - 64)) | (1 << (milestone_2Parser.RSTR_LIT - 64)) | (1 << (milestone_2Parser.GENERALIZED_STR_LIT - 64)) | (1 << (milestone_2Parser.GENERALIZED_TRIPLESTR_LIT - 64)) | (1 << (milestone_2Parser.INDENT - 64)))) != 0):
-                self.state = 6
-                self.line()
-                self.state = 11
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
-
+            self.state = 26
+            self.importStmt()
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)

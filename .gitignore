@@ -134,4 +134,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# End of https://www.gitignore.io/api/code,python
+milestone2/results
+milestone2/compare
+milestone1/results
+milestone1/compare
