@@ -8,13 +8,6 @@ grammar milestone_1;
 AND: 'and';
 
 /*
-    keyword:  var
-    function: declares the variable(s) that follow(s)
-    usage:    (var x)
-*/
-VARIABLE: 'var';
-
-/*
     keyword:  addr
     function: gets the memory address of a veriable (pointer)
     usage:    (addr(x))
@@ -497,7 +490,14 @@ TYPE: 'type';
                    )
 */
 USING: 'using';
- 
+
+/*
+    keyword:  var
+    function: declares the variable(s) that follow(s)
+    usage:    (var x)
+*/
+VARIABLE: 'var';
+
 /*
     keyword:  when
     function: almost identical to the if statement
@@ -945,7 +945,8 @@ GENERALIZED_TRIPLESTR_LIT: IDENTIFIER TRIPLESTR_LIT;
     function: a single comment line
     usage:    (# this is a comment)
 */
-COMMENT: '#'+ ~[\n\r\f]* -> skip;
+COMMENT: '#'+ ~[\n\r\f]*;
+// COMMENT: '#'+ ~[\n\r\f]* -> skip;
 
 /*
     keyword:  -
@@ -975,7 +976,7 @@ INDENT: {self._input.LA(-1) == ord('\n') or self._input.LA(-1) == Token.EOF}? ' 
     Skip whitespace
 */
 WHITESPACE: [ \t\r]+ -> skip;
-NEWLINE: '\n' -> skip;
+NEWLINE: ('\r'? '\n' |  '\r')+ -> skip;
 
 // TODO: change to statements in the language eventually.
 // line: AND | VARIABLE | ADDR | AS | ASM | BIND | BLOCK | BREAK | CASE | CAST | CONST | CONCEPT

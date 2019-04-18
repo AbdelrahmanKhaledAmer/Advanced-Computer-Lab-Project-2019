@@ -37,5 +37,19 @@ import milestone_1;
 importStmt: IMPORT IDENTIFIER (COMMA IDENTIFIER)*
     | FROM IDENTIFIER IMPORT IDENTIFIER (COMMA IDENTIFIER)*;
 
+assignStmt: assignKeyw (INDENT? assignStmtBody)+;
+assignStmtBody: IDENTIFIER EQUALS_OPERATOR assignDataTypes COMMENT? | COMMENT;
+assignKeyw: VARIABLE | LET | CONST;
+assignDataTypes:  DIGIT+    |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
+    UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |
+    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT | STR_LIT;
+
+declareStmt: assignKeyw (INDENT? declareStmtBody)+;
+declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?| COMMENT;
+declareDataTypes: 'int' |   'int8'  |  'int16' |  'int32' | 'int64' |
+    'uint'  |  'uint8'  |  'uint16' | 'uint32' | 'uint64' |
+    'float' | 'float32' | 'float64' |  'char'  | 'string';
+
 // The entire Language
-start: importStmt;
+stmts: assignStmt | importStmt | declareStmt;
+start: stmts*;

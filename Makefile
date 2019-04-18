@@ -28,13 +28,13 @@ milestone2 m2:
 .PHONY: test
 ## Runs MILESTONE/test.py
 test:
-	$(PYTHON_INTERPRETER) -m milestone$(MILESTONE).test
+	cd "${PROJECT_DIR}" && $(PYTHON_INTERPRETER) -m milestone$(MILESTONE).test
 
 
 .PHONY: gen
 ## Generate Antlr files
 gen:
-	cd milestone$(MILESTONE)/src && $(ANTLR) milestone_$(MILESTONE).g4
+	cd "${PROJECT_DIR}/milestone${MILESTONE}/src" && $(ANTLR) "${PROJECT_DIR}/milestone${MILESTONE}/src/milestone_$(MILESTONE).g4"
 
 
 #################################################################################
@@ -44,6 +44,9 @@ gen:
 ## Delete all compiled Python files
 clean:
 	find . -type f -name "*.py[co]" -delete
+	find . -type f -name "*.tokens" -delete
+	find . -type f -name "*Lexer.py" -delete
+	find . -type f -name "*Parser.py" -delete
 	find . -type d -name "__pycache__" -delete
+	find . -type f -name "*Listener.py" -delete
 	find . -type d -name ".ipynb_checkpoints" -exec rm -rv {} +
-

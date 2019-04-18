@@ -1,0 +1,10 @@
+let answer = random(10) + 1
+var wordFrequencies = initCountTable[string]()
+var x = L(L(N 1), N 2, L(L(N 3, N 4), N 5), L(L(L[int]())), L(L(L(N 6))), N 7, N 8, L[int]())
+let s = gen(n)
+var k = if decode: 26 - k else: k
+
+const
+    x1 = 1
+    y1 = 2
+    z1 = y1 + 5 
