@@ -33,29 +33,68 @@ import milestone_1;
 //         /  prefixOperator* identOrLiteral primarySuffix*
 //         / BIND primary;
 
+
 colcom: COLON COMMENT?;
+operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
+    UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |
+    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT | STR_LIT| TRIPLESTR_LIT;
+comparable: operands | IDENTIFIER;
+
 
 importStmt: IMPORT IDENTIFIER (COMMA IDENTIFIER)*
     | FROM IDENTIFIER IMPORT IDENTIFIER (COMMA IDENTIFIER)*;
 
-assignStmt: assignKeyw (INDENT? assignStmtBody)+;
-assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT? |IDENTIFIER ASSIGN_OPERATOR IDENTIFIER COMMENT?  |COMMENT;
-assignKeyw: VARIABLE | LET | CONST;
-assignDataTypes:  DIGIT+    |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
-    UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |
-    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT | STR_LIT| TRIPLESTR_LIT;
 
-declareStmt: assignKeyw (INDENT? declareStmtBody)+;
-declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON VARIABLE_TYPES COMMENT?| COMMENT;
-
-comparable: assignDataTypes|IDENTIFIER;
-cond_operator: AND_OPERATOR|OR_OPERATOR|NOT_OPERATOR;
+cond_operator: AND_OPERATOR | OR_OPERATOR | NOT_OPERATOR;
 cond_stmt: comparable LESS_THAN comparable | comparable GREATER_THAN comparable
             |comparable EQUALS_OPERATOR comparable | NOT_OPERATOR comparable;
-multi_cond_stmt: cond_stmt (cond_operator cond_stmt)*;
-cond_expr: multi_cond_stmt colcom ((INDENT)? assignStmtBody)+;
-if_expr: 'if' cond_expr ('elif' cond_expr)* (ELSE  colcom (INDENT)? (assignStmtBody)+)?;
-when_expr: 'when' cond_expr ('elif' cond_expr)* (ELSE  colcom (INDENT)? (assignStmtBody)+)?;
+multiCondStmt: cond_stmt (cond_operator cond_stmt)*;
+
+
+/*
+    name: Assert Statement
+    example: assert 5 = 5.0
+*/
+condExpr: multiCondStmt colcom ((INDENT)? assignStmtBody)+;
+ifExpr: IF condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (assignStmtBody)+)?;
+
+
+/*
+    name: Assert Statement
+    example: assert 5 = 5.0
+*/
+whenExpr: WHEN condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (assignStmtBody)+)?;
+
+
+/*
+    name: Assert Statement
+    example: assert 5 = 5.0
+*/
+assignKeyw: VARIABLE | LET | CONST;
+assignDataTypes: operands;
+assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT?;
+assignStmt: assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
+
+
+/*
+    name: Assert Statement
+    example: assert 5 = 5.0
+*/
+declareStmt: assignKeyw (declareStmtBody | (INDENT (declareStmtBody | COMMENT))+);
+declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?;
+declareDataTypes: variableTypes;
+
+
+/*
+    name: Assert Statement
+    example: assert 5 = 5.0
+*/
+assertStmt: ASSERT assertOperand EQUALS_OPERATOR assertOperand;
+assertOperand: operands ;
+
+
 // The entire Language
-stmts: assignStmt | importStmt | declareStmt| cond_expr|cond_stmt|if_expr| assignStmtBody;
+stmts: assignStmt | importStmt | declareStmt| assertStmt | 
+    condExpr | cond_stmt | ifExpr | assignStmtBody;
+
 start: stmts*;

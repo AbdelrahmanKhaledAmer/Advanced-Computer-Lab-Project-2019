@@ -21,6 +21,9 @@ ADDR: 'addr';
 */
 AS: 'as';
 
+ASSERT: 'assert';
+
+
 /*
     keyword:  asm
     function: allows the writing of embedded assembly
@@ -716,9 +719,10 @@ OCTDIGIT: [0-7];
 BINDIGIT: [01];
 
 /*possible types in NIM*/
-VARIABLE_TYPES: 'int' |   'int8'  |  'int16' |  'int32' | 'int64' |
-                'uint'  |  'uint8'  |  'uint16' | 'uint32' | 'uint64' |
-                'float' | 'float32' | 'float64' |  'char'  | 'string'| OBJECT;
+variableTypes: 'int' |   'int8'  |  'int16' |  'int32' | 'int64' |
+    'uint'  |  'uint8'  |  'uint16' | 'uint32' | 'uint64' | 'float' |
+    'float32' | 'float64' |  'char'  | 'string' | OBJECT;
+
 /*
     keyword:  -
     function: assigns the right-hand side to the left-hand side
