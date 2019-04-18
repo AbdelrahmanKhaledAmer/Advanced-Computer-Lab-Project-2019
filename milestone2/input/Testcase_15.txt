@@ -1,0 +1,8 @@
+a = 3
+if n == 0:
+    bs = "No more bottles"
+    b=2
+elif n == 1:
+    bs = "1 bottle"
+else:
+    bs = n & " bottles"
