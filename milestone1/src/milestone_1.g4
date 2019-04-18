@@ -715,12 +715,18 @@ OCTDIGIT: [0-7];
 */
 BINDIGIT: [01];
 
+/*possible types in NIM*/
+VARIABLE_TYPES: 'int' |   'int8'  |  'int16' |  'int32' | 'int64' |
+                'uint'  |  'uint8'  |  'uint16' | 'uint32' | 'uint64' |
+                'float' | 'float32' | 'float64' |  'char'  | 'string'| OBJECT;
 /*
     keyword:  -
     function: assigns the right-hand side to the left-hand side
     usage:    (x = y)
 */
-EQUALS_OPERATOR: '=' '='?;
+EQUALS_OPERATOR: '==';
+/* assign specfic value to a variable*/
+ASSIGN_OPERATOR: '=';
 
 /*
     keyword:  -
