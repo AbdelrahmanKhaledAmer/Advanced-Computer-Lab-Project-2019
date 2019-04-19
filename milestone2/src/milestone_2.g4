@@ -93,6 +93,24 @@ declareStmt: assignKeyw (declareStmtOne | declareStmtMult);
 */
 assertStmt: ASSERT comparable EQUALS_OPERATOR comparable;
 
+/*
+    name: Block Statement
+    example: block myBlock:
+*/
+blockStmt: BLOCK IDENTIFIER COLON;
+
+/*
+    name: Break Statement
+    example: break myBlock
+*/
+breakStmt: BREAK IDENTIFIER?;
+
+/*
+    name: Type Operator
+    example: type[int](x)
+*/
+typeOperatorBody: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
+typeOperator: TYPE (typeStmtBody)+;
 
 // The entire Language
 stmts: assignStmtBody | assignStmt | importStmt | declareStmt| assertStmt | 
