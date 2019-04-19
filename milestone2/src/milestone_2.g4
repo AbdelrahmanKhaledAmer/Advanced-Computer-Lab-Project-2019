@@ -45,56 +45,57 @@ importStmt: IMPORT IDENTIFIER (COMMA IDENTIFIER)*
     | FROM IDENTIFIER IMPORT IDENTIFIER (COMMA IDENTIFIER)*;
 
 
+/*
+    name: If Expression
+    example: if x = 5
+*/
 cond_operator: AND_OPERATOR | OR_OPERATOR | NOT_OPERATOR;
 cond_stmt: comparable LESS_THAN comparable | comparable GREATER_THAN comparable
             |comparable EQUALS_OPERATOR comparable | NOT_OPERATOR comparable;
 multiCondStmt: cond_stmt (cond_operator cond_stmt)*;
-
-
-/*
-    name: Assert Statement
-    example: assert 5 = 5.0
-*/
 condExpr: multiCondStmt colcom ((INDENT)? assignStmtBody)+;
 ifExpr: IF condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (assignStmtBody)+)?;
 
 
 /*
-    name: Assert Statement
-    example: assert 5 = 5.0
+    name: When Expression
+    example: when x = 5
 */
 whenExpr: WHEN condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (assignStmtBody)+)?;
 
 
 /*
-    name: Assert Statement
-    example: assert 5 = 5.0
+    name: Assign Statement
+    example: var x = 5
 */
 assignKeyw: VARIABLE | LET | CONST;
 assignDataTypes: operands;
 assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT?;
-assignStmt: assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
+assignStmtOne: assignStmtBody;
+assignStmtMult: (INDENT (assignStmtBody | COMMENT))+;
+assignStmt: assignKeyw (assignStmtOne | assignStmtMult);
 
 
 /*
-    name: Assert Statement
-    example: assert 5 = 5.0
+    name: Declare Statement
+    example: var x : int
 */
-declareStmt: assignKeyw (declareStmtBody | (INDENT (declareStmtBody | COMMENT))+);
-declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?;
 declareDataTypes: variableTypes;
+declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?;
+declareStmtOne: declareStmtBody;
+declareStmtMult: (INDENT (declareStmtBody | COMMENT))+;
+declareStmt: assignKeyw (declareStmtOne | declareStmtMult);
 
 
 /*
     name: Assert Statement
     example: assert 5 = 5.0
 */
-assertStmt: ASSERT assertOperand EQUALS_OPERATOR assertOperand;
-assertOperand: operands ;
+assertStmt: ASSERT comparable EQUALS_OPERATOR comparable;
 
 
 // The entire Language
-stmts: assignStmt | importStmt | declareStmt| assertStmt | 
-    condExpr | cond_stmt | ifExpr | assignStmtBody;
+stmts: assignStmtBody | assignStmt | importStmt | declareStmt| assertStmt | 
+    condExpr | cond_stmt | ifExpr;
 
 start: stmts*;
