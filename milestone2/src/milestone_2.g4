@@ -39,7 +39,9 @@ operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT 
     UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |  CHAR_LIT |
     FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT |
     IDENTIFIER (DOT IDENTIFIER)?;
+// arrElem: IDENTIFIER OPEN_BRACK operands? CLOSE_BRACK;
 comparable: operands | IDENTIFIER;
+classNames: UPPER_LETTER IDENTIFIER;
 
 operator: EQUALS_OPERATOR | ADD_OPERATOR | MUL_OPERATOR | MINUS_OPERATOR | DIV_OPERATOR|
     BITWISE_NOT_OPERATOR  | AND_OPERATOR | OR_OPERATOR | LESS_THAN | GREATER_THAN |
@@ -74,22 +76,23 @@ whileExpr: WHILE condExpr ;
 compoundStmt: ifExpr | whenExpr | whileExpr | assignStmtBody | procStmt;
 
 /*
-    name: Assert Statement
-    example: assert 5 = 5.0
+    name: Assign Statement
+    example: var x = 5
 */
 assignKeyw: VARIABLE | LET | CONST;
-assignDataTypes: operands;
+assignDataTypes: operands | iterableArray;
 assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT?;
 assignStmt: assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
 
 
 /*
-    name: Assert Statement
-    example: assert 5 = 5.0
+    name: Declare Statement
+    example: var x:int
 */
 declareStmt: assignKeyw (declareStmtBody | (INDENT (declareStmtBody | COMMENT))+);
 declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?;
 declareDataTypes: variableTypes;
+// declareDataTypes: variableTypes | classNames;
 
 
 /*
@@ -128,7 +131,7 @@ procStmtParams: procStmtParamsOneType | procStmtDefaultParams | procStmtMutableP
 procStmtInput: OPEN_PAREN procStmtParams ((COMMA | SEMI_COLON) procStmtParams)* CLOSE_PAREN;
 procStmtBody: (procStmtNoParams | procStmtInput) procOutput?;
 procStmt: PROC procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
-
+routine: procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
 
 
 /*
@@ -144,16 +147,16 @@ typeOperator: TYPE (typeOperatorBody)+;
     example: for x in 1..5:
 */
 iterableRange: operands DOTS LESS_THAN? operands;
-iterableArray: AT OPEN_BRACK operands (COMMA operands)* CLOSE_BRACK;
+iterableArray: AT? OPEN_BRACK operands (COMMA operands)* CLOSE_BRACK;
 iterable: iterableRange | iterableArray | functionCall | operands;
-forStmtBody: stmts;
+forStmtBody: routine;
 forStmtOne: forStmtBody;
 forStmtMult: (INDENT (forStmtBody | COMMENT))+;
 forStmt: FOR IDENTIFIER (COMMA IDENTIFIER)* IN iterable colcom forStmtOne | forStmtMult;
 
 simpleStmt: functionCall | echoCall;
-functionCall: IDENTIFIER (DOT IDENTIFIER)* OPEN_PAREN? arguments CLOSE_PAREN?;
-echoCall: ECHO  OPEN_PAREN? arguments CLOSE_PAREN?;
+functionCall: IDENTIFIER (DOT IDENTIFIER)* OPEN_PAREN? arguments? CLOSE_PAREN?;
+echoCall: ECHO  OPEN_PAREN? arguments? CLOSE_PAREN?;
 arthExpr: argument (operator argument)+; 
 argument: operands | functionCall;
 arguments: argument (COMMA argument)*;

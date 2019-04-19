@@ -1,0 +1,4 @@
+var r = if inr >= 0: inr else: a.high
+var l = inl
+let n = r - l + 1
+let p = a[l + 3 * n div 4]

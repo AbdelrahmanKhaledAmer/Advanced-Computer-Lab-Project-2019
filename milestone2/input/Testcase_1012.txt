@@ -1,0 +1,3 @@
+var
+    x6: IntArray
+    y6: QuickArray

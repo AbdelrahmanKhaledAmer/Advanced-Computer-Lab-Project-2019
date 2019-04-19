@@ -560,6 +560,7 @@ IDENTIFIER: LETTER ('_'? (LETTER | DIGIT))*;
     usage:    -
 */
 LETTER: [a-zA-Z];
+UPPER_LETTER: [A-Z];
 
 /*
     keyword:  -

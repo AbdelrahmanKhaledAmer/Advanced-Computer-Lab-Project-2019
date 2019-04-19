@@ -1,0 +1,1 @@
+var mmlen = matchLen(inp, mmpatterns[p], matches, mmpos)

@@ -19,6 +19,7 @@ def add_tests(arr, upper, base):
     arr.extend(arrB)
 
 
+VAR_TEST = 1000
 FOR_TEST = 5000
 
 if __name__ == "__main__":
@@ -43,7 +44,12 @@ if __name__ == "__main__":
         # (12, None),
     ]
 
-    # for loop test
-    add_tests(base=FOR_TEST, upper=16, arr=tests)
+
+    # var, let, const expr test
+    add_tests(base=VAR_TEST, upper=15, arr=tests)
+    # add_tests(base=VAR_TEST, upper=25, arr=tests)
+
+    # # for loop test
+    # add_tests(base=FOR_TEST, upper=16, arr=tests)
 
     Milestone2().test(tests=tests)
