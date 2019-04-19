@@ -569,6 +569,9 @@ GENERALIZED_TRIPLESTR_LIT: IDENTIFIER TRIPLESTR_LIT;
     usage:    (a) (a1) (a_1) (abc) (a_bc) NOT VALID:(a__b)
 */
 IDENTIFIER: LETTER ('_'? (LETTER | DIGIT))*;
+
+ARRAY_IDENTIFIER: IDENTIFIER OPEN_BRACK (IDENTIFIER | INT_LIT) CLOSE_BRACK;
+
 /* function: a single character from the english alphabet */
 LETTER: [a-zA-Z];
 
