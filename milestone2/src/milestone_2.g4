@@ -37,7 +37,7 @@ import milestone_1;
 colcom: COLON COMMENT?;
 operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
     UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |
-    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT | STR_LIT| TRIPLESTR_LIT;
+    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT | STR_LIT| TRIPLESTR_LIT | BOOL_LIT;
 comparable: operands | IDENTIFIER;
 
 
@@ -67,7 +67,7 @@ whenExpr: WHEN condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (compoundStmt)+
 whileExpr: WHILE condExpr ;
 
 /*compound statement */
-compoundStmt: ifExpr|whenExpr| whileExpr| assignStmtBody;
+compoundStmt: ifExpr | whenExpr | whileExpr | assignStmtBody | procStmt;
 
 /*
     name: Assert Statement
@@ -96,8 +96,26 @@ assertStmt: ASSERT assertOperand EQUALS_OPERATOR assertOperand;
 assertOperand: operands ;
 
 
+/*
+    name: Procedure statement
+    example: proc foo(baz, bar: int, bat:string) =
+*/
+procOutput: COLON variableTypes;
+procStmtNoParams: OPEN_PAREN CLOSE_PAREN;
+procStmtIdentifier: (IDENTIFIER | '`' ~'`' '`') (OPEN_BRACK variableTypes CLOSE_BRACK)?;
+procStmtParamsOneType: IDENTIFIER (COMMA IDENTIFIER)* COLON variableTypes;
+procStmtDefaultParams: IDENTIFIER  COLON variableTypes ASSIGN_OPERATOR operands;
+procStmtMutableParam: IDENTIFIER COLON VARIABLE variableTypes;
+procStmtParams: procStmtParamsOneType | procStmtDefaultParams | procStmtMutableParam;
+procStmtInput: OPEN_PAREN procStmtParams ((COMMA | SEMI_COLON) procStmtParams)* CLOSE_PAREN;
+procStmtBody: (procStmtNoParams | procStmtInput) procOutput?;
+procStmt: PROC procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
+
+
+
 // The entire Language
-stmts: assignStmt | importStmt | declareStmt| assertStmt | 
-    condExpr | cond_stmt| assignStmtBody|compoundStmt;
+stmts: assignStmt | importStmt | declareStmt| assertStmt | condExpr |
+    cond_stmt | assignStmtBody | compoundStmt | breakStmt |
+    typeOperator;
 
 start: stmts*;
