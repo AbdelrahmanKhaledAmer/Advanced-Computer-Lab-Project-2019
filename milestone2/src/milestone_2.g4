@@ -45,75 +45,59 @@ importStmt: IMPORT IDENTIFIER (COMMA IDENTIFIER)*
     | FROM IDENTIFIER IMPORT IDENTIFIER (COMMA IDENTIFIER)*;
 
 
-/*
-    name: If Expression
-    example: if x = 5
-*/
 cond_operator: AND_OPERATOR | OR_OPERATOR | NOT_OPERATOR;
 cond_stmt: comparable LESS_THAN comparable | comparable GREATER_THAN comparable
-            |comparable EQUALS_OPERATOR comparable | NOT_OPERATOR comparable;
+            |comparable EQUALS_OPERATOR comparable | NOT_OPERATOR comparable|'true'|'false'| IDENTIFIER;
 multiCondStmt: cond_stmt (cond_operator cond_stmt)*;
-condExpr: multiCondStmt colcom ((INDENT)? assignStmtBody)+;
-ifExpr: IF condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (assignStmtBody)+)?;
-
-
-/*
-    name: When Expression
-    example: when x = 5
-*/
-whenExpr: WHEN condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (assignStmtBody)+)?;
-
-
-/*
-    name: Assign Statement
-    example: var x = 5
-*/
-assignKeyw: VARIABLE | LET | CONST;
-assignDataTypes: operands;
-assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT?;
-assignStmtOne: assignStmtBody;
-assignStmtMult: (INDENT (assignStmtBody | COMMENT))+;
-assignStmt: assignKeyw (assignStmtOne | assignStmtMult);
-
-
-/*
-    name: Declare Statement
-    example: var x : int
-*/
-declareDataTypes: variableTypes;
-declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?;
-declareStmtOne: declareStmtBody;
-declareStmtMult: (INDENT (declareStmtBody | COMMENT))+;
-declareStmt: assignKeyw (declareStmtOne | declareStmtMult);
 
 
 /*
     name: Assert Statement
     example: assert 5 = 5.0
 */
-assertStmt: ASSERT comparable EQUALS_OPERATOR comparable;
+condExpr: multiCondStmt colcom ((INDENT)? compoundStmt)+;
+ifExpr: IF condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (compoundStmt)+)?;
+
 
 /*
-    name: Block Statement
-    example: block myBlock:
+    name: Assert Statement
+    example: assert 5 = 5.0
 */
-blockStmt: BLOCK IDENTIFIER COLON;
+whenExpr: WHEN condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (compoundStmt)+)?;
+whileExpr: WHILE condExpr ;
+
+/*compound statement */
+compoundStmt: ifExpr|whenExpr| whileExpr| assignStmtBody;
 
 /*
-    name: Break Statement
-    example: break myBlock
+    name: Assert Statement
+    example: assert 5 = 5.0
 */
-breakStmt: BREAK IDENTIFIER?;
+assignKeyw: VARIABLE | LET | CONST;
+assignDataTypes: operands;
+assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT?;
+assignStmt: assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
+
 
 /*
-    name: Type Operator
-    example: type[int](x)
+    name: Assert Statement
+    example: assert 5 = 5.0
 */
-typeOperatorBody: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
-typeOperator: TYPE (typeOperatorBody)+;
+declareStmt: assignKeyw (declareStmtBody | (INDENT (declareStmtBody | COMMENT))+);
+declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?;
+declareDataTypes: variableTypes;
+
+
+/*
+    name: Assert Statement
+    example: assert 5 = 5.0
+*/
+assertStmt: ASSERT assertOperand EQUALS_OPERATOR assertOperand;
+assertOperand: operands ;
+
 
 // The entire Language
-stmts: assignStmtBody | assignStmt | importStmt | declareStmt| assertStmt | 
-    condExpr | cond_stmt | ifExpr;
+stmts: assignStmt | importStmt | declareStmt| assertStmt | 
+    condExpr | cond_stmt| assignStmtBody|compoundStmt;
 
 start: stmts*;
