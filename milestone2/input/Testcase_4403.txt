@@ -1,0 +1,1 @@
+proc echoItem(x: string) = echo x

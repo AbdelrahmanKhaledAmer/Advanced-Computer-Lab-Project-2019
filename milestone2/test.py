@@ -19,11 +19,19 @@ def add_tests(arr, upper, base):
     arr.extend(arrB)
 
 
-VAR_TEST = 1000
-FOR_TEST = 5000
-IF_TEST = 2100
-WHEN_TEST = 2200
-WHILE_TEST = 2300
+OFFSET_VAR = 1000
+OFFSET_FOR = 5000
+OFFSET_IF = 2100
+OFFSET_WHEN = 2200
+OFFSET_WHILE = 2300
+OFFSET_CASE = 2400
+OFFSET_ASSERT = 2500
+OFFSET_BLOCK = 2600
+OFFSET_BREAK = 2700
+OFFSET_MACRO = 4100
+OFFSET_TEMPLATE = 4200
+OFFSET_TYPE = 4300
+OFFSET_PROC = 4400
 
 if __name__ == "__main__":
     tests = [
@@ -48,18 +56,42 @@ if __name__ == "__main__":
     ]
 
     # var, let, const expr test
-    add_tests(base=VAR_TEST, upper=25, arr=tests)
-
-    # for loop test
-    add_tests(base=FOR_TEST, upper=16, arr=tests)
+    add_tests(base=OFFSET_VAR, upper=25, arr=tests)
 
     # if test
-    add_tests(base=IF_TEST, upper=13, arr=tests)
+    add_tests(base=OFFSET_IF, upper=13, arr=tests)
 
     # when test
-    add_tests(base=WHEN_TEST, upper=1, arr=tests)
+    add_tests(base=OFFSET_WHEN, upper=1, arr=tests)
 
     # while test
-    add_tests(base=WHILE_TEST, upper=7, arr=tests)
+    add_tests(base=OFFSET_WHILE, upper=7, arr=tests)
+
+    # case test
+    add_tests(base=OFFSET_CASE, upper=5, arr=tests)
+
+    # assert test
+    add_tests(base=OFFSET_ASSERT, upper=1, arr=tests)
+
+    # block test
+    add_tests(base=OFFSET_BLOCK, upper=3, arr=tests)
+
+    # break test
+    add_tests(base=OFFSET_BREAK, upper=4, arr=tests)
+
+    # macro test
+    add_tests(base=OFFSET_MACRO, upper=1, arr=tests)
+
+    # template test
+    add_tests(base=OFFSET_TEMPLATE, upper=1, arr=tests)
+
+    # type test
+    add_tests(base=OFFSET_TYPE, upper=2, arr=tests)
+
+    # proc test
+    add_tests(base=OFFSET_PROC, upper=12, arr=tests)
+
+    # for loop test
+    add_tests(base=OFFSET_FOR, upper=16, arr=tests)
 
     Milestone2().test(tests=tests)

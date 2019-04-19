@@ -1,0 +1,6 @@
+proc flatten[T](n: TreeList[T]): seq[T] =
+    if n.isLeaf: result = @[n.data]
+    else:
+        result = @[]
+        for x in n.list:
+            result.add flatten x
