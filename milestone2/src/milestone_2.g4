@@ -37,9 +37,11 @@ binary_operator: OR_OPERATOR|AND_OPERATOR| ADD_OPERATOR|MUL_OPERATOR|MINUS_OPERA
 
 unary_operator: NOT_OPERATOR| AT|DOLLAR;
 /*operands construction*/
+arrayElem: IDENTIFIER OPEN_BRACK (IDENTIFIER | INT_LIT) CLOSE_BRACK;
 operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
     UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |  CHAR_LIT |
-    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT| RSTR_LIT|GENERALIZED_STR_LIT | GENERALIZED_TRIPLESTR_LIT|
+    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT|
+    RSTR_LIT|GENERALIZED_STR_LIT | GENERALIZED_TRIPLESTR_LIT| arrayElem |
     IDENTIFIER (DOT IDENTIFIER)?;
 /*asigned at right hand side of a variable*/
 comparable: operands |unary_operator operands| operands binary_operator operands;
@@ -148,7 +150,7 @@ macroStmt: INDENT? MACRO routine (compoundStmt)+;
     example: type[int](x)
 */
 typeOperatorAssert: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
-typeOperatorAssign: IDENTIFIER ASSIGN_OPERATOR variableTypes;
+typeOperatorAssign: (IDENTIFIER | arrayElem) ASSIGN_OPERATOR variableTypes;
 typeOperatorBody: typeOperatorAssert | typeOperatorAssign;
 typeOperator: TYPE (typeOperatorBody | (INDENT (typeOperatorBody | COMMENT))+);
 
