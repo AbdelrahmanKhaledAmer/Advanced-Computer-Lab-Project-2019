@@ -105,6 +105,13 @@ blockStmt: BLOCK IDENTIFIER COLON;
 
 
 /*
+    name: Break Statement
+    example: break myBlock
+*/
+breakStmt: BREAK IDENTIFIER?;
+
+
+/*
     name: Procedure statement
     example: proc foo(baz, bar: int, bat:string) =
 */
