@@ -1,0 +1,2 @@
+if ord(i) >= 65 and ord(i) <= 90:
+    result.add(chr((ord(i) - 65 + k) mod 26 + 65))

@@ -1,0 +1,11 @@
+while l <= r:
+    if a[l] < p:
+        inc l
+        continue
+    if a[r] > p:
+        dec r
+        continue
+    if l <= r:
+        swap a[l], a[r]
+        inc l
+        dec r

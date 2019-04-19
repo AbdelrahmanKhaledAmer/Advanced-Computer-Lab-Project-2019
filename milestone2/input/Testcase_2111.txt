@@ -1,0 +1,4 @@
+if mmlen > 0:
+    action
+    inc(mmpos, mmlen)
+    break searchSubs
