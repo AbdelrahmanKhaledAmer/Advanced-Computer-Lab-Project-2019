@@ -14,84 +14,58 @@ class Milestone2(Milestone):
         super().__init__(milestone=2)
 
 
-def add_tests(arr, upper, base):
-    arrB = [(base+x, None)for x in range(1, upper+1)]
-    arr.extend(arrB)
+def add_tests(from_, to_, arr):
+    extra = [(x, None) for x in range(from_, to_+1)]
+    arr.extend(extra)
 
-
-OFFSET_VAR = 1000
-OFFSET_FOR = 5000
-OFFSET_IF = 2100
-OFFSET_WHEN = 2200
-OFFSET_WHILE = 2300
-OFFSET_CASE = 2400
-OFFSET_ASSERT = 2500
-OFFSET_BLOCK = 2600
-OFFSET_BREAK = 2700
-OFFSET_MACRO = 4100
-OFFSET_TEMPLATE = 4200
-OFFSET_TYPE = 4300
-OFFSET_PROC = 4400
 
 if __name__ == "__main__":
-    tests = [
-        # (1, 1),
-        # (1, 2),
-        # (1, 3),
-        # (1, 4),
-        # (1, 5),
-        # (1, 6),
-        # (1, None),
-        # (2, None),
-        # (3, None),
-        # (4, None),
-        # (5, None),
-        # (6, None),
-        # (7, None),
-        # (8, None),
-        # (9, None),
-        # (10, None),
-        # (11, None),
-        # (12, None),
-    ]
+    tests = list()
+
+    # official tests
+    tests += [(1, x) for x in range(1, 7)]
+    tests += [(x, None) for x in range(1, 12)]
 
     # var, let, const expr test
-    add_tests(base=OFFSET_VAR, upper=25, arr=tests)
+    add_tests(from_=1001, to_=1025, arr=tests)
 
     # if test
-    add_tests(base=OFFSET_IF, upper=13, arr=tests)
+    add_tests(from_=2101, to_=2103, arr=tests)
 
     # when test
-    add_tests(base=OFFSET_WHEN, upper=1, arr=tests)
+    add_tests(from_=2201, to_=2201, arr=tests)
 
     # while test
-    add_tests(base=OFFSET_WHILE, upper=7, arr=tests)
+    add_tests(from_=2301, to_=2307, arr=tests)
 
     # case test
-    add_tests(base=OFFSET_CASE, upper=5, arr=tests)
+    add_tests(from_=2401, to_=2405, arr=tests)
 
     # assert test
-    add_tests(base=OFFSET_ASSERT, upper=1, arr=tests)
+    add_tests(from_=2501, to_=2501, arr=tests)
 
     # block test
-    add_tests(base=OFFSET_BLOCK, upper=3, arr=tests)
+    add_tests(from_=2601, to_=2603, arr=tests)
 
     # break test
-    add_tests(base=OFFSET_BREAK, upper=4, arr=tests)
+    add_tests(from_=2701, to_=2704, arr=tests)
+
+    # import test
+    add_tests(from_=3001, to_=3005, arr=tests)
 
     # macro test
-    add_tests(base=OFFSET_MACRO, upper=1, arr=tests)
+    add_tests(from_=4101, to_=4101, arr=tests)
 
     # template test
-    add_tests(base=OFFSET_TEMPLATE, upper=1, arr=tests)
+    add_tests(from_=4201, to_=4201, arr=tests)
 
     # type test
-    add_tests(base=OFFSET_TYPE, upper=2, arr=tests)
+    add_tests(from_=4301, to_=4302, arr=tests)
 
     # proc test
-    add_tests(base=OFFSET_PROC, upper=12, arr=tests)
+    add_tests(from_=4401, to_=4412, arr=tests)
 
     # for loop test
-    add_tests(base=OFFSET_FOR, upper=16, arr=tests)
+    add_tests(from_=5001, to_=5016, arr=tests)
 
     Milestone2().test(tests=tests)
