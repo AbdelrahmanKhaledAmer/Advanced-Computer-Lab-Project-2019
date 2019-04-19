@@ -138,3 +138,9 @@ milestone2/results
 milestone2/compare
 milestone1/results
 milestone1/compare
+
+*Listener.py
+*Parser.py
+*Lexer.py
+*.tokens
+*.interp

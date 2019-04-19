@@ -68,12 +68,7 @@ class Milestone:
         git_diff(file1=exp_file, file2=res_file, result=cmp_file)
 
         # Check .DIFF files is empty
-        is_file_empty(cmp_file)
-
-
-def is_file_empty(cmp_file):
-    # check if empty
-    if not paths.is_empty(cmp_file):
-        printAlert(cmp_file.name, "failed\t", str(cmp_file))
-    else:
-        printSuccess(cmp_file.name, "success\t", str(cmp_file))
+        if not paths.is_empty(cmp_file):
+            printAlert(cmp_file.name, "failed\t", str(exp_file))
+        else:
+            printSuccess(cmp_file.name, "success\t", str(exp_file))

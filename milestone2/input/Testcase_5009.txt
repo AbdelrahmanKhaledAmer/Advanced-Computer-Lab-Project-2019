@@ -1,0 +1,2 @@
+for d in items(data):
+    action(d)

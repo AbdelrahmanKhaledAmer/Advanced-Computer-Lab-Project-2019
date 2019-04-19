@@ -149,6 +149,13 @@ DIV: 'div';
 DO: 'do';
 
 /*
+    keyword:  echo
+    function: prints given statement
+    usage:    (echo "What a nice name!")
+*/
+ECHO: 'echo';
+
+/*
     keyword:  elif
     function: gets evaluated if previous 'if' condition failed
     usage:    (if name == "Andreas":
@@ -838,6 +845,8 @@ XOR_OPERATOR: '^';
     usage:    (object.function()) (object.attribute)
 */
 DOT: '.';
+DOTS: '..';
+
 
 /*
     keyword:  -

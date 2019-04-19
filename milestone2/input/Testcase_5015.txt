@@ -1,0 +1,3 @@
+for n in 0..9:
+    let s = gen(n)
+    echo "'", s, "' is ", (if balanced(s): "balanced" else: "not balanced")

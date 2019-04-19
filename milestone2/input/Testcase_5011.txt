@@ -1,0 +1,3 @@
+for line in stdin.lines:
+    for word in line.split(", "):
+        wordFrequencies.inc(word)

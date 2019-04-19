@@ -36,8 +36,9 @@ import milestone_1;
 
 colcom: COLON COMMENT?;
 operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
-    UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |
-    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT | STR_LIT| TRIPLESTR_LIT | BOOL_LIT;
+    UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |  CHAR_LIT |
+    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT
+    IDENTIFIER (DOT IDENTIFIER)?;
 comparable: operands | IDENTIFIER;
 
 
@@ -45,10 +46,10 @@ importStmt: IMPORT IDENTIFIER (COMMA IDENTIFIER)*
     | FROM IDENTIFIER IMPORT IDENTIFIER (COMMA IDENTIFIER)*;
 
 
-cond_operator: AND_OPERATOR | OR_OPERATOR | NOT_OPERATOR;
-cond_stmt: comparable LESS_THAN comparable | comparable GREATER_THAN comparable
+condOperator: AND_OPERATOR | OR_OPERATOR | NOT_OPERATOR;
+condStmt: comparable LESS_THAN comparable | comparable GREATER_THAN comparable
             |comparable EQUALS_OPERATOR comparable | NOT_OPERATOR comparable|'true'|'false'| IDENTIFIER;
-multiCondStmt: cond_stmt (cond_operator cond_stmt)*;
+multiCondStmt: condStmt (condOperator condStmt)*;
 
 
 /*
@@ -97,6 +98,13 @@ assertOperand: operands ;
 
 
 /*
+    name: Block Statement
+    example: block myBlock:
+*/
+blockStmt: BLOCK IDENTIFIER COLON;
+
+
+/*
     name: Procedure statement
     example: proc foo(baz, bar: int, bat:string) =
 */
@@ -113,9 +121,33 @@ procStmt: PROC procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
 
 
 
+/*
+    name: Type Operator
+    example: type[int](x)
+*/
+typeOperatorBody: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
+typeOperator: TYPE (typeOperatorBody)+;
+
+
+/*
+    name: For Stmt
+    example: for x in 1..5:
+*/
+iterableRange: operands DOTS LESS_THAN? operands;
+iterable: iterableRange;
+forStmtBody: stmts;
+forStmtOne: forStmtBody;
+forStmtMult: (INDENT (forStmtBody | COMMENT))+;
+forStmt: FOR IDENTIFIER IN iterable colcom forStmtOne | forStmtMult;
+// array: ;
+
+simpleStmt: functionCall | echoCall;
+functionCall: IDENTIFIER (DOT IDENTIFIER)* OPEN_PAREN operands CLOSE_PAREN;
+echoCall: ECHO operands (COMMA operands)*;
+
 // The entire Language
-stmts: assignStmt | importStmt | declareStmt| assertStmt | condExpr |
-    cond_stmt | assignStmtBody | compoundStmt | breakStmt |
-    typeOperator;
+stmts: assignStmtBody | assignStmt | importStmt | declareStmt| assertStmt | 
+    condExpr  | condStmt | ifExpr | whenExpr | forStmt | simpleStmt |
+    breakStmt | blockStmt | typeOperator;
 
 start: stmts*;
