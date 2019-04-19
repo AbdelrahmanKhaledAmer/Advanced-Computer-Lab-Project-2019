@@ -37,10 +37,13 @@ import milestone_1;
 colcom: COLON COMMENT?;
 operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
     UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |  CHAR_LIT |
-    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT
+    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT |
     IDENTIFIER (DOT IDENTIFIER)?;
 comparable: operands | IDENTIFIER;
 
+operator: EQUALS_OPERATOR | ADD_OPERATOR | MUL_OPERATOR | MINUS_OPERATOR | DIV_OPERATOR|
+    BITWISE_NOT_OPERATOR  | AND_OPERATOR | OR_OPERATOR | LESS_THAN | GREATER_THAN |
+    NOT_OPERATOR;
 
 importStmt: IMPORT IDENTIFIER (COMMA IDENTIFIER)*
     | FROM IDENTIFIER IMPORT IDENTIFIER (COMMA IDENTIFIER)*;
@@ -141,16 +144,19 @@ typeOperator: TYPE (typeOperatorBody)+;
     example: for x in 1..5:
 */
 iterableRange: operands DOTS LESS_THAN? operands;
-iterable: iterableRange;
+iterableArray: AT OPEN_BRACK operands (COMMA operands)* CLOSE_BRACK;
+iterable: iterableRange | iterableArray | functionCall | operands;
 forStmtBody: stmts;
 forStmtOne: forStmtBody;
 forStmtMult: (INDENT (forStmtBody | COMMENT))+;
-forStmt: FOR IDENTIFIER IN iterable colcom forStmtOne | forStmtMult;
-// array: ;
+forStmt: FOR IDENTIFIER (COMMA IDENTIFIER)* IN iterable colcom forStmtOne | forStmtMult;
 
 simpleStmt: functionCall | echoCall;
-functionCall: IDENTIFIER (DOT IDENTIFIER)* OPEN_PAREN operands CLOSE_PAREN;
-echoCall: ECHO operands (COMMA operands)*;
+functionCall: IDENTIFIER (DOT IDENTIFIER)* OPEN_PAREN? arguments CLOSE_PAREN?;
+echoCall: ECHO  OPEN_PAREN? arguments CLOSE_PAREN?;
+arthExpr: argument (operator argument)+; 
+argument: operands | functionCall;
+arguments: argument (COMMA argument)*;
 
 // The entire Language
 stmts: assignStmtBody | assignStmt | importStmt | declareStmt| assertStmt | 

@@ -44,6 +44,6 @@ if __name__ == "__main__":
     ]
 
     # for loop test
-    add_tests(base=FOR_TEST, upper=5, arr=tests)
+    add_tests(base=FOR_TEST, upper=16, arr=tests)
 
     Milestone2().test(tests=tests)

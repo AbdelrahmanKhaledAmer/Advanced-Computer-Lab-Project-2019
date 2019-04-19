@@ -67,8 +67,12 @@ class Milestone:
         # create .DIFF file
         git_diff(file1=exp_file, file2=res_file, result=cmp_file)
 
+        # get input file
+        inp_file = paths.get_test_inp(
+            milestone=self.milestone, test=test, subtest=subtest)
+
         # Check .DIFF files is empty
         if not paths.is_empty(cmp_file):
-            printAlert(cmp_file.name, "failed\t", str(exp_file))
+            printAlert(cmp_file.name, "failed\t", str(inp_file))
         else:
-            printSuccess(cmp_file.name, "success\t", str(exp_file))
+            printSuccess(cmp_file.name, "success\t", str(inp_file))
