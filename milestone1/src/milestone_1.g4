@@ -530,6 +530,17 @@ XOR_OPERATOR: '^';
 /* function: a boolean value */
 BOOL_LIT: 'true' | 'false';
 
+/* a character literal */
+CHAR_LIT: '\'' (ESC_CHAR | ANY_CHAR | '"') '\'';
+
+/* a string literal */
+STR_LIT: '"' (ESC_CHAR | ANY_CHAR | '\'')* '"';
+/*
+    function: triple string literal
+    usage:    ("""
+               this is a string
+               """)
+*/
 TRIPLESTR_LIT: '"""' TRIPLESTR_ITEM*? '"""';
 fragment TRIPLESTR_ITEM: .;
 
@@ -638,20 +649,10 @@ BINDIGIT: [01];
 /* function: a single base 10 digit */
 DIGIT: [0-9];
 
-/* a character literal */
-CHAR_LIT: '\'' (ESC_CHAR | ANY_CHAR | '"') '\'';
 
-/* a string literal */
-STR_LIT: '"' (ESC_CHAR | ANY_CHAR | '\'')* '"';
 fragment ESC_CHAR: '\\' .;
-fragment ANY_CHAR: [a-zA-Z0-9, !@#$%^&*?]| OPEN_BRACK |CLOSE_BRACK;
+fragment ANY_CHAR: [a-zA-Z0-9, !@#$%^&:*?]| OPEN_BRACK |CLOSE_BRACK;
 
-/*
-    function: triple string literal
-    usage:    ("""
-               this is a string
-               """)
-*/
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //                                  SPECIAL CHARACTERS                                 //
