@@ -55,19 +55,19 @@ multiCondStmt: cond_stmt (cond_operator cond_stmt)*;
     name: Assert Statement
     example: assert 5 = 5.0
 */
-condExpr: multiCondStmt colcom ((INDENT)? compoundStatement)+;
-ifExpr: IF condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (compoundStatement)+)?;
+condExpr: multiCondStmt colcom ((INDENT)? compoundStmt)+;
+ifExpr: IF condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (compoundStmt)+)?;
 
 
 /*
     name: Assert Statement
     example: assert 5 = 5.0
 */
-whenExpr: WHEN condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (compoundStatement)+)?;
+whenExpr: WHEN condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (compoundStmt)+)?;
 whileExpr: WHILE condExpr ;
 
-
-compoundStatement: ifExpr|whenExpr| whileExpr| assignStmtBody;
+/*compound statement */
+compoundStmt: ifExpr|whenExpr| whileExpr| assignStmtBody;
 
 /*
     name: Assert Statement
@@ -98,6 +98,6 @@ assertOperand: operands ;
 
 // The entire Language
 stmts: assignStmt | importStmt | declareStmt| assertStmt | 
-    condExpr | cond_stmt| assignStmtBody|compoundStatement;
+    condExpr | cond_stmt| assignStmtBody|compoundStmt;
 
 start: stmts*;
