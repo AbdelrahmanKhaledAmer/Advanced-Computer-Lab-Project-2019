@@ -110,7 +110,7 @@ breakStmt: BREAK IDENTIFIER?;
     example: type[int](x)
 */
 typeOperatorBody: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
-typeOperator: TYPE (typeStmtBody)+;
+typeOperator: TYPE (typeOperatorBody)+;
 
 // The entire Language
 stmts: assignStmtBody | assignStmt | importStmt | declareStmt| assertStmt | 
