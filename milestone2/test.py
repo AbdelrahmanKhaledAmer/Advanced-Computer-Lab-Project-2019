@@ -26,9 +26,9 @@ if __name__ == "__main__":
     # tests += [(1, x) for x in range(1, 7)]
     # tests += [(x, None) for x in range(1, 12)]
 
-    # # var, let, const expr test
-    # var_tests = add_tests(from_=1001, to_=1025, arr=tests)
-    # tests += var_tests
+    # var, let, const expr test
+    var_tests = add_tests(from_=1001, to_=1025, arr=tests)
+    tests += var_tests
 
     # # if test
     # if_tests = add_tests(from_=2101, to_=2103, arr=tests)
@@ -78,8 +78,8 @@ if __name__ == "__main__":
     # proc_tests = add_tests(from_=4401, to_=4412, arr=tests)
     # tests += proc_tests
 
-    # for loop test
-    for_tests = add_tests(from_=5001, to_=5016, arr=tests)
-    tests += for_tests
+    # # for loop test
+    # for_tests = add_tests(from_=5001, to_=5016, arr=tests)
+    # tests += for_tests
 
     Milestone2().test(tests=tests)

@@ -614,16 +614,16 @@ FLOAT64_LIT: HEX_LIT '\'' FLOAT64_SUFFIX
 FLOAT64_SUFFIX: (('F' | 'f') '64') | 'd' | 'D';
 
 /* an exponent */
-FLOAT_LIT: DIGIT ('_'? DIGIT)* (('.' DIGIT ('_'? DIGIT)* EXP?) |EXP);
+FLOAT_LIT: '-'? DIGIT ('_'? DIGIT)* (('.' DIGIT ('_'? DIGIT)* EXP?) |EXP);
 
 /* an exponent */
 EXP:('e' | 'E' ) ('+' | '-')? DIGIT ( '_'? DIGIT )*;
 
 /* an integer number */
-INT_LIT: BIN_LIT
+INT_LIT: '-'? (BIN_LIT
        | OCT_LIT
        | DEC_LIT
-       | HEX_LIT;
+       | HEX_LIT);
 
 /* a hexadecimal number */
 HEX_LIT: '0' ('x' | 'X') HEXDIGIT ('_'? HEXDIGIT)*;

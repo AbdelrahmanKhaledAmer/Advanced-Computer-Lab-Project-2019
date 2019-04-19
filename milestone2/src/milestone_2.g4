@@ -81,7 +81,7 @@ caseExpr: INDENT? CASE IDENTIFIER (INDENT? caseStmt)+ INDENT? ELSE colcom (INDEN
     example: var x = 5
 */
 assignKeyw: VARIABLE | LET | CONST;
-assignDataTypes: comparable | iterableArray|functionCall|comparable DOT functionCall;
+assignDataTypes: comparable | iterableArray |functionCall | comparable DOT functionCall | ifExpr;
 assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT?;
 assignStmt: assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
 
@@ -92,8 +92,7 @@ assignStmt: assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
 */
 declareStmt: assignKeyw (declareStmtBody | (INDENT (declareStmtBody | COMMENT))+);
 declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?;
-declareDataTypes: variableTypes;
-// declareDataTypes: variableTypes | classNames;
+declareDataTypes: variableTypes | IDENTIFIER;
 
 
 /*

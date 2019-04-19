@@ -1,1 +1,1 @@
-    var k = if decode: 26 - k else: k
+var k = if decode: 26 - k else: k
