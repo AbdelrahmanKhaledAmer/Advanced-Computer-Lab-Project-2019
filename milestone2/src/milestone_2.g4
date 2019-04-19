@@ -135,9 +135,10 @@ procStmt: PROC procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
     name: Type Operator
     example: type[int](x)
 */
-typeOperatorBody: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
-typeOperator: TYPE (typeOperatorBody)+;
-
+typeOperatorAssert: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
+typeOperatorAssign: IDENTIFIER ASSIGN_OPERATOR variableTypes;
+typeOperatorBody: typeOperatorAssert | typeOperatorAssign;
+typeOperator: TYPE (typeOperatorBody | (INDENT (typeOperatorBody | COMMENT))+);
 
 /*
     name: For Stmt
@@ -156,10 +157,9 @@ functionCall: IDENTIFIER (DOT IDENTIFIER)* OPEN_PAREN operands CLOSE_PAREN;
 echoCall: ECHO operands (COMMA operands)*;
 
 /*compound statement */
-compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | typeOperator| forStmt|simpleStmt;
+compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | forStmt|simpleStmt;
 
 // The entire Language
-stmts: importStmt | declareStmt| assertStmt | 
-    condExpr |compoundStmt;
+stmts: importStmt | declareStmt| assertStmt | typeOperator | condExpr |compoundStmt;
 
 start: stmts*;
