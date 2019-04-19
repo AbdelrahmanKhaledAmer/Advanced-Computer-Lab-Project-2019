@@ -39,7 +39,7 @@ unary_operator: NOT_OPERATOR| AT|DOLLAR;
 /*operands construction*/
 operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
     UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |  CHAR_LIT |
-    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT|
+    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT| RSTR_LIT|GENERALIZED_STR_LIT | GENERALIZED_TRIPLESTR_LIT|
     IDENTIFIER (DOT IDENTIFIER)?;
 /*asigned at right hand side of a variable*/
 comparable: operands |unary_operator operands| operands binary_operator operands;
@@ -81,7 +81,7 @@ caseExpr: INDENT? CASE IDENTIFIER (INDENT? caseStmt)+ INDENT? ELSE colcom (INDEN
     example: var x = 5
 */
 assignKeyw: VARIABLE | LET | CONST;
-assignDataTypes: comparable | iterableArray;
+assignDataTypes: comparable | iterableArray|functionCall|comparable DOT functionCall;
 assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT?;
 assignStmt: assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
 
@@ -131,9 +131,18 @@ procStmtMutableParam: IDENTIFIER COLON VARIABLE variableTypes;
 procStmtParams: procStmtParamsOneType | procStmtDefaultParams | procStmtMutableParam;
 procStmtInput: OPEN_PAREN procStmtParams ((COMMA | SEMI_COLON) procStmtParams)* CLOSE_PAREN;
 procStmtBody: (procStmtNoParams | procStmtInput) procOutput?;
-procStmt: PROC procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
 routine: procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
+procStmt: INDENT? PROC routine (compoundStmt)+;
 
+/*
+    name: Macro statement
+*/
+templateStmt: INDENT? TEMPLATE routine (compoundStmt)+;
+
+/*
+    name: Template statement
+*/
+macroStmt: INDENT? MACRO routine (compoundStmt)+;
 
 /*
     name: Type Operator
@@ -164,11 +173,11 @@ argument: operands | functionCall;
 arguments: argument (COMMA argument)*;
 
 /*compound statement */
-compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | typeOperator| forStmt|simpleStmt;
+compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | typeOperator| forStmt|simpleStmt|templateStmt;
 
 
 // The entire Language
 stmts: importStmt | declareStmt| assertStmt | 
-    condExpr |compoundStmt;
+    condExpr |compoundStmt|macroStmt;
 
 start: stmts*;
