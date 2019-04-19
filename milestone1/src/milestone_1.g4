@@ -530,6 +530,34 @@ XOR_OPERATOR: '^';
 /* function: a boolean value */
 BOOL_LIT: 'true' | 'false';
 
+TRIPLESTR_LIT: '"""' TRIPLESTR_ITEM*? '"""';
+fragment TRIPLESTR_ITEM: .;
+
+
+/*
+    function: a raw string that does not care for escapes
+    usage:    r"this is a string"
+*/
+RSTR_LIT: ('r' | 'R') '"' RSTR_ITEM* '"';
+fragment RSTR_ITEM: ~'"';
+
+/*
+    function: calls a function on a raw string literal
+    usage:    (x"string") <--> (x(r"string"))
+*/
+GENERALIZED_STR_LIT: IDENTIFIER '"' RSTR_ITEM* '"';
+
+/*
+    function: calls a function on a triple string literal
+    usage:    (x"""string""") <--> (x("""string"""))
+*/
+GENERALIZED_TRIPLESTR_LIT: IDENTIFIER TRIPLESTR_LIT;
+
+/*
+    function: variable names, alphanumeric
+    usage:    (a) (a1) (a_1) (abc) (a_bc) NOT VALID:(a__b)
+*/
+IDENTIFIER: LETTER ('_'? (LETTER | DIGIT))*;
 /* function: a single character from the english alphabet */
 LETTER: [a-zA-Z];
 
@@ -624,34 +652,6 @@ fragment ANY_CHAR: [a-zA-Z0-9, !@#$%^&*?]| OPEN_BRACK |CLOSE_BRACK;
                this is a string
                """)
 */
-TRIPLESTR_LIT: '"""' TRIPLESTR_ITEM*? '"""';
-fragment TRIPLESTR_ITEM: .;
-
-
-/*
-    function: a raw string that does not care for escapes
-    usage:    r"this is a string"
-*/
-RSTR_LIT: ('r' | 'R') '"' RSTR_ITEM* '"';
-fragment RSTR_ITEM: ~'"';
-
-/*
-    function: calls a function on a raw string literal
-    usage:    (x"string") <--> (x(r"string"))
-*/
-GENERALIZED_STR_LIT: IDENTIFIER '"' RSTR_ITEM* '"';
-
-/*
-    function: calls a function on a triple string literal
-    usage:    (x"""string""") <--> (x("""string"""))
-*/
-GENERALIZED_TRIPLESTR_LIT: IDENTIFIER TRIPLESTR_LIT;
-
-/*
-    function: variable names, alphanumeric
-    usage:    (a) (a1) (a_1) (abc) (a_bc) NOT VALID:(a__b)
-*/
-IDENTIFIER: LETTER ('_'? (LETTER | DIGIT))*;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //                                  SPECIAL CHARACTERS                                 //
