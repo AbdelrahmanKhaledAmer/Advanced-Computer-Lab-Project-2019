@@ -131,9 +131,18 @@ procStmtMutableParam: IDENTIFIER COLON VARIABLE variableTypes;
 procStmtParams: procStmtParamsOneType | procStmtDefaultParams | procStmtMutableParam;
 procStmtInput: OPEN_PAREN procStmtParams ((COMMA | SEMI_COLON) procStmtParams)* CLOSE_PAREN;
 procStmtBody: (procStmtNoParams | procStmtInput) procOutput?;
-procStmt: PROC procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
 routine: procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
+procStmt: PROC routine (compoundStmt)+;
 
+/*
+    name: Macro statement
+*/
+templateStmt: TEMPLATE routine (compoundStmt)+;
+
+/*
+    name: Template statement
+*/
+macroStmt: MARCRO routine (compoundStmt)+;
 
 /*
     name: Type Operator
