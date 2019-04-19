@@ -716,14 +716,14 @@ CLOSE_BRACK: ']';
 /* possible types in NIM */
 variableTypes: 'int' | 'int8' | 'int16' | 'int32' | 'int64' | 'uint' | 'uint8' |
     'uint16' | 'uint32' | 'uint64' | 'float' | 'float32' | 'float64' | 'char' |
-    'string' | OBJECT | 'bool' |
+    'string' | OBJECT | 'bool' | 'untyped'|
     ('array' OPEN_BRACK (INT_LIT | INT_LIT DOTS INT_LIT) COMMA variableTypes CLOSE_BRACK);
 
 /*
     function: a single comment line
     usage:    (# this is a comment)
 */
-COMMENT: '#'+ ~[\n\r\f]* ->skip;
+COMMENT: INDENT?'#'+ ~[\n\r\f]* ->skip;
 // COMMENT: '#'+ ~[\n\r\f]* -> skip;
 
 /*

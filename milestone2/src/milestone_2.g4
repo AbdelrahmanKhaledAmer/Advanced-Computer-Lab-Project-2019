@@ -132,17 +132,17 @@ procStmtParams: procStmtParamsOneType | procStmtDefaultParams | procStmtMutableP
 procStmtInput: OPEN_PAREN procStmtParams ((COMMA | SEMI_COLON) procStmtParams)* CLOSE_PAREN;
 procStmtBody: (procStmtNoParams | procStmtInput) procOutput?;
 routine: procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
-procStmt: PROC routine (compoundStmt)+;
+procStmt: INDENT? PROC routine (compoundStmt)+;
 
 /*
     name: Macro statement
 */
-templateStmt: TEMPLATE routine (compoundStmt)+;
+templateStmt: INDENT? TEMPLATE routine (compoundStmt)+;
 
 /*
     name: Template statement
 */
-macroStmt: MARCRO routine (compoundStmt)+;
+macroStmt: INDENT? MACRO routine (compoundStmt)+;
 
 /*
     name: Type Operator
@@ -173,11 +173,11 @@ argument: operands | functionCall;
 arguments: argument (COMMA argument)*;
 
 /*compound statement */
-compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | typeOperator| forStmt|simpleStmt;
+compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | typeOperator| forStmt|simpleStmt|templateStmt;
 
 
 // The entire Language
 stmts: importStmt | declareStmt| assertStmt | 
-    condExpr |compoundStmt;
+    condExpr |compoundStmt|macroStmt;
 
 start: stmts*;
