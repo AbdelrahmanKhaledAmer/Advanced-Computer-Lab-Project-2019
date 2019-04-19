@@ -723,7 +723,7 @@ variableTypes: 'int' | 'int8' | 'int16' | 'int32' | 'int64' | 'uint' | 'uint8' |
     function: a single comment line
     usage:    (# this is a comment)
 */
-COMMENT: '#'+ ~[\n\r\f]*;
+COMMENT: '#'+ ~[\n\r\f]* ->skip;
 // COMMENT: '#'+ ~[\n\r\f]* -> skip;
 
 /*
