@@ -1,6 +1,12 @@
  case c
         of '[':
             b = 1
+            if n == 0:
+                bs = "No more bottles"
+            elif n == 1:
+                bs = "1 bottle"
+            else:
+                bs = n & " bottles"
         of ']':
             a = 1
             if b < 0: c = 1
