@@ -33,7 +33,7 @@ import milestone_1;
 
 colcom: COLON COMMENT?;
 /* operators*/
-binary_operator: OR_OPERATOR|AND_OPERATOR| ADD_OPERATOR|MUL_OPERATOR|MINUS_OPERATOR|DIV_OPERATOR|AND_OPERATOR|OR_OPERATOR| LESS_THAN|GREATER_THAN|MODULUS | XOR_OPERATOR |EQUALS_OPERATOR;
+binary_operator: OR_OPERATOR|AND_OPERATOR| ADD_OPERATOR|MUL_OPERATOR|MINUS_OPERATOR|DIV_OPERATOR|AND_OPERATOR|OR_OPERATOR| LESS_THAN ASSIGN_OPERATOR?|GREATER_THAN ASSIGN_OPERATOR?|MODULUS | XOR_OPERATOR |EQUALS_OPERATOR;
 
 unary_operator: NOT_OPERATOR| AT|DOLLAR;
 /*operands construction*/
@@ -73,7 +73,7 @@ ifExpr: INDENT? IF condExpr (INDENT? ELIF condExpr)* (INDENT? ELSE  colcom (INDE
 whenExpr: WHEN condExpr (INDENT? ELIF condExpr)* (INDENT? ELSE  colcom (INDENT? compoundStmt)+)?;
 whileExpr: INDENT? WHILE condExpr ;
 
-caseStmt: 'of' operands colcom (INDENT? compoundStmt)+;
+caseStmt: 'of' operands (COMMA operands)* colcom (INDENT? compoundStmt)+;
 caseExpr: INDENT? CASE IDENTIFIER (INDENT? caseStmt)+ INDENT? ELSE colcom (INDENT? compoundStmt)+;
 
 /*
@@ -139,9 +139,10 @@ routine: procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
     name: Type Operator
     example: type[int](x)
 */
-typeOperatorBody: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
-typeOperator: TYPE (typeOperatorBody)+;
-
+typeOperatorAssert: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
+typeOperatorAssign: IDENTIFIER ASSIGN_OPERATOR variableTypes;
+typeOperatorBody: typeOperatorAssert | typeOperatorAssign;
+typeOperator: TYPE (typeOperatorBody | (INDENT (typeOperatorBody | COMMENT))+);
 
 /*
     name: For Stmt
@@ -164,6 +165,7 @@ arguments: argument (COMMA argument)*;
 
 /*compound statement */
 compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | typeOperator| forStmt|simpleStmt;
+
 
 // The entire Language
 stmts: importStmt | declareStmt| assertStmt | 
