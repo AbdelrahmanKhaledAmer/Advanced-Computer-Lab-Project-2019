@@ -1,0 +1,7 @@
+ case c
+        of '[':
+            b = 1
+        of ']':
+            a = 1
+            if b < 0: c = 1
+        else: d=1

@@ -918,7 +918,7 @@ SEMI_COLON: ';';
 */
 STR_LIT: '"' (ESC_CHAR | ANY_CHAR | '\'')* '"';
 fragment ESC_CHAR: '\\' .;
-fragment ANY_CHAR: [a-zA-Z0-9, !@#$%^&*?];
+fragment ANY_CHAR: [a-zA-Z0-9, !@#$%^&*?]| OPEN_BRACK |CLOSE_BRACK;
 
 /*
     keyword:  -

@@ -37,7 +37,7 @@ import milestone_1;
 colcom: COLON COMMENT?;
 operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
     UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |  CHAR_LIT |
-    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT
+    FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT|
     IDENTIFIER (DOT IDENTIFIER)?;
 comparable: operands | IDENTIFIER;
 
@@ -48,7 +48,7 @@ importStmt: IMPORT IDENTIFIER (COMMA IDENTIFIER)*
 
 condOperator: AND_OPERATOR | OR_OPERATOR | NOT_OPERATOR;
 condStmt: comparable LESS_THAN comparable | comparable GREATER_THAN comparable
-            |comparable EQUALS_OPERATOR comparable | NOT_OPERATOR comparable|'true'|'false'| IDENTIFIER;
+            |comparable EQUALS_OPERATOR comparable | NOT_OPERATOR comparable| comparable;
 multiCondStmt: condStmt (condOperator condStmt)*;
 
 
@@ -67,8 +67,11 @@ ifExpr: IF condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (compoundStmt)+)?;
 whenExpr: WHEN condExpr (ELIF condExpr)* (ELSE  colcom (INDENT)? (compoundStmt)+)?;
 whileExpr: WHILE condExpr ;
 
+caseStmt: 'of' operands colcom INDENT? compoundStmt+;
+caseExpr: CASE IDENTIFIER (INDENT? caseStmt)+ (INDENT)? ELSE colcom (INDENT? compoundStmt)+;
+
 /*compound statement */
-compoundStmt: ifExpr | whenExpr | whileExpr | assignStmtBody | procStmt;
+compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt | procStmt|breakStmt| blockStmt | typeOperator;
 
 /*
     name: Assert Statement
@@ -140,13 +143,13 @@ typeOperator: TYPE (typeOperatorBody)+;
     name: For Stmt
     example: for x in 1..5:
 */
-iterableRange: operands DOTS LESS_THAN? operands;
-iterable: iterableRange;
-forStmtBody: stmts;
-forStmtOne: forStmtBody;
-forStmtMult: (INDENT (forStmtBody | COMMENT))+;
-forStmt: FOR IDENTIFIER IN iterable colcom forStmtOne | forStmtMult;
-// array: ;
+// iterableRange: operands DOTS LESS_THAN? operands;
+// iterable: iterableRange;
+// forStmtBody: stmts;
+// forStmtOne: forStmtBody;
+// forStmtMult: (INDENT (forStmtBody | COMMENT))+;
+// forStmt: FOR IDENTIFIER IN iterable colcom forStmtOne | forStmtMult;
+// // array: ;
 
 simpleStmt: functionCall | echoCall;
 functionCall: IDENTIFIER (DOT IDENTIFIER)* OPEN_PAREN operands CLOSE_PAREN;
@@ -154,7 +157,6 @@ echoCall: ECHO operands (COMMA operands)*;
 
 // The entire Language
 stmts: assignStmtBody | assignStmt | importStmt | declareStmt| assertStmt | 
-    condExpr  | condStmt | ifExpr | whenExpr | forStmt | simpleStmt |
-    breakStmt | blockStmt | typeOperator;
+    condExpr  | condStmt | simpleStmt |compoundStmt;
 
 start: stmts*;
