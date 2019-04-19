@@ -151,7 +151,7 @@ typeOperator: TYPE (typeOperatorBody | (INDENT (typeOperatorBody | COMMENT))+);
 iterableRange: operands DOTS LESS_THAN? operands;
 iterableArray: AT? OPEN_BRACK operands (COMMA operands)* CLOSE_BRACK;
 iterable: iterableRange | iterableArray | functionCall | operands;
-forStmtBody: routine;
+forStmtBody: compoundStmt;
 forStmtOne: forStmtBody;
 forStmtMult: (INDENT (forStmtBody | COMMENT))+;
 forStmt: FOR IDENTIFIER (COMMA IDENTIFIER)* IN iterable colcom forStmtOne | forStmtMult;
