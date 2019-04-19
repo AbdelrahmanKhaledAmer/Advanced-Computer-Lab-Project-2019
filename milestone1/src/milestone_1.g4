@@ -533,6 +533,15 @@ YIELD: 'yield';
 
 /*
     keyword:  -
+    function: a boolean value
+    usage:    -
+*/
+BOOL_LIT: 'true' | 'false';
+
+
+
+/*
+    keyword:  -
     function: variable names, alphanumeric
     usage:    (a) (a1) (a_1) (abc) (a_bc) NOT VALID:(a__b)
 */
@@ -721,7 +730,7 @@ BINDIGIT: [01];
 /*possible types in NIM*/
 variableTypes: 'int' |   'int8'  |  'int16' |  'int32' | 'int64' |
     'uint'  |  'uint8'  |  'uint16' | 'uint32' | 'uint64' | 'float' |
-    'float32' | 'float64' |  'char'  | 'string' | OBJECT;
+    'float32' | 'float64' |  'char'  | 'string' | OBJECT | 'bool';
 
 /*
     keyword:  -
