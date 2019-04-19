@@ -1,0 +1,4 @@
+while mmpos < inp.len:
+    block searchSubs:
+        actions
+        inc(mmpos)

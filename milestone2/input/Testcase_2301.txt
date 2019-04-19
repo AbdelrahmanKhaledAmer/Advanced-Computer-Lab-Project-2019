@@ -1,0 +1,3 @@
+while x3 <= 5:
+    echo "Counting : ", x3
+    x3 = x3 + 1  

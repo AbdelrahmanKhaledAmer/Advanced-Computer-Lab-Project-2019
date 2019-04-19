@@ -33,7 +33,7 @@ import milestone_1;
 
 colcom: COLON COMMENT?;
 /* operators*/
-binary_operator: OR_OPERATOR|AND_OPERATOR| ADD_OPERATOR|MUL_OPERATOR|MINUS_OPERATOR|DIV_OPERATOR|AND_OPERATOR|OR_OPERATOR| LESS_THAN EQUALS_OPERATOR?|GREATER_THAN EQUALS_OPERATOR?|MODULUS | XOR_OPERATOR |EQUALS_OPERATOR;
+binary_operator: OR_OPERATOR|AND_OPERATOR| ADD_OPERATOR|MUL_OPERATOR|MINUS_OPERATOR|DIV_OPERATOR|AND_OPERATOR|OR_OPERATOR| LESS_THAN ASSIGN_OPERATOR?|GREATER_THAN ASSIGN_OPERATOR?|MODULUS | XOR_OPERATOR |EQUALS_OPERATOR;
 
 unary_operator: NOT_OPERATOR| AT|DOLLAR;
 /*operands construction*/
@@ -44,6 +44,9 @@ operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT 
 /*asigned at right hand side of a variable*/
 comparable: operands |unary_operator operands| operands binary_operator operands;
 
+operator: EQUALS_OPERATOR | ADD_OPERATOR | MUL_OPERATOR | MINUS_OPERATOR | DIV_OPERATOR|
+    BITWISE_NOT_OPERATOR  | AND_OPERATOR | OR_OPERATOR | LESS_THAN | GREATER_THAN |
+    NOT_OPERATOR;
 
 importStmt: IMPORT IDENTIFIER (COMMA IDENTIFIER)*
     | FROM IDENTIFIER IMPORT IDENTIFIER (COMMA IDENTIFIER)*;
@@ -70,26 +73,27 @@ ifExpr: INDENT? IF condExpr (INDENT? ELIF condExpr)* (INDENT? ELSE  colcom (INDE
 whenExpr: WHEN condExpr (INDENT? ELIF condExpr)* (INDENT? ELSE  colcom (INDENT? compoundStmt)+)?;
 whileExpr: INDENT? WHILE condExpr ;
 
-caseStmt: 'of' operands colcom (INDENT? compoundStmt)+;
+caseStmt: 'of' operands (COMMA operands)* colcom (INDENT? compoundStmt)+;
 caseExpr: INDENT? CASE IDENTIFIER (INDENT? caseStmt)+ INDENT? ELSE colcom (INDENT? compoundStmt)+;
 
 /*
-    name: Assert Statement
-    example: assert 5 = 5.0
+    name: Assign Statement
+    example: var x = 5
 */
 assignKeyw: VARIABLE | LET | CONST;
-assignDataTypes: comparable;
+assignDataTypes: comparable | iterableArray;
 assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT?;
 assignStmt: assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
 
 
 /*
-    name: Assert Statement
-    example: assert 5 = 5.0
+    name: Declare Statement
+    example: var x:int
 */
 declareStmt: assignKeyw (declareStmtBody | (INDENT (declareStmtBody | COMMENT))+);
 declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?;
 declareDataTypes: variableTypes;
+// declareDataTypes: variableTypes | classNames;
 
 
 /*
@@ -128,7 +132,7 @@ procStmtParams: procStmtParamsOneType | procStmtDefaultParams | procStmtMutableP
 procStmtInput: OPEN_PAREN procStmtParams ((COMMA | SEMI_COLON) procStmtParams)* CLOSE_PAREN;
 procStmtBody: (procStmtNoParams | procStmtInput) procOutput?;
 procStmt: PROC procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
-
+routine: procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
 
 
 /*
@@ -145,21 +149,26 @@ typeOperator: TYPE (typeOperatorBody | (INDENT (typeOperatorBody | COMMENT))+);
     example: for x in 1..5:
 */
 iterableRange: operands DOTS LESS_THAN? operands;
-iterable: iterableRange;
-forStmtBody: stmts;
+iterableArray: AT? OPEN_BRACK operands (COMMA operands)* CLOSE_BRACK;
+iterable: iterableRange | iterableArray | functionCall | operands;
+forStmtBody: routine;
 forStmtOne: forStmtBody;
 forStmtMult: (INDENT (forStmtBody | COMMENT))+;
-forStmt: FOR IDENTIFIER IN iterable colcom forStmtOne | forStmtMult;
-// array: ;
+forStmt: FOR IDENTIFIER (COMMA IDENTIFIER)* IN iterable colcom forStmtOne | forStmtMult;
 
 simpleStmt: functionCall | echoCall;
-functionCall: IDENTIFIER (DOT IDENTIFIER)* OPEN_PAREN operands CLOSE_PAREN;
-echoCall: ECHO operands (COMMA operands)*;
+functionCall: IDENTIFIER (DOT IDENTIFIER)* OPEN_PAREN? arguments? CLOSE_PAREN?;
+echoCall: ECHO  OPEN_PAREN? arguments? CLOSE_PAREN?;
+arthExpr: argument (operator argument)+; 
+argument: operands | functionCall;
+arguments: argument (COMMA argument)*;
 
 /*compound statement */
-compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | forStmt|simpleStmt;
+compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | typeOperator| forStmt|simpleStmt;
+
 
 // The entire Language
-stmts: importStmt | declareStmt| assertStmt | typeOperator | condExpr |compoundStmt;
+stmts: importStmt | declareStmt| assertStmt | 
+    condExpr |compoundStmt;
 
 start: stmts*;

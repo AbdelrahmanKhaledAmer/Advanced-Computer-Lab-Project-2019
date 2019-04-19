@@ -1,0 +1,2 @@
+let answer = random(10) + 1
+let guess = parseInt(stdin.readLine)
