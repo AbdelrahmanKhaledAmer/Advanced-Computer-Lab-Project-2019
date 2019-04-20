@@ -15,7 +15,7 @@ operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT 
     UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |  CHAR_LIT |
     FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT |
     RSTR_LIT | GENERALIZED_STR_LIT | GENERALIZED_TRIPLESTR_LIT |
-    IDENTIFIER (DOT IDENTIFIER)?|functionCall ;
+    IDENTIFIER (DOT IDENTIFIER)? | functionCall;
 
 /*asigned at right hand side of a variable*/
 comparable: operands |unary_operator operands| operands binary_operator comparable;
@@ -48,8 +48,9 @@ ifExpr: INDENT? IF condExpr (INDENT? ELIF condExpr)* (INDENT? ELSE  colcom (INDE
 whenExpr: WHEN condExpr (INDENT? ELIF condExpr)* (INDENT? ELSE  colcom (INDENT? compoundStmt)+)?;
 whileExpr: INDENT? WHILE condExpr ;
 
-caseStmt: OF operands (COMMA operands)* colcom (INDENT? compoundStmt)+;
-caseExpr: INDENT? CASE IDENTIFIER (colcom variableTypes)? (INDENT? caseStmt)+ INDENT? ELSE colcom (INDENT? compoundStmt)+;
+caseAssignStmt: IDENTIFIER COLON assignDataTypes;
+caseStmt: OF operands (COMMA operands)* colcom (INDENT? (caseAssignStmt | compoundStmt))+;
+caseExpr: INDENT? CASE IDENTIFIER (colcom variableTypes)? (INDENT? caseStmt)+ INDENT? (ELSE colcom (INDENT? compoundStmt)+)?;
 
 /*
     name: Assign Statement
@@ -59,17 +60,18 @@ assignKeyw: VARIABLE | LET | CONST;
 assignIfDataTypes: arthExpr | comparable;
 assignIfExpr: IF multiCondStmt colcom (INDENT? assignIfDataTypes) 
     ELSE colcom (INDENT? assignIfDataTypes);
-assignDataTypes: functionCall | comparable | iterableArray | comparable DOT functionCall | ifExpr | assignIfExpr|sequence;
+assignDataTypes: comparable | arrayAccess | functionCall | iterableArray | comparable DOT functionCall | ifExpr | assignIfExpr | sequence;
 // assignDataTypes: comparable | iterableArray | comparable DOT functionCall | ifExpr;
 assignStmtBody: assignableObject ASSIGN_OPERATOR assignDataTypes SEMI_COLON? COMMENT?;
 assignStmt: INDENT? assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
 
-assignableObject : comparable| sequence;
+assignableObject : comparable | sequence;
 /*access variable definitions and types*/
 arrayAccess: operands OPEN_BRACK (operands|longArthExpr) CLOSE_BRACK| operands OPEN_BRACK arrayAccess CLOSE_BRACK|
 OPEN_BRACK (operands (COMMA operands)*)?CLOSE_BRACK;
 sequence : AT arrayAccess|arrayAccess;
 typeCast: OPEN_BRACK variableTypes CLOSE_BRACK; 
+
 /*
     name: Declare Statement
     example: var x:int
