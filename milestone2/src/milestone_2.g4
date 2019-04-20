@@ -195,11 +195,10 @@ parArgument: argument| OPEN_PAREN argument CLOSE_PAREN;
 arguments: parArgument (COMMA parArgument)*;
 
 /*compound statement */
-compoundStmt: ifExpr | whenExpr | whileExpr | caseExpr | assignStmt| assignStmtBody |
-    procStmt | breakStmt| blockStmt | typeOperator | forStmt | simpleStmt | templateStmt
+compoundStmt: ifExpr | whenExpr | whileExpr | caseExpr | assignStmt| assignStmtBody | breakStmt| blockStmt | typeOperator | forStmt | simpleStmt | templateStmt
     | arthExpr | operands| multiCondStmt|declareStmt|assertStmt;
 
 // The entire Language
-stmts: importStmt condExpr |compoundStmt|macroStmt;
+stmts: importStmt |condExpr |compoundStmt|macroStmt|procStmt;
 
 start: stmts* EOF;
