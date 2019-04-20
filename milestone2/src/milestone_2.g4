@@ -153,7 +153,7 @@ macroStmt: INDENT? MACRO routine INDENT?(compoundStmt)+;
 typeOperatorAssert: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
 typeOperatorAssign: (IDENTIFIER | arrayElem) ASSIGN_OPERATOR variableTypes;
 typeOperatorBody: typeOperatorAssert | typeOperatorAssign;
-typeOperator: TYPE (typeOperatorBody | (INDENT (typeOperatorBody | COMMENT))+);
+typeOperator: INDENT? TYPE (typeOperatorBody | (INDENT (typeOperatorBody | COMMENT))+);
 
 /*
     name: For Stmt
@@ -173,11 +173,12 @@ continueStmt: CONTINUE ;
 dISCARDStmt: DISCARD;
 pragma: '{.' IDENTIFIER ('.}' | '}');
 simpleStmt: INDENT? (functionCall | echoCall| returnStmt|continueStmt|dISCARDStmt) ;
-functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* ((OPEN_PAREN arguments? CLOSE_PAREN) | (argument));
+functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* ((OPEN_PAREN arguments? CLOSE_PAREN) | (arguments));
 echoCall: ECHO  ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
-arthExpr: argument (binary_operator argument)+; 
-argument: operands | functionCall| OPEN_PAREN operands CLOSE_PAREN|OPEN_PAREN functionCall CLOSE_PAREN| ifExpr |OPEN_PAREN ifExpr OPEN_PAREN;
-arguments: argument (COMMA argument)*;
+arthExpr: parArgument (binary_operator parArgument)+; 
+argument: operands | functionCall|  ifExpr | condExpr |assignStmtBody;
+parArgument: argument| OPEN_PAREN argument CLOSE_PAREN;
+arguments: parArgument (COMMA parArgument)*;
 
 /*compound statement */
 compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | typeOperator| forStmt|simpleStmt|templateStmt|arthExpr|comparable;
