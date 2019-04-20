@@ -188,4 +188,4 @@ compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBod
 stmts: importStmt | declareStmt| assertStmt | 
     condExpr |compoundStmt|macroStmt;
 
-start: stmts*;
+start: stmts* EOF;
