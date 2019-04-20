@@ -1,0 +1,2 @@
+type
+    TreeList[T] = ref TTreeList[T]
