@@ -91,6 +91,7 @@ assignIfDataTypes: arthExpr | comparable;
 assignIfExpr: IF multiCondStmt colcom (INDENT? assignIfDataTypes) 
     ELSE colcom (INDENT? assignIfDataTypes);
 assignDataTypes: functionCall | comparable | iterableArray | comparable DOT functionCall | ifExpr | assignIfExpr;
+// assignDataTypes: comparable | iterableArray | comparable DOT functionCall | ifExpr;
 assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes SEMI_COLON? COMMENT?;
 assignStmt: INDENT? assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
 
@@ -180,8 +181,8 @@ returnStmt: RETURN comparable?;
 continueStmt: CONTINUE ;
 dISCARDStmt: DISCARD;
 pragma: '{.' IDENTIFIER ('.}' | '}');
-simpleStmt: INDENT? (functionCall | echoCall| returnStmt | continueStmt | dISCARDStmt) ;
-functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* bracketComparable? ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
+simpleStmt: INDENT? (functionCall | echoCall| returnStmt|continueStmt|dISCARDStmt) ;
+functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
 echoCall: ECHO  ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
 bracketComparable: OPEN_BRACK comparable CLOSE_BRACK| comparable;
 arthExpr: bracketComparable (binary_operator bracketComparable)+| OPEN_PAREN  bracketComparable (binary_operator bracketComparable)+ CLOSE_PAREN; 
