@@ -79,7 +79,7 @@ whenExpr: WHEN condExpr (INDENT? ELIF condExpr)* (INDENT? ELSE  colcom (INDENT? 
 whileExpr: INDENT? WHILE condExpr ;
 
 caseStmt: OF operands (COMMA operands)* colcom (INDENT? compoundStmt)+;
-caseExpr: INDENT? CASE IDENTIFIER (INDENT? caseStmt)+ INDENT? ELSE colcom (INDENT? compoundStmt)+;
+caseExpr: INDENT? CASE IDENTIFIER (colcom variableTypes)? (INDENT? caseStmt)+ INDENT? ELSE colcom (INDENT? compoundStmt)+;
 
 /*
     name: Assign Statement
@@ -104,8 +104,8 @@ typeCast: OPEN_BRACK variableTypes CLOSE_BRACK;
     name: Declare Statement
     example: var x:int
 */
-declareStmt: assignKeyw (declareStmtBody | (INDENT (declareStmtBody | COMMENT))+);
-declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?;
+declareStmt: INDENT? assignKeyw (declareStmtBody | (INDENT (declareStmtBody | COMMENT))+);
+declareStmtBody: assignableObject (COMMA assignableObject)* COLON declareDataTypes COMMENT?;
 declareDataTypes: variableTypes | IDENTIFIER| assignStmtBody;
 
 /*
@@ -197,10 +197,9 @@ arguments: parArgument (COMMA parArgument)*;
 /*compound statement */
 compoundStmt: ifExpr | whenExpr | whileExpr | caseExpr | assignStmt| assignStmtBody |
     procStmt | breakStmt| blockStmt | typeOperator | forStmt | simpleStmt | templateStmt
-    | arthExpr | operands| multiCondStmt;
+    | arthExpr | operands| multiCondStmt|declareStmt|assertStmt;
 
 // The entire Language
-stmts: importStmt | declareStmt| assertStmt | 
-    condExpr |compoundStmt|macroStmt;
+stmts: importStmt condExpr |compoundStmt|macroStmt;
 
 start: stmts* EOF;
