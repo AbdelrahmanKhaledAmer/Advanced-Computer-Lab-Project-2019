@@ -1,0 +1,7 @@
+case c
+of '[':
+    inc(b)
+of ']':
+    dec(b)
+    if b < 0: return false
+else: discard

@@ -1,0 +1,3 @@
+type
+    IntArray = array[0..5, int] 
+    QuickArray = array[6, int]  

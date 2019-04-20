@@ -1,0 +1,4 @@
+block busyloops:
+    while true:
+        while true:
+            break busyloops

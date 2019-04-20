@@ -37,6 +37,7 @@ binary_operator: OR_OPERATOR|AND_OPERATOR| ADD_OPERATOR|MUL_OPERATOR|MINUS_OPERA
 
 unary_operator: NOT_OPERATOR| AT|DOLLAR;
 /*operands construction*/
+arrayElem: IDENTIFIER OPEN_BRACK (IDENTIFIER | INT_LIT) CLOSE_BRACK;
 operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
     UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |  CHAR_LIT |
     FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT |
@@ -82,7 +83,7 @@ caseExpr: INDENT? CASE IDENTIFIER (INDENT? caseStmt)+ INDENT? ELSE colcom (INDEN
     example: var x = 5
 */
 assignKeyw: VARIABLE | LET | CONST;
-assignDataTypes: comparable | iterableArray | comparable DOT functionCall;
+assignDataTypes: comparable | iterableArray | comparable DOT functionCall | ifExpr;
 assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT?;
 assignStmt: INDENT? assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
 
@@ -93,8 +94,7 @@ assignStmt: INDENT? assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMME
 */
 declareStmt: assignKeyw (declareStmtBody | (INDENT (declareStmtBody | COMMENT))+);
 declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?;
-declareDataTypes: variableTypes;
-// declareDataTypes: variableTypes | classNames;
+declareDataTypes: variableTypes | IDENTIFIER;
 
 
 /*
@@ -151,7 +151,7 @@ macroStmt: INDENT? MACRO routine INDENT?(compoundStmt)+;
     example: type[int](x)
 */
 typeOperatorAssert: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
-typeOperatorAssign: IDENTIFIER ASSIGN_OPERATOR variableTypes;
+typeOperatorAssign: (IDENTIFIER | arrayElem) ASSIGN_OPERATOR variableTypes;
 typeOperatorBody: typeOperatorAssert | typeOperatorAssign;
 typeOperator: TYPE (typeOperatorBody | (INDENT (typeOperatorBody | COMMENT))+);
 
@@ -162,25 +162,25 @@ typeOperator: TYPE (typeOperatorBody | (INDENT (typeOperatorBody | COMMENT))+);
 iterableRange: operands DOTS LESS_THAN? operands;
 iterableArray: AT? OPEN_BRACK operands (COMMA operands)* CLOSE_BRACK;
 iterable: iterableRange | iterableArray | functionCall | operands;
-forStmtBody: routine;
-forStmtOne: forStmtBody;
-forStmtMult: (INDENT (forStmtBody | COMMENT))+;
-forStmt: FOR IDENTIFIER (COMMA IDENTIFIER)* IN iterable colcom forStmtOne | forStmtMult;
+// forStmtBody: compoundStmt;
+// forStmtOne: forStmtBody;
+// forStmtMult: (INDENT (forStmtBody | COMMENT))+;
+forStmt: INDENT? FOR IDENTIFIER (COMMA IDENTIFIER)* IN iterable colcom (INDENT? (compoundStmt | COMMENT))+;
 
 
 returnStmt: RETURN comparable?;
 continueStmt: CONTINUE ;
 dISCARDStmt: DISCARD;
 pragma: '{.' IDENTIFIER ('.}' | '}');
-simpleStmt: functionCall | echoCall| returnStmt|continueStmt|DISCARD ;
+simpleStmt: INDENT? (functionCall | echoCall| returnStmt|continueStmt|dISCARDStmt) ;
 functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* ((OPEN_PAREN arguments? CLOSE_PAREN) | (argument));
-echoCall: ECHO  ((OPEN_PAREN arguments? CLOSE_PAREN) | (arguments));
+echoCall: ECHO  ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
 arthExpr: argument (binary_operator argument)+; 
-argument: operands | functionCall;
+argument: operands | functionCall| OPEN_PAREN operands CLOSE_PAREN|OPEN_PAREN functionCall CLOSE_PAREN| ifExpr |OPEN_PAREN ifExpr OPEN_PAREN;
 arguments: argument (COMMA argument)*;
 
 /*compound statement */
-compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | typeOperator| forStmt|simpleStmt|templateStmt|arthExpr;
+compoundStmt: ifExpr | whenExpr | whileExpr |caseExpr| assignStmt| assignStmtBody | procStmt|breakStmt| blockStmt | typeOperator| forStmt|simpleStmt|templateStmt|arthExpr|comparable;
 
 
 // The entire Language

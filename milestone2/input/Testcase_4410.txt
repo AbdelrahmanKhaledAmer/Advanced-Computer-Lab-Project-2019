@@ -1,0 +1,2 @@
+proc N[T](data: T): TreeList[T] =
+    TreeList[T](isLeaf: true, data: data)

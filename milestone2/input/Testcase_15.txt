@@ -1,7 +1,0 @@
-while true:
-    while true:
-        v= 2
-        if mmlen > 0:
-            m=3
-
-# if decode: k else: kv

@@ -1,0 +1,5 @@
+proc forEach(action: proc (x: string)) =
+    const
+        data = ["hi", "bye", "later", "not today", "leave[]"]
+    for d in items(data):
+        action(d)
