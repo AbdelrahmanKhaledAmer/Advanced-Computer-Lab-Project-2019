@@ -35,7 +35,7 @@ colcom: COLON COMMENT?;
 /* operators*/
 binary_operator: OR_OPERATOR|AND_OPERATOR| ADD_OPERATOR|MUL_OPERATOR|MINUS_OPERATOR|DIV_OPERATOR|AND_OPERATOR|OR_OPERATOR| LESS_THAN ASSIGN_OPERATOR?|GREATER_THAN ASSIGN_OPERATOR?|MODULUS | XOR_OPERATOR |EQUALS_OPERATOR|AND|DIV|IS|ISNOT|MOD|OR|SHL|SHR|XOR;
 
-unary_operator: NOT_OPERATOR| AT|DOLLAR;
+unary_operator: NOT_OPERATOR| AT|DOLLAR | NOT;
 /*operands construction*/
 arrayElem: IDENTIFIER OPEN_BRACK (IDENTIFIER | INT_LIT) CLOSE_BRACK;
 operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
@@ -53,10 +53,9 @@ operator: EQUALS_OPERATOR | ADD_OPERATOR | MUL_OPERATOR | MINUS_OPERATOR | DIV_O
 importStmt: IMPORT IDENTIFIER (COMMA IDENTIFIER)*
     | FROM IDENTIFIER IMPORT IDENTIFIER (COMMA IDENTIFIER)*;
 
-
-condOperator: AND_OPERATOR | OR_OPERATOR | NOT_OPERATOR |AND|IS|ISNOT|XOR;
-condStmt: comparable LESS_THAN EQUALS_OPERATOR? comparable | comparable GREATER_THAN comparable
-            |comparable EQUALS_OPERATOR comparable | NOT_OPERATOR comparable| comparable;
+condOperator: AND_OPERATOR | OR_OPERATOR | NOT_OPERATOR |AND|IS|ISNOT|XOR |NOT;
+condStmt: comparable LESS_THAN EQUALS_OPERATOR? comparable | comparable GREATER_THAN EQUALS_OPERATOR? comparable
+            |comparable EQUALS_OPERATOR comparable | condOperator comparable| comparable;
 multiCondStmt: condStmt (condOperator condStmt)*;
 
 
@@ -84,7 +83,7 @@ caseExpr: INDENT? CASE IDENTIFIER (INDENT? caseStmt)+ INDENT? ELSE colcom (INDEN
 */
 assignKeyw: VARIABLE | LET | CONST;
 assignDataTypes: comparable | iterableArray | comparable DOT functionCall | ifExpr;
-assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT?;
+assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes SEMI_COLON? COMMENT?;
 assignStmt: INDENT? assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
 
 
@@ -127,7 +126,7 @@ procOutput: COLON variableTypes;
 procStmtNoParams: OPEN_PAREN CLOSE_PAREN;
 procStmtIdentifier: (IDENTIFIER | '`' ~'`' '`') (OPEN_BRACK variableTypes CLOSE_BRACK)?;
 procStmtParamsOneType: IDENTIFIER (COMMA IDENTIFIER)* COLON variableTypes;
-procStmtDefaultParams: IDENTIFIER  COLON variableTypes ASSIGN_OPERATOR operands;
+procStmtDefaultParams: IDENTIFIER  COLON variableTypes ASSIGN_OPERATOR operands|IDENTIFIER ASSIGN_OPERATOR comparable;
 procStmtMutableParam: IDENTIFIER COLON VARIABLE variableTypes;
 procStmtParamNoType: IDENTIFIER (COMMA IDENTIFIER)*;
 procStmtParams: procStmtParamsOneType | procStmtDefaultParams | procStmtMutableParam | procStmtParamNoType;
@@ -173,10 +172,11 @@ continueStmt: CONTINUE ;
 dISCARDStmt: DISCARD;
 pragma: '{.' IDENTIFIER ('.}' | '}');
 simpleStmt: INDENT? (functionCall | echoCall| returnStmt|continueStmt|dISCARDStmt) ;
-functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* ((OPEN_PAREN arguments? CLOSE_PAREN) | (arguments));
+functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
 echoCall: ECHO  ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
-arthExpr: parArgument (binary_operator parArgument)+; 
-argument: operands | functionCall|  ifExpr | condExpr |assignStmtBody;
+bracketComparable: OPEN_BRACK comparable CLOSE_BRACK| comparable;
+arthExpr: bracketComparable (binary_operator bracketComparable)+| OPEN_PAREN  bracketComparable (binary_operator bracketComparable)+ CLOSE_PAREN; 
+argument: operands | functionCall|  ifExpr | condExpr |assignStmtBody|arthExpr (binary_operator arthExpr)+;
 parArgument: argument| OPEN_PAREN argument CLOSE_PAREN;
 arguments: parArgument (COMMA parArgument)*;
 
