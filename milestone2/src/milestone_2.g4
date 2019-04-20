@@ -170,8 +170,9 @@ forStmt: FOR IDENTIFIER (COMMA IDENTIFIER)* IN iterable colcom forStmtOne | forS
 
 returnStmt: RETURN comparable?;
 continueStmt: CONTINUE ;
+dISCARDStmt: DISCARD;
 pragma: '{.' IDENTIFIER ('.}' | '}');
-simpleStmt: functionCall | echoCall| returnStmt|continueStmt ;
+simpleStmt: functionCall | echoCall| returnStmt|continueStmt|DISCARD ;
 functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* ((OPEN_PAREN arguments? CLOSE_PAREN) | (argument));
 echoCall: ECHO  ((OPEN_PAREN arguments? CLOSE_PAREN) | (arguments));
 arthExpr: argument (binary_operator argument)+; 
