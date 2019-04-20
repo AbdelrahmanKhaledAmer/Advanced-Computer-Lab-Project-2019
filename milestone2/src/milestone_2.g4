@@ -38,7 +38,7 @@ binary_operator: OR_OPERATOR | AND_OPERATOR | ADD_OPERATOR | MUL_OPERATOR |
     MINUS_OPERATOR | DIV_OPERATOR | AND_OPERATOR | OR_OPERATOR | LESS_THAN |
     ASSIGN_OPERATOR?|GREATER_THAN ASSIGN_OPERATOR?|MODULUS | XOR_OPERATOR
     EQUALS_OPERATOR | AND | DIV | IS | ISNOT | MOD | OR | SHL | SHR | XOR;
-unary_operator: NOT_OPERATOR | AT | DOLLAR;
+unary_operator: NOT_OPERATOR | AT | DOLLAR | NOT;
 
 /*operands construction*/
 arrayElem: IDENTIFIER OPEN_BRACK (IDENTIFIER | INT_LIT) CLOSE_BRACK;
@@ -58,10 +58,9 @@ operator: EQUALS_OPERATOR | ADD_OPERATOR | MUL_OPERATOR | MINUS_OPERATOR | DIV_O
 importStmt: IMPORT IDENTIFIER (COMMA IDENTIFIER)*
     | FROM IDENTIFIER IMPORT IDENTIFIER (COMMA IDENTIFIER)*;
 
-
-condOperator: AND_OPERATOR | OR_OPERATOR | NOT_OPERATOR |AND|IS|ISNOT|XOR;
-condStmt: comparable LESS_THAN EQUALS_OPERATOR? comparable | comparable GREATER_THAN comparable
-            |comparable EQUALS_OPERATOR comparable | NOT_OPERATOR comparable| comparable;
+condOperator: AND_OPERATOR | OR_OPERATOR | NOT_OPERATOR |AND|IS|ISNOT|XOR |NOT;
+condStmt: comparable LESS_THAN EQUALS_OPERATOR? comparable | comparable GREATER_THAN EQUALS_OPERATOR? comparable
+            |comparable EQUALS_OPERATOR comparable | condOperator comparable| comparable;
 multiCondStmt: condStmt (condOperator condStmt)*;
 
 
@@ -91,8 +90,8 @@ assignKeyw: VARIABLE | LET | CONST;
 assignIfDataTypes: arthExpr | comparable;
 assignIfExpr: IF multiCondStmt colcom (INDENT? assignIfDataTypes) 
     ELSE colcom (INDENT? assignIfDataTypes);
-assignDataTypes: comparable | iterableArray |functionCall | comparable DOT functionCall | ifExpr | assignIfExpr;
-assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes COMMENT?;
+assignDataTypes: functionCall | comparable | iterableArray | comparable DOT functionCall | ifExpr | assignIfExpr;
+assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes SEMI_COLON? COMMENT?;
 assignStmt: INDENT? assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
 
 
@@ -135,7 +134,7 @@ procOutput: COLON variableTypes;
 procStmtNoParams: OPEN_PAREN CLOSE_PAREN;
 procStmtIdentifier: (IDENTIFIER | '`' ~'`' '`') (OPEN_BRACK variableTypes CLOSE_BRACK)?;
 procStmtParamsOneType: IDENTIFIER (COMMA IDENTIFIER)* COLON variableTypes;
-procStmtDefaultParams: IDENTIFIER  COLON variableTypes ASSIGN_OPERATOR operands;
+procStmtDefaultParams: IDENTIFIER  COLON variableTypes ASSIGN_OPERATOR operands|IDENTIFIER ASSIGN_OPERATOR comparable;
 procStmtMutableParam: IDENTIFIER COLON VARIABLE variableTypes;
 procStmtParamNoType: IDENTIFIER (COMMA IDENTIFIER)*;
 procStmtParams: procStmtParamsOneType | procStmtDefaultParams | procStmtMutableParam | procStmtParamNoType;
@@ -181,19 +180,20 @@ returnStmt: RETURN comparable?;
 continueStmt: CONTINUE ;
 dISCARDStmt: DISCARD;
 pragma: '{.' IDENTIFIER ('.}' | '}');
-simpleStmt: INDENT? (functionCall | echoCall| returnStmt|continueStmt|dISCARDStmt) ;
-functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* ((OPEN_PAREN arguments? CLOSE_PAREN) | (arguments));
+simpleStmt: INDENT? (functionCall | echoCall| returnStmt | continueStmt | dISCARDStmt) ;
+functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* bracketComparable? ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
 echoCall: ECHO  ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
-arthExpr: parArgument (binary_operator parArgument)+; 
-argument: operands | functionCall|  ifExpr | condExpr |assignStmtBody;
+bracketComparable: OPEN_BRACK comparable CLOSE_BRACK| comparable;
+arthExpr: bracketComparable (binary_operator bracketComparable)+| OPEN_PAREN  bracketComparable (binary_operator bracketComparable)+ CLOSE_PAREN; 
+argument: operands | functionCall|  ifExpr | condExpr |assignStmtBody|arthExpr (binary_operator arthExpr)+;
 parArgument: argument| OPEN_PAREN argument CLOSE_PAREN;
 arguments: parArgument (COMMA parArgument)*;
+
 
 /*compound statement */
 compoundStmt: ifExpr | whenExpr | whileExpr | caseExpr | assignStmt| assignStmtBody |
     procStmt | breakStmt| blockStmt | typeOperator | forStmt | simpleStmt | templateStmt
     | arthExpr | operands;
-
 
 // The entire Language
 stmts: importStmt | declareStmt| assertStmt | 

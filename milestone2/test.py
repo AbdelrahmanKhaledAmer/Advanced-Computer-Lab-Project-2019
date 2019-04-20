@@ -21,6 +21,7 @@ def add_tests(from_, to_, arr):
 
 if __name__ == "__main__":
     tests = list()
+    tests.extend([(x, None) for x in [1016, 1021, 1022, 1024]])
 
     # # official tests
     # tests += [(1, x) for x in range(1, 7)]
@@ -70,9 +71,9 @@ if __name__ == "__main__":
     # template_tests = add_tests(from_=4201, to_=4201, arr=tests)
     # tests += template_tests
 
-    # type test 
-    type_tests = add_tests(from_=4301, to_=4303, arr=tests)
-    tests += type_tests
+    # # type test 
+    # type_tests = add_tests(from_=4301, to_=4303, arr=tests)
+    # tests += type_tests
 
     # # proc test
     # proc_tests = add_tests(from_=4401, to_=4412, arr=tests)

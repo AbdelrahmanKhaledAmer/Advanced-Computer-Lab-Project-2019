@@ -654,7 +654,7 @@ DIGIT: [0-9];
 
 
 fragment ESC_CHAR: '\\' .;
-fragment ANY_CHAR: [a-zA-Z0-9, !@#$%^&:*?]| OPEN_BRACK |CLOSE_BRACK;
+fragment ANY_CHAR: [a-zA-Z0-9, /.!@#$%^&:*?]| OPEN_BRACK |CLOSE_BRACK |OPEN_PAREN |CLOSE_PAREN;
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
