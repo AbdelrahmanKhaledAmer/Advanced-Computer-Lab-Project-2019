@@ -107,11 +107,12 @@ breakStmt: BREAK IDENTIFIER?;
     example: proc foo(baz, bar: int, bat:string) =
 */
 procOutput: COLON variableTypes;
+procStmtDataTypes: variableTypes | IDENTIFIER | arrayAccess;
 procStmtNoParams: OPEN_PAREN CLOSE_PAREN;
-procStmtIdentifier: (IDENTIFIER | '`' ~'`' '`') (OPEN_BRACK variableTypes CLOSE_BRACK)?;
+procStmtIdentifier: (IDENTIFIER | '`' ~'`' '`') (OPEN_BRACK (procStmtDataTypes) CLOSE_BRACK)?;
 procStmtParamsOneType: IDENTIFIER (COMMA IDENTIFIER)* COLON variableTypes;
 procStmtDefaultParams: IDENTIFIER  COLON variableTypes ASSIGN_OPERATOR operands|IDENTIFIER ASSIGN_OPERATOR comparable;
-procStmtMutableParam: IDENTIFIER COLON VARIABLE variableTypes;
+procStmtMutableParam: IDENTIFIER COLON VARIABLE (procStmtDataTypes);
 procStmtParamNoType: IDENTIFIER (COMMA IDENTIFIER)*;
 procStmtParams: procStmtParamsOneType | procStmtDefaultParams | procStmtMutableParam | procStmtParamNoType;
 procStmtInput: OPEN_PAREN procStmtParams ((COMMA | SEMI_COLON) procStmtParams)* CLOSE_PAREN;
