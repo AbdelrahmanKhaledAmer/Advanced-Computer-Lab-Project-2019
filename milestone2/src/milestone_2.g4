@@ -41,12 +41,11 @@ binary_operator: OR_OPERATOR | AND_OPERATOR | ADD_OPERATOR | MUL_OPERATOR |
 unary_operator: NOT_OPERATOR| AT |DOLLAR | NOT| XOR |NOT;
 
 /*operands construction*/
-arrayElem: IDENTIFIER OPEN_BRACK (IDENTIFIER | INT_LIT) CLOSE_BRACK;
-operands:  functionCall|INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
+operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
     UINT_LIT  | UINT8_LIT   | UINT16_LIT  | UINT32_LIT | UINT64_LIT |  CHAR_LIT |
     FLOAT_LIT | FLOAT32_LIT | FLOAT64_LIT |   STR_LIT  | TRIPLESTR_LIT | BOOL_LIT |
-    RSTR_LIT | GENERALIZED_STR_LIT | GENERALIZED_TRIPLESTR_LIT | ARRAY_IDENTIFIER |
-    IDENTIFIER (DOT IDENTIFIER)? ;
+    RSTR_LIT | GENERALIZED_STR_LIT | GENERALIZED_TRIPLESTR_LIT |
+    IDENTIFIER (DOT IDENTIFIER)?|functionCall ;
 
 /*asigned at right hand side of a variable*/
 comparable: operands |unary_operator operands| operands binary_operator comparable;
@@ -90,20 +89,24 @@ assignKeyw: VARIABLE | LET | CONST;
 assignIfDataTypes: arthExpr | comparable;
 assignIfExpr: IF multiCondStmt colcom (INDENT? assignIfDataTypes) 
     ELSE colcom (INDENT? assignIfDataTypes);
-assignDataTypes: functionCall | comparable | iterableArray | comparable DOT functionCall | ifExpr | assignIfExpr;
+assignDataTypes: functionCall | comparable | iterableArray | comparable DOT functionCall | ifExpr | assignIfExpr|sequence;
 // assignDataTypes: comparable | iterableArray | comparable DOT functionCall | ifExpr;
-assignStmtBody: IDENTIFIER ASSIGN_OPERATOR assignDataTypes SEMI_COLON? COMMENT?;
+assignStmtBody: assignableObject ASSIGN_OPERATOR assignDataTypes SEMI_COLON? COMMENT?;
 assignStmt: INDENT? assignKeyw (assignStmtBody | (INDENT (assignStmtBody | COMMENT))+);
 
-
+assignableObject : comparable| sequence;
+/*access variable definitions and types*/
+arrayAccess: operands OPEN_BRACK (operands|longArthExpr) CLOSE_BRACK| operands OPEN_BRACK arrayAccess CLOSE_BRACK|
+OPEN_BRACK (operands (COMMA operands)*)?CLOSE_BRACK;
+sequence : AT arrayAccess|arrayAccess;
+typeCast: OPEN_BRACK variableTypes CLOSE_BRACK; 
 /*
     name: Declare Statement
     example: var x:int
 */
 declareStmt: assignKeyw (declareStmtBody | (INDENT (declareStmtBody | COMMENT))+);
 declareStmtBody: IDENTIFIER (COMMA IDENTIFIER)* COLON declareDataTypes COMMENT?;
-declareDataTypes: variableTypes | IDENTIFIER;
-
+declareDataTypes: variableTypes | IDENTIFIER| assignStmtBody;
 
 /*
     name: Assert Statement
@@ -159,7 +162,7 @@ macroStmt: INDENT? MACRO routine INDENT?(compoundStmt)+;
     example: type[int](x)
 */
 typeOperatorAssert: (OPEN_BRACK variableTypes CLOSE_BRACK)? OPEN_PAREN IDENTIFIER CLOSE_PAREN;
-typeOperatorAssign: (IDENTIFIER | ARRAY_IDENTIFIER) ASSIGN_OPERATOR (variableTypes | REF operands);
+typeOperatorAssign: (IDENTIFIER | sequence) ASSIGN_OPERATOR (variableTypes | REF operands);
 typeOperatorBody: typeOperatorAssert | typeOperatorAssign;
 typeOperator: INDENT? TYPE (typeOperatorBody | (INDENT (typeOperatorBody | COMMENT))+);
 
@@ -168,7 +171,7 @@ typeOperator: INDENT? TYPE (typeOperatorBody | (INDENT (typeOperatorBody | COMME
     example: for x in 1..5:
 */
 iterableRange: operands DOTS LESS_THAN? operands;
-iterableArray: AT? OPEN_BRACK operands (COMMA operands)* CLOSE_BRACK;
+iterableArray: AT? OPEN_BRACK (operands (COMMA operands)*)? CLOSE_BRACK;
 iterable: iterableRange | iterableArray | functionCall | operands;
 // forStmtBody: compoundStmt;
 // forStmtOne: forStmtBody;
@@ -182,14 +185,14 @@ continueStmt: CONTINUE ;
 dISCARDStmt: DISCARD;
 pragma: '{.' IDENTIFIER ('.}' | '}');
 simpleStmt: INDENT? (functionCall | echoCall| returnStmt|continueStmt|dISCARDStmt) ;
-functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
+functionCall: IDENTIFIER | IDENTIFIER (DOT IDENTIFIER)* typeCast? ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
 echoCall: ECHO  ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
 bracketComparable: OPEN_BRACK comparable CLOSE_BRACK| comparable;
-arthExpr: bracketComparable (binary_operator bracketComparable)+| OPEN_PAREN  bracketComparable (binary_operator bracketComparable)+ CLOSE_PAREN; 
-argument: operands | functionCall|  ifExpr | condExpr |assignStmtBody|arthExpr (binary_operator arthExpr)+;
+arthExpr: bracketComparable (binary_operator bracketComparable)+| OPEN_PAREN  bracketComparable (binary_operator bracketComparable)+ CLOSE_PAREN;
+longArthExpr:  arthExpr (binary_operator arthExpr)+;
+argument: operands | functionCall|  ifExpr | condExpr |assignStmtBody|longArthExpr|arrayAccess;
 parArgument: argument| OPEN_PAREN argument CLOSE_PAREN;
 arguments: parArgument (COMMA parArgument)*;
-
 
 /*compound statement */
 compoundStmt: ifExpr | whenExpr | whileExpr | caseExpr | assignStmt| assignStmtBody |
