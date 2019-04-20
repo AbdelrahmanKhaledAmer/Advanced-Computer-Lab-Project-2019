@@ -1,36 +1,6 @@
 grammar milestone_2;
 import milestone_1;
 
-// module: stmt ^* (SEMI_COLON / IND{=})
-
-// comma: COMMA COMMENT?;
-// semicolon: SEMI_COLON COMMENT?;
-// colon: COLON COMMENT?;
-
-
-// prefixOperator: operator;
-// symbol: '`' (KEYW|IDENT|literal|(operator|'('|')'|'['|']'|'{'|'}'|'=')+)+ '`'
-//        | IDENT | KEYW
-
-// optInd: COMMENT? INDENT?;
-// optPar: INDENT?;
-
-// parKeyw: DISCARD | INCLUDE | IF | WHILE | CASE | TRY
-//         | FINALLY | EXCEPT | FOR | BLOCK | CONST | LET
-//         | WHEN | VAR | MIXIN;
-
-// generalizedLit: GENERALIZED_STR_LIT | GENERALIZED_TRIPLESTR_LIT;
-// identOrLiteral: generalizedLit | symbol | literal
-//                | par | arrayConstr | setOrTableConstr
-//                | castExp;
-
-// typeKeyw: VAR | OUT | REF | PTR | SHARED | TUPLE
-//         | PROC | ITERATOR | DISTINCT | OBJECT | ENUM;
-// primary: typeKeyw typeDescK
-//         /  prefixOperator* identOrLiteral primarySuffix*
-//         / BIND primary;
-
-
 colcom: COLON COMMENT?;
 
 /* operators*/
@@ -38,7 +8,7 @@ binary_operator: OR_OPERATOR | AND_OPERATOR | ADD_OPERATOR | MUL_OPERATOR |
     MINUS_OPERATOR | DIV_OPERATOR | AND_OPERATOR | OR_OPERATOR | LESS_THAN |
     ASSIGN_OPERATOR?|GREATER_THAN ASSIGN_OPERATOR?|MODULUS | XOR_OPERATOR
     EQUALS_OPERATOR | AND | DIV | IS | ISNOT | MOD | OR | SHL | SHR | XOR;
-unary_operator: NOT_OPERATOR| AT |DOLLAR | NOT| XOR |NOT;
+unary_operator: NOT_OPERATOR | AT | DOLLAR | NOT | XOR | NOT;
 
 /*operands construction*/
 operands:  INT_LIT | DIGIT+ |  INT8_LIT   | INT16_LIT  | INT32_LIT  | INT64_LIT |
@@ -190,13 +160,15 @@ echoCall: ECHO  ((OPEN_PAREN arguments? CLOSE_PAREN) | arguments);
 bracketComparable: OPEN_BRACK comparable CLOSE_BRACK| comparable;
 arthExpr: bracketComparable (binary_operator bracketComparable)+| OPEN_PAREN  bracketComparable (binary_operator bracketComparable)+ CLOSE_PAREN;
 longArthExpr:  arthExpr (binary_operator arthExpr)+;
-argument: operands | functionCall|  ifExpr | condExpr |assignStmtBody|longArthExpr|arrayAccess;
+argument: comparable | functionCall |  ifExpr | condExpr | assignStmtBody | longArthExpr | arrayAccess;
 parArgument: argument| OPEN_PAREN argument CLOSE_PAREN;
 arguments: parArgument (COMMA parArgument)*;
 
 /*compound statement */
-compoundStmt: ifExpr | whenExpr | whileExpr | caseExpr | assignStmt| assignStmtBody | breakStmt| blockStmt | typeOperator | forStmt | simpleStmt | templateStmt
-    | arthExpr | operands| multiCondStmt|declareStmt|assertStmt;
+compoundStmt: ifExpr | whenExpr | whileExpr | caseExpr | assignStmt
+    | assignStmtBody | breakStmt| blockStmt | typeOperator | forStmt
+    | simpleStmt | templateStmt | arthExpr | operands| multiCondStmt
+    | declareStmt | assertStmt;
 
 // The entire Language
 stmts: importStmt |condExpr |compoundStmt|macroStmt|procStmt;

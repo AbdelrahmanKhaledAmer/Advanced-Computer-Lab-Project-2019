@@ -21,7 +21,6 @@ def add_tests(from_, to_, arr):
 
 if __name__ == "__main__":
     tests = list()
-    tests.extend([(x, None) for x in [1016, 1021, 1022, 1024]])
 
     # # official tests
     # tests += [(1, x) for x in range(1, 7)]
@@ -43,9 +42,9 @@ if __name__ == "__main__":
     # while_tests = add_tests(from_=2301, to_=2307, arr=tests)
     # tests += while_tests
 
-    # # case test
-    # case_tests = add_tests(from_=2401, to_=2405, arr=tests)
-    # tests += case_tests
+    # case test
+    case_tests = add_tests(from_=2401, to_=2405, arr=tests)
+    tests += case_tests
 
     # # assert test 
     # assert_tests = add_tests(from_=2501, to_=2501, arr=tests)
