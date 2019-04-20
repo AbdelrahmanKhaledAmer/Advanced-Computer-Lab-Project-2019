@@ -112,13 +112,14 @@ procStmtNoParams: OPEN_PAREN CLOSE_PAREN;
 procStmtIdentifier: (IDENTIFIER | '`' ~'`' '`') (OPEN_BRACK (procStmtDataTypes) CLOSE_BRACK)?;
 procStmtParamsOneType: IDENTIFIER (COMMA IDENTIFIER)* COLON variableTypes;
 procStmtDefaultParams: IDENTIFIER  COLON variableTypes ASSIGN_OPERATOR operands|IDENTIFIER ASSIGN_OPERATOR comparable;
-procStmtMutableParam: IDENTIFIER COLON VARIABLE (procStmtDataTypes);
+procStmtMutableParam: IDENTIFIER COLON VARIABLE (procStmtDataTypes)|procLabelType;
 procStmtParamNoType: IDENTIFIER (COMMA IDENTIFIER)*;
 procStmtParams: procStmtParamsOneType | procStmtDefaultParams | procStmtMutableParam | procStmtParamNoType;
 procStmtInput: OPEN_PAREN procStmtParams ((COMMA | SEMI_COLON) procStmtParams)* CLOSE_PAREN;
 procStmtBody: (procStmtNoParams | procStmtInput) procOutput? pragma?;
 routine: procStmtIdentifier procStmtBody procOutput? ASSIGN_OPERATOR;
 procStmt: INDENT? PROC routine INDENT?(compoundStmt)+;
+procLabelType:  IDENTIFIER COLON PROC OPEN_PAREN IDENTIFIER COLON variableTypes CLOSE_PAREN;
 
 /*
     name: Macro statement
