@@ -175,6 +175,6 @@ compoundStmt: ifExpr | whenExpr | whileExpr | caseExpr | assignStmt
     | declareStmt | assertStmt;
 
 // The entire Language
-stmts: importStmt |condExpr |compoundStmt|macroStmt|procStmt;
+stmts: importStmt |condExpr |compoundStmt|macroStmt|procStmt|INDENT;
 
 start: stmts* EOF;
