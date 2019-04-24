@@ -1,0 +1,3 @@
+proc gen(n: int): string =
+    result = "[]".repeat(n)
+    shuffle(result)

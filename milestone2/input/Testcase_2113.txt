@@ -1,0 +1,7 @@
+if guess < answer:
+    echo "Too low, try again"
+elif guess > answer:
+    echo "Too high, try again"
+else:
+    echo "Correct!"
+    break

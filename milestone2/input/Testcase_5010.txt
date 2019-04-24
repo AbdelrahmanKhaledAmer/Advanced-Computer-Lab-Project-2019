@@ -1,0 +1,4 @@
+for bn in countdown(99, 1):
+    var cur = GetBottleNumber(bn)
+    echo(cur, " on the wall, ", cur, ".")
+    echo("Take one down and pass it around, ", GetBottleNumber(bn-1), " on the wall.\n")

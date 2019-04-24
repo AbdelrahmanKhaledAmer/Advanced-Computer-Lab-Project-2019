@@ -1,0 +1,2 @@
+for letter in 'a'..'z':  # see iterators
+    accm.add(letter)

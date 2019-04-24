@@ -1,0 +1,2 @@
+for value in @[3, 4, 5]:
+    echo value
