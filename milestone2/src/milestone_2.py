@@ -53,6 +53,6 @@ if __name__ == '__main__':
 
     # Parse tree
     tree = parser.start()
-    # print(Trees.toStringTree(tree, None, parser))
+    print(Trees.toStringTree(tree, None, parser))
 
     token = lexer.nextToken()
